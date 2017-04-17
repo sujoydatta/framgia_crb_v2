@@ -1,4 +1,10 @@
 class OrganizationPresenter
+  include ActiveModel::Validations
+
+  attr_accessor :organization
+
+  validates :organization, presence: true
+
   def initialize organization
     @organization = organization
     calendars
@@ -24,6 +30,13 @@ class OrganizationPresenter
       return @direct_calendars = NullCalendar.direct_calendars
     end
     @direct_calendars ||= @calendars["Organization"].group_by &:owner_id
+  end
+
+  def activities
+    @activities = PublicActivity::Activity.order(created_at: :desc)
+      .where owner_type: User.name , recipient_type: Organization.name,
+      recipient_id: @organization.id
+    @activities.map{|activity| ActivityPresenter.new activity}
   end
 
   private

@@ -1,4 +1,5 @@
 class Event < ApplicationRecord
+  include PublicActivity::Common
   include SharedMethods
   require "chatwork"
 

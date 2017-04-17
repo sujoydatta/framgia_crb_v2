@@ -1,5 +1,6 @@
 module Events
   class CreateService
+    include MakeActivity
     attr_accessor :is_overlap, :event
 
     def initialize user, params
@@ -12,7 +13,10 @@ module Events
       @event = @user.events.build event_params
       return false if is_overlap? && not_allow_overlap?
 
-      NotificationWorker.perform_async @event.id if status = @event.save
+      if status = @event.save
+        NotificationWorker.perform_async @event.id
+        make_activity @user, @event, :create
+      end
       return status
     end
 

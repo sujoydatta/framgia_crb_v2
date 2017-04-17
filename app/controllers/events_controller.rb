@@ -132,8 +132,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    delete_service = Events::DeleteService.new(@event, params)
-
+    delete_service = Events::DeleteService.new current_user, @event, params
     respond_to do |format|
       if delete_service.perform
         format.html do

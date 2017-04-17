@@ -36,6 +36,7 @@ gem "paranoia", "~> 2.2"
 gem "active_model_serializers", "~> 0.10.0"
 gem "bluecloth"
 gem "country_select"
+gem "public_activity"
 #Use Puma as the app server
 gem "puma", "~> 3.0"
 gem "ffaker"

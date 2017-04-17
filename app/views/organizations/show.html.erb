@@ -18,7 +18,8 @@
     <li>
       <a href="#members" data-toggle="tab">Members</a>
     </li>
-    <li><a href="#activities" data-toggle="tab">Activities</a></li>
+    <li><%= link_to "Activities", "#activities", data: {tab: "activities", toggle: "tab",
+      url: organization_path + "/activities"} %></li>
 <!--     <li class="dropdown">
       <a href="#" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
       <ul class="dropdown-menu" role="menu">
@@ -41,9 +42,7 @@
       <%= paginate @member_paginate %>
     </div>
   </div>
-  <div class="tab-pane fade" id="activities">
-    <h2>Activities</h2>
-  </div>
+  <div class="tab-pane fade" id="activities"></div>
 <!--   <div class="tab-pane fade" id="tab4default">Default 4</div>
   <div class="tab-pane fade" id="tab5default">Default 5</div> -->
 </div>
