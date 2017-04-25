@@ -8,10 +8,14 @@ class NullUser
   end
 
   def setting_default_view
-    "scheduler"
+    I18n.t "scheduler"
   end
 
   def setting_timezone
 
+  end
+
+  def name
+    I18n.t "user_name"
   end
 end

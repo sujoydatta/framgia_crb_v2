@@ -1,8 +1,11 @@
 module Events
   class DeleteService
-    def initialize event, params
+    include MakeActivity
+
+    def initialize user, event, params
       @event = event
       @params = params
+      @user = user
     end
 
     def perform
@@ -11,6 +14,7 @@ module Events
         if @event.exception_type.present? && !@event.parent?
           event = @event.event_parent
         end
+        make_activity @user, event, :destroy
         event.destroy
       else
         perform_repeat_event

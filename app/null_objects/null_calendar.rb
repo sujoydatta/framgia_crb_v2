@@ -8,4 +8,8 @@ class NullCalendar
       []
     end
   end
+
+  def name
+    I18n.t "calendar_name"
+  end
 end

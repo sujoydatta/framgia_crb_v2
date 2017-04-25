@@ -26,4 +26,38 @@ $(document).ready(function(){
   if (selectedTab !== null) {
     $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
   }
+
+  $('.tabs li a').one('click', function(){
+    var url = $(this).attr('data-url');
+    var tab = $(this).attr('data-tab');
+    if (url) {
+      if (tab === 'activities') {
+        $.ajax({
+          url: url,
+          method: 'get',
+          success: function(result){
+            $('#activities').html(result.content);
+          },
+          error: function(error){
+            alert(error);
+          }
+        });
+      }
+    }
+  });
+
+  $(document).delegate('.pagination-activities a', 'click', function(e){
+    e.preventDefault();
+    var url = $(this).attr('href');
+    $.ajax({
+      url: url,
+      method: 'get',
+      success: function(result){
+        $('#activities').html(result.content);
+      },
+      error: function(error){
+        alert(error);
+      }
+    });
+  });
 });

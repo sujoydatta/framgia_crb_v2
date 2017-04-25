@@ -1,5 +1,7 @@
 module Events
   class UpdateService
+    include MakeActivity
+
     attr_accessor :is_overlap, :event
 
     def initialize user, event, params
@@ -23,6 +25,7 @@ module Events
 
         if exception_service.perform
           self.event = exception_service.new_event
+          make_activity @user, @event, :update
           return true
         else
           return false

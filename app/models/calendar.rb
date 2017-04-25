@@ -44,12 +44,16 @@ class Calendar < ApplicationRecord
       .where("uc.user_id = #{user.id} AND uc.permission_id IN (1,2)")
   end
   scope :of_org, ->org do
-    select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
+    if org
+      select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
       uc.is_checked, uc.color_id as uc_color_id")
       .joins("INNER JOIN user_calendars as uc ON uc.calendar_id = calendars.id")
       .where("(calendars.owner_type = ? AND calendars.owner_id = ?) \n
         OR (calendars.owner_type = ? AND calendars.owner_id IN (?))",
         Organization.name, org.id, Workspace.name, org.workspace_ids)
+    else
+      Calendar.none
+    end
   end
 
   def get_color user_id

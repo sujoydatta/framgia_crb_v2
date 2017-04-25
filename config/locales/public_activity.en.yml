@@ -1,0 +1,12 @@
+en:
+  public_activity:
+    event:
+      create:
+        added_even: "added the event "
+        calendar: "on calendar "
+      update:
+        edited_even: "edited the event "
+        calendar: "on calendar "
+      destroy:
+        deleted_even: " deleted the event."
+        calendar: "on calendar "
