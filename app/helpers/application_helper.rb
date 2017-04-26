@@ -27,7 +27,8 @@ module ApplicationHelper
   end
 
   def resource
-    instance_variable_get(:"@#{resource_name}")
+    # instance_variable_get(:"@#{resource_name}")
+    @user = current_user || User.new
   end
 
   def devise_mapping
@@ -50,5 +51,9 @@ module ApplicationHelper
     end
     link_to t(".add_workspace"), "javascript:void(0)", class: "btn btn-primary",
       onclick: "add_fields(this,\"#{association}\", \"#{escape_javascript(fields)}\")"
+  end
+
+  def context_user
+    current_user || NullUser.new
   end
 end

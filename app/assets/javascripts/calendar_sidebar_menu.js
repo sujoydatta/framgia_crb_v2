@@ -33,6 +33,9 @@ $(document).on('ready', function() {
           $('span#' + userCalendar.calendar_id).attr('selected_color_id', userCalendar.color_id);
           $calendar.fullCalendar('removeEvents');
           $calendar.fullCalendar('refetchEvents');
+        },
+        errors: function() {
+          console.log('')
         }
       });
     },
@@ -55,6 +58,9 @@ $(document).on('ready', function() {
 
           $calendar.fullCalendar('removeEvents');
           $calendar.fullCalendar('refetchEvents');
+        },
+        errors: function() {
+
         }
       });
     }

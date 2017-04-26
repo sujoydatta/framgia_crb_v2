@@ -17,7 +17,7 @@ module FullCalendar
     # end
 
     def color_id
-      object.calendar.get_color(current_user.id)
+      object.calendar.get_color(user_context.id)
     end
 
     private

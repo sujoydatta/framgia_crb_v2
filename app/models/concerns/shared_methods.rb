@@ -8,4 +8,8 @@ module SharedMethods
   def format_datetime datetime
     datetime.try :strftime, Settings.event.format_datetime
   end
+
+  def user_context
+    current_user || NullUser.new
+  end
 end

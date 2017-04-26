@@ -31,7 +31,7 @@
           <% if params[:controller] == "api/particular_events" %>
             <%= link_via_permission event, fdata %>
           <% else %>
-            <%= btn_via_permission current_user, event, fdata %>
+            <%= btn_via_permission context_user, event, fdata %>
           <% end %>
         </div>
       </div>

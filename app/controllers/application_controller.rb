@@ -46,14 +46,14 @@ class ApplicationController < ActionController::Base
   end
 
   def validate_permission_change_of_calendar calendar
-    return if current_user.permission_make_change?(calendar)
-    return if current_user.permission_manage?(calendar)
+    return if context_user.permission_make_change?(calendar)
+    return if context_user.permission_manage?(calendar)
     redirect_to root_path
   end
 
   def validate_permission_see_detail_of_calendar calendar
-    return if current_user.has_permission?(calendar)
-    return if current_user.permission_hide_details?(calendar) && !calendar.share_public?
+    return if context_user.has_permission?(calendar)
+    return if context_user.permission_hide_details?(calendar) && !calendar.share_public?
     return if request.format.json?
 
     redirect_to root_path
