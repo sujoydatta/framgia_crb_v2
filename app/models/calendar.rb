@@ -66,16 +66,15 @@ class Calendar < ApplicationRecord
   end
 
   def bulding_name
-    return owner_name if [Organization.name, User.name].include?(owner_type)
-    return owner.organization_name if owner_type == Workspace.name
+    return owner_name if [Workspace.name, User.name].include?(owner_type)
   end
 
   def workspace
-    owner_name if owner_type == Workspace.name
+    owner_name if Workspace.name == owner_type
   end
 
   def user_name
-    owner_name if owner_type == User.name
+    owner_name if User.name == owner_type
   end
 
   private

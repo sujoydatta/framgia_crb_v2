@@ -4,3 +4,13 @@ en:
       save: "Save"
       go_back: "Go back"
       discard: "Discard"
+    devise_modal:
+      label:
+        user_name: Username
+      user_name: "Your username"
+      email: "Your email"
+      password: "Your password"
+      password_confirmation: "Retype your password"
+      remember: "Remember me"
+      sign_up: "Sign up"
+      sign_in: "Sign in"

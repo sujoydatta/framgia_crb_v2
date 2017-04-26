@@ -13,9 +13,16 @@
   <%= render "shared/errors_messages", object: @organization %>
   <div class="form-group row">
     <div class="col-md-6">
-      <%= f.label :name, t(".organization_name") %>
-      <%= f.text_field :name, class: "form-control", required: true,
-        placeholder: t(".placeholder") %>
+      <% if @organization.new_record? %>
+        <%= f.label :name, t(".organization_name") %>
+        <%= f.text_field :name, class: "form-control", required: true,
+          placeholder: t(".name") %>
+      <% else %>
+        <%= f.label :display_name, t(".organization_display_name") %>
+        <%= f.text_field :display_name, class: "form-control", required: true,
+          placeholder: t(".display_name") %>
+      <% end %>
+
       <div class="upload-image">
         <%= image_tag @organization.logo_url, size: Settings.size_input_file,
           class: "img-thumbnail logo-preview" %>

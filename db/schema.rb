@@ -42,7 +42,8 @@ ActiveRecord::Schema.define(version: 20170419030652) do
     t.integer  "workspace_id"
     t.integer  "owner_id"
     t.string   "owner_type"
-    t.string   "name"
+    t.string   "name",                                            null: false
+    t.string   "address"
     t.string   "google_calendar_id"
     t.string   "description"
     t.integer  "number_of_seats"
@@ -53,6 +54,7 @@ ActiveRecord::Schema.define(version: 20170419030652) do
     t.boolean  "is_auto_push_to_google_calendar", default: false
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
+    t.index ["address"], name: "index_calendars_on_address", unique: true, using: :btree
     t.index ["creator_id"], name: "index_calendars_on_creator_id", using: :btree
     t.index ["name"], name: "index_calendars_on_name", using: :btree
     t.index ["owner_id", "owner_type"], name: "index_calendars_on_owner_id_and_owner_type", using: :btree
@@ -154,10 +156,11 @@ ActiveRecord::Schema.define(version: 20170419030652) do
 
   create_table "organizations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
+    t.string   "display_name"
     t.integer  "creator_id"
     t.string   "logo"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.string   "slug"
     t.index ["slug"], name: "index_organizations_on_slug", unique: true, using: :btree
   end
@@ -227,7 +230,8 @@ ActiveRecord::Schema.define(version: 20170419030652) do
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
+    t.string   "name",                                   null: false
+    t.string   "display_name"
     t.string   "email",                  default: "",    null: false
     t.string   "avatar"
     t.string   "chatwork_id"
@@ -252,6 +256,7 @@ ActiveRecord::Schema.define(version: 20170419030652) do
     t.string   "auth_token",             default: ""
     t.string   "slug"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["name"], name: "index_users_on_name", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["slug"], name: "index_users_on_slug", unique: true, using: :btree
   end

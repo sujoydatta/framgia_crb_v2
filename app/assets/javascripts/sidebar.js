@@ -1,6 +1,7 @@
 $(document).on('ready', function() {
   var $calendar = $('#full-calendar');
   var $miniCalendar = $('#mini-calendar');
+  var menuCalendar = $('#menu-of-calendar');
 
   $('.fc-prev-button, .fc-next-button, .fc-today-button').click(function() {
     var moment = $calendar.fullCalendar('getDate');
@@ -94,20 +95,21 @@ $(document).on('ready', function() {
     }
   });
 
-  $('#btn-quick-add').on('click', function(event) {
-    event.preventDefault();
-    var title = $('#title-event-value').val();
-    var user_id = $('#current-user-id-popup').html();
-    var title = JSON.stringify({title: title.toString()});
-    window.location.href = '/events/new?fdata=' + Base64.encode(title);
-  });
+  // $('#btn-quick-add').on('click', function(event) {
+  //   event.preventDefault();
+  //   var title = $('#title-event-value').val();
+  //   var user_id = $('#current-user-id-popup').html();
+  //   var title = JSON.stringify({title: title.toString()});
+  //   window.location.href = '/events/new?fdata=' + Base64.encode(title);
+  // });
 
   $('#clst_my_menu').click(function() {
     var position = $('#clst_my_menu').offset();
-    $('#menu-of-calendar').removeClass('sub-menu-visible');
-    $('#menu-of-calendar').addClass('sub-menu-hidden');
+    menuCalendar.removeClass('sub-menu-visible');
+    menuCalendar.addClass('sub-menu-hidden');
     $('#source-popup').removeClass('open');
     $('#sub-menu-my-calendar').css({'top': position.top + 13, 'left': position.left});
+
     if ($('#sub-menu-my-calendar').hasClass('sub-menu-visible')){
       $('#sub-menu-my-calendar').removeClass('sub-menu-visible');
       $('#sub-menu-my-calendar').addClass('sub-menu-hidden');
@@ -121,11 +123,13 @@ $(document).on('ready', function() {
   $(document).click(function() {
     $('#sub-menu-my-calendar').removeClass('sub-menu-visible');
     $('#sub-menu-my-calendar').addClass('sub-menu-hidden');
-    if (!$(event.target).hasClass('clstMenu-child')) {
-      $('#menu-of-calendar').removeClass('sub-menu-visible');
-      $('#menu-of-calendar').addClass('sub-menu-hidden');
+
+    if (menuCalendar.length > 0 && !$(event.target).hasClass('clstMenu-child')) {
+      menuCalendar.removeClass('sub-menu-visible');
+      menuCalendar.addClass('sub-menu-hidden');
     };
-    if ($('#menu-of-calendar').hasClass('sub-menu-hidden')) {
+
+    if (menuCalendar.hasClass('sub-menu-hidden')) {
       $('.list-group-item').removeClass('background-hover');
       $('.sub-list').removeClass('background-hover');
     };
@@ -142,22 +146,23 @@ $(document).on('ready', function() {
     $('#id-of-calendar').html($(this).attr('id'));
     var selectedColorId = $(this).attr('selected_color_id');
 
-    var menu_height = $('#menu-of-calendar').height();
+    var menu_height = menuCalendar.height();
+
     if ((position.top + 12 + menu_height) >= windowH ) {
-      $('#menu-of-calendar').css({'top': position.top - menu_height - 2, 'left': position.left});
-    }else {
-      $('#menu-of-calendar').css({'top': position.top + 12, 'left': position.left});
+      menuCalendar.css({'top': position.top - menu_height - 2, 'left': position.left});
+    } else {
+      menuCalendar.css({'top': position.top + 12, 'left': position.left});
     };
 
-    if ($('#menu-of-calendar').hasClass('sub-menu-visible')) {
-      $('#menu-of-calendar').removeClass('sub-menu-visible');
-      $('#menu-of-calendar').addClass('sub-menu-hidden');
+    if (menuCalendar.hasClass('sub-menu-visible')) {
+      menuCalendar.removeClass('sub-menu-visible');
+      menuCalendar.addClass('sub-menu-hidden');
       $(this).parent().removeClass('background-hover');
-    } else{
+    } else {
       $('#menu-of-calendar div.bcp-selected').removeClass('bcp-selected');
 
-      $('#menu-of-calendar').removeClass('sub-menu-hidden');
-      $('#menu-of-calendar').addClass('sub-menu-visible');
+      menuCalendar.removeClass('sub-menu-hidden');
+      menuCalendar.addClass('sub-menu-visible');
       $('#menu-of-calendar div[data-color-id="'+ selectedColorId +'"] div').addClass('bcp-selected');
 
       $(this).parent().addClass('background-hover');
@@ -190,4 +195,8 @@ $(document).on('ready', function() {
       $('.ui-datepicker-prev').click();
     };
   });
+
+
+  $('.fc-left').append($('#timezone-name'));
+  $('.fc-right-left').removeClass('hidden');
 });

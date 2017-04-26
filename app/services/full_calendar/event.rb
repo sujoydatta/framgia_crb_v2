@@ -16,10 +16,11 @@ module FullCalendar
       :end_repeat, :exception_time, :exception_type, to: :event, allow_nil: true
 
     def initialize event, user, persisted = false
-      self.start_date = event.start_date
-      self.finish_date = event.finish_date
       @event = event
-      @user = user
+      @start_date = @event.start_date
+      @finish_date = @event.finish_date
+      @calendar = @event.calendar
+      @user = user || NullUser.new
       @id, @event_id = SecureRandom.urlsafe_base64, event.id
     end
 
@@ -71,8 +72,7 @@ module FullCalendar
 
     private
     def valid_permission_user_in_calendar?
-      user_calendar = self.user.user_calendars
-        .find_by(calendar_id: self.event.calendar_id)
+      user_calendar = UserCalendar.find_by(calendar: @calendar, user: @user)
 
       return false if user_calendar.nil?
       Settings.permissions_can_make_change.include? user_calendar.permission_id

@@ -8,66 +8,14 @@
             <h1 class="org-name">
               <%= @calendar_presenter.object.name %>
             </h1>
-            <%= link_to @calendar_presenter.object, class:"btn-edit-organization" do %>
-              <i class="fa fa-pencil" aria-hidden="true"></i>
+            <% if user_signed_in? %>
+              <%= link_to @calendar_presenter.object, class:"btn-edit-organization" do %>
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              <% end %>
             <% end %>
           </div>
         </div>
-        <div class="btn-group" id="source-popup">
-          <a class="btn btn-default dropdown-toggle create" data-toggle="dropdown" aria-haspopup="true">
-            <div class="btn-show-popup">
-              <%= image_tag @calendar_presenter.logo_url, size: Settings.size_logo_sidebar %>
-              <span class="truncate">
-                <%= @calendar_presenter.object.name %>
-              </span>
-              <span class="caret"></span>
-              <span class="sr-only"></span>
-            </div>
-          </a>
-          <div id="current-user-id-popup"></div>
-          <ul class="dropdown-menu" id="event-popup">
-            <li>
-              <div class="qab-container gcal-popup">
-                <div class="heading-label">
-                  <%= t "calendar.switch_dashboard" %>
-                  <i class="fa fa-times-circle close-popup-organization" aria-hidden="true"></i>
-                </div>
-                <ul id="list-organization">
-                  <li>
-                    <%= link_to current_user do %>
-                      <span>
-                        <% if @organization.nil? %>
-                          <i class="fa fa-check" aria-hidden="true"></i>
-                        <% end %>
-                      </span>
-                      <%= image_tag current_user.avatar_url,
-                        size: Settings.size_logo_sidebar %>
-                      <span><%= current_user.name %></span>
-                    <% end %>
-                  </li>
-                  <% current_user.organizations.each do |organization| %>
-                    <li>
-                      <%= link_to organization_calendars_path(organization) do %>
-                        <span>
-                          <% if @organization == organization %>
-                            <i class="fa fa-check" aria-hidden="true"></i>
-                          <% end %>
-                        </span>
-                        <%= image_tag organization.logo_url,
-                          size: Settings.size_logo_sidebar %>
-                        <span><%= organization.name %></span>
-                      <% end %>
-                    </li>
-                  <% end %>
-                </ul>
-              </div>
-            </li>
-            <div class="top-prong">
-            <div class="prong-dk"></div>
-            <div class="prong-lt"></div>
-          </div>
-          </ul>
-        </div>
+        <%= render "view_context" if user_signed_in? %>
       </div>
       <div class="hide-sidebar">
         <div class="mini-calendar">
@@ -90,7 +38,10 @@
                   <%= t ".my_calendars" %>
                 <% end %>
               </span>
-              <span id="clst_my_menu" class="clstMenu"></span>
+
+              <% if user_signed_in? %>
+                <span id="clst_my_menu" class="clstMenu"></span>
+              <% end %>
             </div>
           </h2>
           <div id="collapse1" class="panel-collapse collapse in" aria-expanded="true">
@@ -121,7 +72,7 @@
       </div>
     </div>
     <div class="mainbody">
-      <div id="full-calendar" data-default-view="<%= @calendar_presenter.default_view %>"></div>
+      <div id="full-calendar"></div>
     </div>
   </div>
   <%= render "sidebar_menu" %>
@@ -137,7 +88,7 @@
   <%= confirm_popup_repeat_events t("events.repeat_dialog.edit") %>
   <%= render "events/google_event_popup" %>
 </div>
-<div class="fc-right-left hidden" id="timezone_name_current_user">
+<div class="fc-right-left hidden" id="timezone-name">
   <%= @calendar_presenter.full_timezone_name %>
 </div>
 <div id="loading" style="display: none;">loading...</div>

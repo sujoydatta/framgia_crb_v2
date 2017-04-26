@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   load_resource except: [:index]
   authorize_resource
-  skip_before_action :authenticate_user!, only: :show
+  skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :load_calendars, only: [:new, :edit]
   before_action only: [:edit, :update, :destroy] do
     validate_permission_change_of_calendar @event.calendar

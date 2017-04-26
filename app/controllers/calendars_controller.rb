@@ -1,4 +1,5 @@
 class CalendarsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:index]
   load_and_authorize_resource except: [:index]
   before_action :load_colors, except: [:show, :destroy]
   before_action :load_users, :load_permissions, only: [:new, :edit]
