@@ -738,8 +738,7 @@
       border: 1px solid black;
     }
     .bcp-selected {
-      background-position: -95px -50px;
-      background: url("//calendar.google.com/googlecalendar/images/combined_v46_vr.png");
+      background: url(image_path("combined_v46_vr.png")) -95px -50px;
       height: 10px;
       left: -1px;
       margin: 3px;

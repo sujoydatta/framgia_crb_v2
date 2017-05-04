@@ -371,6 +371,10 @@ input[type=checkbox] {
   border: 1px solid #ccc;
 }
 
+.select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
+  border-radius: 2px;
+}
+
 #signin_error_message {
   color: red;
   font-size: 14px;
