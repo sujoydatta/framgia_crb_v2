@@ -8,6 +8,7 @@
     <%= javascript_include_tag "application" %>
     <%= favicon_link_tag "favicon.ico" %>
     <%= csrf_meta_tags %>
+    <%= action_cable_meta_tag %>
     <% if controller_name == "calendars" && action_name == "index" ||
       controller_name == "organizations" && action_name == "show" %>
       <style type="text/css">
@@ -45,9 +46,11 @@
     <% else %>
       <%= javascript_include_tag "calendar_not_sign_in" %>
     <% end %>
+
     <script type="text/javascript">
       timezone = "<%= @calendar_presenter.try :tzinfo_name %>";
       calendarViewContext = "<%= @calendar_presenter.try :default_view %>";
+      org_id = "<%= params[:organization_id] %>"
       $calendar = $('#full-calendar');
       $calContent = $('#calcontent');
     </script>

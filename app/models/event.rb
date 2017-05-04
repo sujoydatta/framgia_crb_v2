@@ -55,10 +55,15 @@ class Event < ApplicationRecord
   accepts_nested_attributes_for :notification_events, allow_destroy: true
   accepts_nested_attributes_for :repeat_ons, allow_destroy: true
 
-  scope :in_calendars, ->calendar_ids do
-    includes(:days_of_weeks, :attendees, :repeat_ons, :users, :notifications,
-      :notification_events)
-    .where "calendar_id IN (?)", calendar_ids
+  scope :in_calendars, ->calendar_ids, user do
+    if user
+      select("events.*, at.user_id as attendee_user_id, \n
+        at.event_id as attendee_event_id")
+      .joins("LEFT JOIN attendees as at ON events.id = at.event_id")
+      .where("at.user_id = ? OR events.calendar_id IN (?)", user.id, calendar_ids)
+    else
+      where("events.calendar_id IN (?)", calendar_ids)
+    end
   end
   scope :reject_with_id, ->event_id do
     where("id != ? AND (parent_id IS NULL \n
@@ -132,10 +137,6 @@ class Event < ApplicationRecord
       exception_time: exception_time,
       event_id: id
     }
-  end
-
-  def is_diff_between_start_and_finish_date?
-    start_date.to_date != finish_date.to_date
   end
 
   def exist_repeat?

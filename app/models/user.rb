@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
-  
+
   devise :database_authenticatable, :rememberable, :trackable, :validatable,
     :registerable, :omniauthable
 
@@ -22,8 +22,10 @@ class User < ApplicationRecord
   delegate :timezone, :timezone_name, :default_view,
     to: :setting, prefix: true, allow_nil: true
 
-  validates :name, presence: true, length: {maximum: 50}
+  validates :name, presence: true,
+    length: {maximum: 39}, uniqueness: {case_sensitive: false}
   validates :email, length: {maximum: 255}
+  validates_with NameValidator
 
   before_create :build_calendar
   before_create :generate_authentication_token!
@@ -100,6 +102,6 @@ class User < ApplicationRecord
   private
   def build_calendar
     self.calendars.new name: self.name, is_default: true,
-      creator: self, color: Color.all.sample
+      creator: self, color: Color.all.sample, address: email
   end
 end

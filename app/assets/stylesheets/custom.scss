@@ -175,7 +175,6 @@ label {
   border-radius: 2px;
   cursor: pointer;
   display: inline-block;
-  font-family: sans-serif;
   height: 32px;
   line-height: 1.4em;
   margin-bottom: 10px;
@@ -200,7 +199,7 @@ label {
   border: 1px solid rgba(0, 0, 0, 0.1);
   color: #fff;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
   height: 29px;
   margin-bottom: 0;
@@ -209,7 +208,6 @@ label {
   padding: 6px 12px;
   text-align: center;
   text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-  text-transform: uppercase;
   &:hover {
     background: #c53727;
     border: 1px solid #b0281a;
@@ -234,9 +232,8 @@ label {
 .btn-discard {
   background: $gray;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  color: #444;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
   height: 29px;
   margin-bottom: 0;
@@ -256,7 +253,6 @@ label {
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
-    color: #222;
     -webkit-transition: all 0s;
     -moz-transition: all 0s;
     -o-transition: all 0s;
@@ -276,7 +272,7 @@ label {
   border: 1px solid rgba(0, 0, 0, 0.1);
   color: #444;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
   height: 29px;
   margin-bottom: 0;
@@ -370,6 +366,11 @@ input[type=checkbox] {
   }
 }
 
+.select2-container--default .select2-selection--multiple {
+  border-radius: 2px;
+  border: 1px solid #ccc;
+}
+
 #signin_error_message {
   color: red;
   font-size: 14px;
@@ -454,7 +455,6 @@ input[type=checkbox] {
 
   .btn {
     margin-bottom: 0;
-    line-height: 1.1em;
     height: 30px;
   }
 }

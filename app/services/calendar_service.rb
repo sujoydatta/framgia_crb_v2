@@ -1,11 +1,9 @@
 class CalendarService
-  attr_accessor :events, :base_events, :user
+  attr_accessor :events, :base_events, :user, :start_time_view, :end_time_view
 
-  def initialize base_events = nil, start_time_view = nil, end_time_view = nil
-    @events = Array.new
-    @base_events = base_events
-    @start_time_view = start_time_view
-    @end_time_view = end_time_view
+  def initialize *args
+    @events = []
+    @base_events, @start_time_view, @end_time_view, @user = args
   end
 
   def repeat_data

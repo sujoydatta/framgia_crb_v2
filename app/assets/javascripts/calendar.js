@@ -85,6 +85,7 @@ $(document).on('ready', function() {
         url: '/events',
         data: {
           calendar_ids: calendar_ids,
+          organization_id: org_id,
           start_time_view: moment(start_time_view).format(),
           end_time_view: moment(end_time_view).format(),
         },
@@ -213,22 +214,6 @@ $(document).on('ready', function() {
       $('#loading').toggle(bool);
     }
   });
-
-  function updateEventPopup(event) {
-    $('#btn-save-event').unbind('click');
-    $('#btn-save-event').click(function() {
-      hiddenDialog('popup');
-      if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type === 'edit_only') {
-        if (event.exception_type !== null)
-          exception_type = event.exception_type;
-        else
-          exception_type = null;
-        updateServerEvent(event, event.allDay, exception_type, 0);
-      } else {
-        confirm_update_popup(event, event.allDay, event.end);
-      }
-    });
-  }
 
   function deleteEvent(event, exception_type) {
     var start_date_before_delete, finish_date_before_delete;

@@ -13,11 +13,15 @@ class EventsController < ApplicationController
   serialization_scope :current_user
 
   def index
-    @events = Event.in_calendars params[:calendar_ids]
-    calendar_service = CalendarService.new(@events, params[:start_time_view],
-      params[:end_time_view])
-    calendar_service.user = current_user
-    @events = calendar_service.repeat_data
+    if params[:organization_id].present?
+      @events = Event.in_calendars params[:calendar_ids], nil
+    else
+      @events = Event.in_calendars params[:calendar_ids], context_user
+    end
+
+    @events = CalendarService.new(@events, params[:start_time_view],
+      params[:end_time_view], context_user).repeat_data
+
     render json: @events, each_serializer: FullCalendar::EventSerializer,
       root: :events,
       adapter: :json,
@@ -27,28 +31,17 @@ class EventsController < ApplicationController
   end
 
   def show
-    locals = {
-      event_id: @event.id,
-      start_date: params[:start],
-      finish_date: params[:end]
-    }.to_json
-
-    @event.start_date = params[:start]
-    @event.finish_date = params[:end]
+    @event_presenter = EventPresenter.new(@event, params)
 
     respond_to do |format|
-      format.html do
-        redirect_to root_path
-      end
+      format.html
       format.json do
         render json: {
           popup_content: render_to_string(partial: "events/popup",
             formats: :html,
             layout: false,
-            locals: {
-              event: @event,
-              fdata: Base64.urlsafe_encode64(locals)
-            })
+            locals: {event_presenter: @event_presenter}
+          )
         }
       end
     end
@@ -102,12 +95,7 @@ class EventsController < ApplicationController
     if params[:fdata]
       hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
       @event.start_date = hash_params["start_date"]
-      @event.finish_date =
-        if @event.all_day?
-          @event.start_date.end_of_day
-        else
-          hash_params["finish_date"]
-        end
+      @event.finish_date = build_finish_date(hash_params)
     end
     load_related_data
   end
@@ -145,7 +133,6 @@ class EventsController < ApplicationController
           flash[:danger] = t "events.flashs.not_deleted"
           redirect_to root_path
         end
-
         format.json{render json: {message: t("events.flashs.not_deleted")}}
       end
     end
@@ -171,5 +158,10 @@ class EventsController < ApplicationController
     end
 
     @repeat_ons = @event.repeat_ons.sort{|a, b| a.days_of_week_id <=> b.days_of_week_id}
+  end
+
+  def build_finish_date hparams
+    return @event.start_date.end_of_day if @event.all_day?
+    hparams["finish_date"]
   end
 end

@@ -54,7 +54,7 @@ class RoomSearchService
   end
 
   def load_all_events calendar_ids
-    events = Event.in_calendars calendar_ids
+    events = Event.in_calendars calendar_ids, NullUser.new
     calendar_service = CalendarService.new events
     calendar_service.repeat_data
   end

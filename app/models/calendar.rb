@@ -20,10 +20,13 @@ class Calendar < ApplicationRecord
   accepts_nested_attributes_for :user_calendars, allow_destroy: true
 
   before_create :make_user_calendar
+  after_initialize :make_address_uniq, if: "address.nil?"
 
   enum status: [:no_public, :share_public, :public_hide_detail]
 
   delegate :name, to: :owner, prefix: true, allow_nil: true
+
+  validates :address, presence: true, uniqueness: {case_sensitive: false}
 
   scope :of_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
@@ -66,20 +69,18 @@ class Calendar < ApplicationRecord
   end
 
   def bulding_name
-    return owner_name if [Workspace.name, User.name].include?(owner_type)
-  end
-
-  def workspace
-    owner_name if Workspace.name == owner_type
-  end
-
-  def user_name
-    owner_name if User.name == owner_type
+    return owner_name if Workspace.name == owner_type
+    return "My Calendars" if User.name == owner_type
   end
 
   private
   def make_user_calendar
     self.user_calendars.new user_id: self.creator_id, permission_id: 1,
       color_id: self.color_id
+  end
+
+  def make_address_uniq
+    str_uniq = Calendar.generate_unique_secure_token.downcase!
+    self.address = str_uniq + "@" + Settings.mail_server
   end
 end

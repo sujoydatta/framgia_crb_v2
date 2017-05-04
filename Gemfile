@@ -40,7 +40,7 @@ gem "public_activity"
 #Use Puma as the app server
 gem "puma", "~> 3.0"
 gem "ffaker"
-
+gem "fabrication"
 gem "mini_magick"
 gem "carrierwave"
 
@@ -48,7 +48,6 @@ group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
   gem "letter_opener"
   gem "pry"
-  gem "fabrication"
   gem "pry-byebug"
   gem "byebug", platform: :mri
   gem "binding_of_caller"
