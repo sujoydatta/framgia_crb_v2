@@ -56,4 +56,8 @@ module ApplicationHelper
   def context_user
     current_user || NullUser.new
   end
+
+  def go_back_link
+    request.referer.present? ? request.referer : root_path
+  end
 end

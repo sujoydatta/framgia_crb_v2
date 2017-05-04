@@ -57,9 +57,9 @@
                 <span class="calHeaderSpace"><%= t ".shared_calendars" %></span>
               </div>
             </h2>
-            <div class="send-request-email border-light input-group">
+            <div class="send-request border-light input-group">
               <input id="request-email-input" type="text" class="form-control"
-                placeholder="<%= t "calendars.request_email_input" %>">
+                placeholder="<%= t ".request.calendar_address" %>">
               <span class="input-group-btn">
                 <button id="request-email-button"></button>
               </span>
@@ -83,7 +83,7 @@
   <div id="dialog_overlap" class="hidden">
     <p><%= t"events.overlap.fulloverlap" %></p>
   </div>
-  <%= render "events/dialog_form" %>
+  <%= render "events/dialog_form" if user_signed_in? %>
   <%= confirm_popup_repeat_events t("events.repeat_dialog.delete") %>
   <%= confirm_popup_repeat_events t("events.repeat_dialog.edit") %>
   <%= render "events/google_event_popup" %>

@@ -43,8 +43,8 @@ function initDialogEventClick(event, jsEvent){
       url: '/events/' + event.event_id,
       dataType: 'json',
       data: {
-        start: start_date,
-        end: finish_date,
+        start_date: start_date,
+        finish_date: finish_date,
       },
       success: function(data){
         $calContent.append(data.popup_content);
@@ -53,6 +53,9 @@ function initDialogEventClick(event, jsEvent){
         deleteEventPopup(event);
         if (event.editable) clickEditTitle(event);
         cancelPopupEvent(event);
+      },
+      errors: function() {
+        console.log('OOP, Errors!!!');
       }
     });
   }
@@ -180,4 +183,20 @@ $(document).click(function() {
 
 function saveLastestView() {
   localStorage.setItem('currentView', $calendar.fullCalendar('getView').name);
+}
+
+function updateEventPopup(event) {
+  $('#btn-save-event').unbind('click');
+  $('#btn-save-event').click(function() {
+    hiddenDialog('popup');
+    if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type === 'edit_only') {
+      if (event.exception_type !== null)
+        exception_type = event.exception_type;
+      else
+        exception_type = null;
+      updateServerEvent(event, event.allDay, exception_type, 0);
+    } else {
+      confirm_update_popup(event, event.allDay, event.end);
+    }
+  });
 }

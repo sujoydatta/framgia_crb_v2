@@ -5,26 +5,25 @@ $(document).on('ready', function(){
 
   $('.room-search-submit').click(function (event) {
     event.preventDefault();
-    var timezoneName = $('#timezone').data('name');
     var start_date = $('#start_date_time').val();
     var finish_date = $('#finish_date_time').val();
     var start_time = $('#start_time').val();
     var finish_time = $('#finish_time').val();
     var calendar_ids = $('#calendar_ids').val();
     var number_of_seats = $('#number_of_seats').val();
+
     if (start_date == null || start_date == ''){
-      $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_start_date_input') + '</div>')
-        .appendTo('.result');
+      $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_start_date_input') + '</div>').appendTo('.result');
       return;
     }
+
     if (start_time == null || start_time == ''){
-      $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_start_time_input') + '</div>')
-        .appendTo('.result');
+      $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_start_time_input') + '</div>').appendTo('.result');
       return;
     }
+
     if (finish_time == null || finish_time == ''){
-      $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_finish_time_input') + '</div>')
-        .appendTo('.result');
+      $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_finish_time_input') + '</div>').appendTo('.result');
       return;
     }
 
@@ -40,8 +39,8 @@ $(document).on('ready', function(){
       calendar_ids_url = calendar_ids_url.join('&');
     }
 
-    var start_in_time_zone = moment.tz(start_datetime, 'DD-MM-YYYY hh:mma', timezoneName).format();
-    var finish_in_time_zone = moment.tz(finish_datetime, 'DD-MM-YYYY hh:mma', timezoneName).format();
+    var start_in_time_zone = moment.tz(start_datetime, 'DD-MM-YYYY hh:mma', timezone).format();
+    var finish_in_time_zone = moment.tz(finish_datetime, 'DD-MM-YYYY hh:mma', timezone).format();
     var new_url = '/calendars/search?';
     new_url += 'start_time=' + encodeURIComponent(start_in_time_zone.toString());
     new_url += '&finish_time=' + encodeURIComponent(finish_in_time_zone.toString());
@@ -61,11 +60,11 @@ $(document).on('ready', function(){
       },
       renderResult: function(data){
         var data_arr = data.results;
+
         if (data_arr.length <= 0){
-          return '<div class="alert alert-info">\
-              <strong>' + I18n.t('room_search.dont_have_empty_room') + '</strong>\
-            </div>';
+          return '<div class="alert alert-info"><strong>' + I18n.t('room_search.dont_have_empty_room') + '</strong></div>';
         }
+
         var html = '<table class="table table-striped">';
         html += '<tr>';
         html += '<th>' + I18n.t('room_search.room_name') + '</th>';
@@ -73,20 +72,18 @@ $(document).on('ready', function(){
         html += '<th>' + I18n.t('room_search.time') + '</th>';
         html += '<th>' + I18n.t('room_search.action') + '</th>';
         html += '</tr>';
-        for (var i = 0; i < data_arr.length; i++){
-          var room_name = data_arr[i].room_name;
-          var start_event_date = moment(data_arr[i].start_date, 'YYYY/MM/DD HH:mm:ss ZZ')
-            .tz(timezoneName).format('DD-MM-YYYY');
-          var start_time = moment(data_arr[i].start_date, 'YYYY/MM/DD HH:mm:ss ZZ')
-            .tz(timezoneName).format('HH:mm');
-          var finish_time = moment(data_arr[i].finish_date, 'YYYY/MM/DD HH:mm:ss ZZ')
-            .tz(timezoneName).format('HH:mm');
+        for (var i = 0; i < data_arr.length; i++) {
+          var result = data_arr[i]
+          var room_name = result.room_name;
+          var start_event_date = moment(result.start_date, 'YYYY/MM/DD HH:mm:ss ZZ').tz(timezone).format('DD-MM-YYYY');
+          var start_time = moment(result.start_date, 'YYYY/MM/DD HH:mm:ss ZZ').tz(timezone).format('HH:mm');
+          var finish_time = moment(result.finish_date, 'YYYY/MM/DD HH:mm:ss ZZ').tz(timezone).format('HH:mm');
           var detail_time = start_time + ' - ' + finish_time;
 
           var event_params = JSON.stringify({
-            calendar_id: data_arr[i].calendar.id.toString(),
-            start_date: data_arr[i].start_date.toString(),
-            finish_date: data_arr[i].finish_date.toString()
+            calendar_id: result.calendar.id.toString(),
+            start_date: result.start_date.toString(),
+            finish_date: result.finish_date.toString()
           });
 
           html += '<tr>';
@@ -95,7 +92,7 @@ $(document).on('ready', function(){
           html += '<td>'+ detail_time +'</td>';
           html += '<td>';
           html += '<a href="/events/new?fdata=' + Base64.encode(event_params) + '" ';
-          html += 'class="btn btn-success btn-sm">' + I18n.t('room_search.book') + '</a>';
+          html += 'class="btn btn-success">' + I18n.t('room_search.book') + '</a>';
           html += '</td>';
           html += '</tr>';
         }

@@ -36,6 +36,8 @@
 //= require room_search
 //= require organization
 //= require load_user_ajax
+//= require notification
+//= require cable
 
 $(document).on('ready', function() {
   $('.copied').hide();
@@ -95,7 +97,8 @@ $(document).on('ready', function() {
   });
 
   $('.calendar-select').select2({
-    width: '100%'
+    width: '100%',
+    theme: "bootstrap"
   });
 
   $('.calendar-default-view').select2({

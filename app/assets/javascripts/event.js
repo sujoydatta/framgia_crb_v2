@@ -73,8 +73,8 @@ $(document).on('ready', function(){
     var start_datetime = start_date.val() + ' ' + start_time.val();
     var finish_datetime = finish_date.val() + ' ' + finish_time.val();
 
-    $('#event_start_date').val(moment.tz(start_datetime, "DD-MM-YYYY hh:mma", timezoneName).format());
-    $('#event_finish_date').val(moment.tz(finish_datetime, "DD-MM-YYYY hh:mma", timezoneName).format());
+    $('#event_start_date').val(moment.tz(start_datetime, "DD-MM-YYYY hh:mma", timezone).format());
+    $('#event_finish_date').val(moment.tz(finish_datetime, "DD-MM-YYYY hh:mma", timezone).format());
     $('#event_start_repeat').val(start_date_repeat.val());
     $('#event_end_repeat').val(end_date_repeat.val());
     $('.all-day').show();
@@ -284,7 +284,7 @@ $(document).on('ready', function(){
 
   $.fn.centerScreen = function() {
     this.css('position', 'absolute');
-    this.css('top', ($(window).height() - this.height()) / 2 + $(window).scrollTop() + 'px');
+    this.css('top', '44px');
     this.css('left', ($(window).width() - this.width()) / 2 + $ (window).scrollLeft() + 'px');
     return this;
   }

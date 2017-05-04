@@ -7,20 +7,29 @@ module FullCalendar
       @_model_name ||= ActiveModel::Name.new(self)
     end
 
-    ATTRS = [:id, :start_date, :finish_date, :event_id, :persisted, :event, :user]
+    ATTRS = [:id,
+      :start_date,
+      :finish_date,
+      :calendar,
+      :event_id,
+      :persisted,
+      :event,
+      :user
+      ].freeze
 
     attr_accessor *ATTRS
 
-    delegate :calendar_name, :title, :description, :status, :color, :all_day,
-      :repeat_type, :repeat_every, :user_id, :calendar_id, :start_repeat,
+    delegate :title, :description, :status, :color, :all_day,
+      :repeat_type, :repeat_every, :user_id, :start_repeat,
       :end_repeat, :exception_time, :exception_type, to: :event, allow_nil: true
+    delegate :id, :name, to: :calendar, prefix: true, allow_nil: true
 
     def initialize event, user, persisted = false
       @event = event
       @start_date = @event.start_date
       @finish_date = @event.finish_date
-      @calendar = @event.calendar
-      @user = user || NullUser.new
+      @calendar = assign_calendar
+      @user = user
       @id, @event_id = SecureRandom.urlsafe_base64, event.id
     end
 
@@ -50,10 +59,6 @@ module FullCalendar
       event.repeat_ons
     end
 
-    def calendar
-      event.calendar
-    end
-
     def editable
       valid_permission_user_in_calendar?
     end
@@ -76,6 +81,12 @@ module FullCalendar
 
       return false if user_calendar.nil?
       Settings.permissions_can_make_change.include? user_calendar.permission_id
+    end
+
+    def assign_calendar
+      return @event.calendar if @event.try(:attendee_user_id).nil?
+      attendee = User.find_by(id: @event.attendee_user_id) || NullUser.new
+      Calendar.find_by(address: attendee.email) || NullCalendar.new
     end
   end
 end

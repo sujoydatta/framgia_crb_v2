@@ -61,8 +61,6 @@ en:
         date_format: "%m/%d/%Y %H:%M"
         short_date: "%d-%m-%Y"
         short_time: "%H:%M"
-        s_date_f_time: "%Y %b %a %e, %l:%m%P"
-        meridiem_time : "%l:%m%P"
         day_format: "MM-DD-YYYY"
         full_dat_format: "MMMM Do YYYY"
         datetime_format: "%m-%d-%y %I:%M%p"

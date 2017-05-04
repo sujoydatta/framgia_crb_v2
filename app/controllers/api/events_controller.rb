@@ -11,7 +11,7 @@ class Api::EventsController < Api::BaseController
   end
 
   def index
-    @events = Event.in_calendars params[:calendars]
+    @events = Event.in_calendars params[:calendars], context_user
     render json: @events, each_serializer: EventSerializer,
       root: :events, adapter: :json,
       meta: t("api.request_success"), meta_key: :message,

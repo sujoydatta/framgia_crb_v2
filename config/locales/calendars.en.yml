@@ -36,6 +36,8 @@ en:
       shared_calendars: "Shared Calendars"
       my_calendars: "My Calendars"
       org_calendars: "Org Calendars"
+      request:
+        calendar_address: "Enter calendar andress"
     flashs:
       created: "Calendar was created successfully."
       not_created: "Calendar was't create."

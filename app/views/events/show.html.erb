@@ -1,19 +1,16 @@
+<%= render partial: "shared/control_action", locals: {f: nil, partials: []} %>
+
 <div id="maincell">
   <div class="contain">
-    <div class="form-action">
-      <%= link_to :back, title: t("events.buttons.go_back"), class: "btn-go-back" do %>
-        <i class="go-back"></i>
-      <% end %>
-    </div>
     <div class="ev-title">
-      <%= label_tag "title", @event.title, class:"title" %>
+      <%= label_tag "title", @event_presenter.title, class: "title" %>
     </div>
     <div class="lb-dt">
       <div class="ev-dt">
-        <%= label_tag :start_date, datetime_format(@event.start_date, "s_date_f_time") %>
-        <%= label_tag :dash, " - " %>
-        <%= label_tag :finish_date, datetime_format(@event.finish_date,
-          @event.is_diff_between_start_and_finish_date? ? "s_date_f_time" : "meridiem_time") %>
+        <label><%= t ".time" %></label>
+        <span id="time-event-popup" class="tile-content">
+          <%= @event_presenter.range_time_title %>
+        </span>
       </div>
     </div>
     <div class="ev-cal">
@@ -22,15 +19,15 @@
           <div class="lbcal">
             <ul>
               <li><%= label_tag :lbcal, t("events.labels.calendar") %></li>
-              <li><%= @event.calendar_name %></li>
+              <li><%= @event_presenter.calendar_name %></li>
             </ul>
             <ul>
               <li><%= label_tag :lbowner, t("events.labels.owner_name") %></li>
-              <li><%= @event.owner_name %></li>
+              <li><%= @event_presenter.owner_name %></li>
             </ul>
             <ul class="end-list">
               <li><%= label_tag :lbdesc, t("events.labels.description") %></li>
-              <li><%= @event.description %></li>
+              <li><%= @event_presenter.description %></li>
             </ul>
           </div>
         </div>
@@ -40,10 +37,9 @@
               <%= label_tag :lattendee, t("events.labels.attendees") %>
             </div>
             <ul>
-              <% @event.attendees.each do |attendee| %>
+              <% @event_presenter.attendees.each do |attendee| %>
                 <li class="l-att-<%= attendee.id %>">
-                  <div id="att-<%= attendee.id %>" ev-id="<%= @event.id %>"
-                    user-id="<%= current_user.id if user_signed_in? %>">
+                  <div id="att-<%= attendee.id %>" ev-id="<%= @event.id %>" user-id="<%= current_user.id if user_signed_in? %>">
                   </div>
                   <div><%= attendee.email %></div>
                 </li>

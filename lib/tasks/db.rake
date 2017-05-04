@@ -22,16 +22,23 @@ namespace :db do
       Fabricate :notification, notification_type:
         I18n.t("events.notification.desktop")
 
-      user_hash = {
-        "Nguyen Binh Dieu": "nguyen.binh.dieu@framgia.com",
-        "Nguyen Van Quang": "nguyen.van.quang@framgia.com",
-        "Nguyen Thi Thu Ha D": "nguyen.thi.thu.had@framgia.com",
-        "Nguyen Thi Trong Nghia": "nguyen.thi.trong.nghia@framgia.com",
-        "Nguyen Khac Hieu B": "nguyen.khac.hieub@framgia.com",
-        "Nguyen van Dat": "nguyen.van.dat@framgia.com",
-        "Do Hong Son": "do.hong.son@framgia.com",
-        "Hoang Nhac Trung": "hoang.nhac.trung@framgia.com"
-      }
+      user_hash = [
+        {
+          name: "dieunb",
+          display_name: "Nguyen Binh Dieu",
+          email: "nguyen.binh.dieu@framgia.com"
+        },
+        {
+          name: "quangnv",
+          display_name: "Nguyen Van Quang",
+          email: "nguyen.van.quang@framgia.com"
+        },
+        {
+          name: "trunghn",
+          display_name: "Hoang Nhac Trung",
+          email: "hoang.nhac.trung@framgia.com"
+        }
+      ]
 
       puts "Creating Color, User, Calendar, Share calendar, Event"
 
@@ -43,15 +50,15 @@ namespace :db do
         Fabricate :days_of_week, name: date
       end
 
-
-      user_hash.each do |name, email|
-        user = Fabricate :user, name: name, email: email, slug: name,
+      user_hash.each do |uhash|
+        user = Fabricate :user, name: uhash[:name],
+          display_name: uhash[:display_name], email: uhash[:email],
           auth_token: Devise.friendly_token
         user.create_setting country: "VN",
           timezone_name: ActiveSupport::TimeZone.all.sample.name
       end
 
-      org = Fabricate :organization, name: "Framgia Viet Nam", creator: User.first
+      org = Fabricate :organization, name: "Framgia", creator: User.first
       org.create_setting country: "VN",
         timezone_name: ActiveSupport::TimeZone.all.sample.name
       org.users << User.all

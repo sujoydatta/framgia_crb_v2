@@ -64,5 +64,10 @@
       </div>
     </div>
   <% end %>
+
+  <%= f.fields_for :workspaces do |wf| %>
+    <%= render "workspace_fields", f: wf %>
+  <% end %>
+
   <%= link_to_add_fields f, :workspaces %>
 <% end %>

@@ -1,5 +1,5 @@
 class NullUser
-  attr_reader :id, :name
+  attr_reader :id, :name, :email
 
   def initialize org = nil
     @name = I18n.t "user_name"
