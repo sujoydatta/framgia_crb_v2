@@ -5,6 +5,8 @@ en:
     sign_out: "Sign out"
   header:
     profile_setting: "Profile Setting"
+    new_calendar: "New Calendar"
+    new_organization: "New Organization"
   calendar:
     create_event: "CREATE"
     save: "Save"

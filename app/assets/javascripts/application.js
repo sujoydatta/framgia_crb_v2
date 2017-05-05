@@ -81,11 +81,11 @@ $(document).on('ready', function() {
     placeholder: I18n.t("events.placeholder.choose_person")
   });
 
-  $('#calendar_owner_id').select2({
+  $('#owner_id').select2({
     minimumResultsForSearch: Infinity
   }).on('select2:select', function(e) {
     var ownerType = $(this).select2("data")[0].element.attributes["data-owner-type"].value;
-    $('#calendar_owner_type').val(ownerType);
+    $('#owner_type').val(ownerType);
   });
 
   $('.timezone-select').select2({

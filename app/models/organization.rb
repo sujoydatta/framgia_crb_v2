@@ -24,7 +24,6 @@ class Organization < ApplicationRecord
     reject_if: proc {|attributes| attributes["name"].blank?}
   accepts_nested_attributes_for :setting
 
-
   scope :accepted_by_user, ->(user) do
     select("organizations.*")
       .joins("INNER JOIN user_organizations
