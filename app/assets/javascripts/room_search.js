@@ -3,6 +3,16 @@ $(document).on('ready', function(){
     return;
   }
 
+  $('.select-all-item').click(function(){
+    if($(this).is(':checked') ){
+      $('.calendar-select > option').prop('selected', 'selected');
+      $('.calendar-select').trigger('change');
+    }else{
+      $('.calendar-select > option').removeAttr('selected');
+      $('.calendar-select').trigger('change');
+     }
+  });
+
   $('.room-search-submit').click(function (event) {
     event.preventDefault();
     var start_date = $('#start_date_time').val();

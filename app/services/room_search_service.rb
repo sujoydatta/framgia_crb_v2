@@ -3,57 +3,56 @@ class RoomSearchService
 
   validates_presence_of :start_time, :finish_time
   validate :start_time_is_after_finish_time
-  attr_accessor :start_time, :finish_time, :calendar_ids, :number_of_seats
+
+  attr_accessor :start_time, :finish_time, :manage_calendars, :calendar_ids,
+    :number_of_seats
 
   def initialize user, params
     @user = user
-    @start_time = params[:start_time]
-    @finish_time = params[:finish_time]
-    @calendar_ids = params[:calendar_ids].map{|calendar_id| calendar_id.to_i} if params[:calendar_ids].present?
-    @number_of_seats = params[:number_of_seats]
+    @params = params
+    @calendars = user.manage_calendars
+    @manage_calendars = @calendars.map{|calendar| [calendar.name, calendar.id]}
+    assign_data
   end
 
   def perform
     calendars = load_calendars
-    all_events = load_all_events @calendar_ids
+    all_events = load_all_events_from_calendars @calendar_ids
     results = []
+
     calendars.each do |calendar|
       events = load_events all_events, calendar.id
+
       if check_room_is_empty?(events)
         results << ResultSearchPresenter.new(:empty, calendar, @start_time, @finish_time)
       else
-        time_suggests = suggest_time events
-        if time_suggests.any?
-          time_suggests.each do |time_suggest|
-            results << ResultSearchPresenter.new(:suggest, calendar,
-              time_suggest[:start_time], time_suggest[:finish_time])
-          end
+        next if (time_suggests = suggest_time events).blank?
+        time_suggests.each do |time_suggest|
+          results << ResultSearchPresenter.new(:suggest, calendar,
+            time_suggest[:start_time], time_suggest[:finish_time])
         end
       end
     end
     results
   end
 
+  def is_selected_all_calendars?
+    @calendars.ids.to_set == @calendar_ids.to_set
+  end
+
   private
 
   def load_calendars
-    calendars = Calendar.managed_by_user @user
-    if @calendar_ids.present?
-      calendars = calendars.select{|calendar| @calendar_ids.include? calendar.id}
-    else
-      @calendar_ids = calendars.map &:id
-    end
+    calendars = @calendars.select{|calendar| calendar.id.in?(@calendar_ids)}
 
-    if @number_of_seats.to_i > Settings.number_of_seats_default
-      calendars = calendars.select do |calendar|
-        calendar.number_of_seats.nil? || calendar.number_of_seats >= @number_of_seats.to_i
-      end
-      calendars.compact!
-    end
-    calendars
+    return calendars if @number_of_seats == Settings.number_of_seats.zero
+
+    calendars.select do |calendar|
+      calendar.number_of_seats.nil? || calendar.number_of_seats >= @number_of_seats
+    end.compact!
   end
 
-  def load_all_events calendar_ids
+  def load_all_events_from_calendars calendar_ids
     events = Event.in_calendars calendar_ids, NullUser.new
     calendar_service = CalendarService.new events
     calendar_service.repeat_data
@@ -116,5 +115,17 @@ class RoomSearchService
   def start_time_is_after_finish_time
     errors.add(:time_errors, I18n.t("room_search.input_time_error")) if @start_time.nil? ||
       @finish_time.nil? || @start_time >= @finish_time
+  end
+
+  def assign_data
+    @start_time = @params[:start_time]
+    @finish_time = @params[:finish_time]
+    @calendar_ids = selected_calendars
+    @number_of_seats = @params[:number_of_seats].to_i
+  end
+
+  def selected_calendars
+    calendar_ids = @params[:calendar_ids]
+    calendar_ids.blank? ? @calendars.ids : calendar_ids.map(&:to_i)
   end
 end

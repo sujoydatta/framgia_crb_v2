@@ -58,4 +58,5 @@ workspace:
   logosize: 44
 limited_suggest_time: 3
 all_calendar_option: -1
-number_of_seats_default: 0
+number_of_seats:
+  zero: 0
