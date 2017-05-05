@@ -22,14 +22,14 @@ class OrganizationPresenter
     if @calendars["Workspace"].nil?
       return @workspace_calendars = NullCalendar.workspace_calendars
     end
-    @workspace_calendars ||= @calendars["Workspace"].group_by &:owner_id
+    @workspace_calendars ||= @calendars["Workspace"].group_by &:owner
   end
 
   def direct_calendars
     if @calendars["Organization"].nil?
       return @direct_calendars = NullCalendar.direct_calendars
     end
-    @direct_calendars ||= @calendars["Organization"].group_by &:owner_id
+    @direct_calendars ||= @calendars["Organization"]
   end
 
   def activities
