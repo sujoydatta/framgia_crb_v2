@@ -1,20 +1,19 @@
 <%= form_for @calendar do |f| %>
+  <%= render partial: "shared/control_action", locals: {f: f, partials: []} %>
+
   <%= render "shared/errors_messages", object: @calendar %>
   <%= hidden_field_tag "allow_overlap", false %>
   <%= f.hidden_field :parent_id,
     value: @calendar.parent_id.nil? ? params[:parent_id] : @calendar.parent_id %>
-
-  <%= render partial: "shared/control_action", locals: {f: f, partials: []} %>
-
   <div class="row form-group">
     <div class="col-md-6">
       <% if is_new_action? %>
         <%= f.label :owner, "Owner" %>
         <div class="row col-md-6">
-          <%= f.select :owner_id, options_for_select(@owners, current_user.id),
-            {}, class: "form-control" %>
+          <%= select_tag :owner_id, options_for_select(@owners, current_user.name),
+            class: "form-control" %>
         </div>
-        <%= f.hidden_field :owner_type, value: User.name %>
+        <%= hidden_field_tag :owner_type, User.name %>
       <% else %>
         <p><strong>Owner:</strong> <%= @calendar.owner_name %></p>
       <% end %>

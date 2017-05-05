@@ -59,6 +59,6 @@ module CalendarsHelper
   end
 
   def is_new_action?
-    action_name == "new"
+    ["new", "create"].include? action_name
   end
 end

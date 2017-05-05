@@ -7,9 +7,11 @@ class Calendar < ApplicationRecord
   has_many :users, through: :user_calendars
   has_many :sub_calendars, class_name: Calendar.name, foreign_key: :parent_id
 
-  ATTRIBUTES_PARAMS = [:name, :number_of_seats, :google_calendar_id, :description, :owner_id,
-    :owner_type, :color_id, :parent_id, :status,
-    user_calendars_attributes: [:id,
+  ATTRIBUTES_PARAMS = [
+    :name, :number_of_seats, :google_calendar_id, :description, :color_id,
+    :parent_id, :status,
+    user_calendars_attributes: [
+      :id,
       :user_id,
       :permission_id,
       :color_id,
@@ -27,6 +29,7 @@ class Calendar < ApplicationRecord
   delegate :name, to: :owner, prefix: true, allow_nil: true
 
   validates :address, presence: true, uniqueness: {case_sensitive: false}
+  validates :owner, presence: true
 
   scope :of_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
@@ -38,7 +41,7 @@ class Calendar < ApplicationRecord
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
       uc.is_checked, uc.color_id as uc_color_id")
       .joins("INNER JOIN user_calendars as uc ON uc.calendar_id = calendars.id")
-      .where("uc.user_id = #{user.id} AND calendars.owner_id <> #{user.id}")
+      .where("uc.user_id = ? AND calendars.owner_type <> ?", user.id, User.name)
   end
   scope :managed_by_user, ->user do
     select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n

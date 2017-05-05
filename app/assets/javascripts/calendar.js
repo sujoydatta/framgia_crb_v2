@@ -126,7 +126,7 @@ $(document).on('ready', function() {
     eventClick: function(event, jsEvent, view) {
       localStorage.setItem('current_event', event)
 
-      if(event.event_id) {
+      if(event.id) {
         initDialogEventClick(event, jsEvent);
       } else {
         dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
@@ -435,20 +435,6 @@ $(document).on('ready', function() {
       calendarName.html(resource.title);
       calendarName.show();
     }
-  }
-
-  function updateGoogleEventPopupData(event) {
-    $('#gtitle-popup span').html(event.title);
-    $('#gevent-btn').attr('href', event.link);
-
-    if(event.allDay) {
-      time_summary = event.start.format('MMMM Do YYYY');
-    } else {
-      time_summary = event.start.format('dddd') + ' ' + event.start.format('H:mm A') + ' To ' + event.end.format('H:mm A') + ' ' + event.end.format('DD-MM-YYYY');
-    }
-
-    $('#gtime-event-popup').html(time_summary);
-    $('#gcalendar-event-popup').html(event.orgnaizer);
   }
 
   hiddenDialog = function(dialogId) {

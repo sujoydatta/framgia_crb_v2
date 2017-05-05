@@ -5,7 +5,7 @@ class NameValidator < ActiveModel::Validator
       record.errors[:name] << "may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen"
     elsif record.name.length > 39
       record.errors[:name] << "is too long (maximum is 39 characters)"
-    elsif Person.names.include?(record.name)
+    elsif record.new_record? && Person.names.include?(record.name)
       record.errors[:name] << "is already taken"
     end
   end
