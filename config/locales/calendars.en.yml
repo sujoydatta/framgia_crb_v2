@@ -77,7 +77,7 @@ en:
     search:
       show:
         calendar: "Calendars"
-        number_of_attendees: "Number of attendees"
+        number_of_seats: "Number of seats"
         number_of_seats_placeholder: "Number of seats"
         range_time: "Range time"
       room_search_result:

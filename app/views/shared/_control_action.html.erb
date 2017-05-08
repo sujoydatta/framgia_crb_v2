@@ -6,7 +6,7 @@
   <%= f.submit t(".save"), class: "btn btn-save" if f.present? %>
   <%= link_to t(".discard"), root_path, class: "btn btn-discard" %>
 
-  <% if f.present? && f.object.persisted? %>
+  <% if f.present? && f.object.persisted? && (can? :destroy, f.object) %>
     <%= link_to t(".delete"), f.object, method: :delete,
       data: {confirm: "You sure?"}, class: "btn btn-discard text-danger" %>
   <% end %>
