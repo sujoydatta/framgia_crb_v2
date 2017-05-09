@@ -1,6 +1,7 @@
 FROM ruby:2.3.1
 
-RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && apt-get install -y nodejs && npm install -g gulp-cli bower eslint babel-eslint eslint-plugin-angular
+RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && apt-get install -y nodejs && npm install -g eslint
+# gulp-cli bower eslint babel-eslint eslint-plugin-angular
 
 COPY Gemfile /cache/Gemfile
 COPY Gemfile.lock /cache/Gemfile.lock

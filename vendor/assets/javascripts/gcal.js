@@ -137,6 +137,7 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 			else if (data.items) {
 				var colorArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+				var resourceId = this.resourceId;
 				$.each(data.items, function(i, entry) {
 					var url = entry.htmlLink || null;
 
@@ -152,6 +153,7 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 						title: entry.summary,
 						start: entry.start.dateTime || entry.start.date, // try timed. will fall back to all-day
 						end: entry.end.dateTime || entry.end.date, // same
+						resourceId: resourceId,
 						// url: url,
 						allDay: entry.start.date !== undefined,
 						isGoogleEvent: true,
@@ -165,6 +167,7 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 
 				// call the success handler(s) and allow it to return a new events array
 				successArgs = [ events ].concat(Array.prototype.slice.call(arguments, 1)); // forward other jq args
+
 				successRes = applyAll(success, this, successArgs);
 				if ($.isArray(successRes)) {
 					return successRes;

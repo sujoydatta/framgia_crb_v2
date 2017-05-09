@@ -14,8 +14,8 @@
           {multiple: true, class: "calendar-select form-control"} %>
       </div>
       <div class="form-group clearfix">
-        <%= label_tag t(".number_of_attendees") %>
-        <%= text_field_tag :number_of_seats, params[:number_of_seats], required: true,
+        <%= label_tag t(".number_of_seats") %>
+        <%= text_field_tag :number_of_seats, params[:number_of_seats],
           class: "form-control col-xs-12 fix-width-input",
           placeholder: t(".number_of_seats_placeholder"), type: "number" %>
       </div>

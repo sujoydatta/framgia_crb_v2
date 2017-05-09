@@ -15,7 +15,8 @@ $(document).on('ready', function() {
       var gCalendarIds = [];
       $('.sidebar-calendars .divBox>div').not($('.uncheck')).each(function() {
         gCalendarIds.push({
-          googleCalendarId: $(this).attr('google_calendar_id')
+          googleCalendarId: $(this).attr('google_calendar_id'),
+          resourceId: $(this).attr('data-calendar-id')
         });
       });
 
@@ -71,7 +72,7 @@ $(document).on('ready', function() {
       agenda: true
     },
     height: $(window).height() - $('header').height() - 20,
-    googleCalendarApiKey: 'AIzaSyBhk4cnXogD9jtzPVsp_zuJuEKhBRC-skI',
+    googleCalendarApiKey: 'AIzaSyBq3usCOj6jFBRtPa5fju9v05vN-Jsy_lM',//'AIzaSyBhk4cnXogD9jtzPVsp_zuJuEKhBRC-skI',
     eventSources: googleCalendarsData(),
     timezone: window.timezone,
     events: function(start, end, timezone, callback) {

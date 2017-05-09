@@ -4487,7 +4487,7 @@ ResourceTimelineView = (function(superClass) {
   /*
   	TODO: the scenario where there were previously unassociated events that are now
   	 attached to this resource. should render those events immediately.
-  
+
   	Responsible for rendering the new resource
    */
 
@@ -6564,7 +6564,7 @@ isImmuneUrl = function(url) {
 };
 
 renderingWarningInContainer = function(messageHtml, containerEl) {
-  return containerEl.append($('<div class="fc-license-message" />').html(messageHtml));
+  return containerEl.append('');//$('<div class="fc-license-message" />').html(messageHtml));
 };
 
 detectWarningInContainer = function(containerEl) {
