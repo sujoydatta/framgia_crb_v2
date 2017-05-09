@@ -105,12 +105,14 @@ $(document).on('ready', function() {
     resources: function(callback) {
       if (calendarViewContext === 'scheduler') {
         var arr =  $schedulers.map(function (data) {
-          return {
-            id: data.id,
-            title: data.name,
-            building: data.building
-          };
+          var resource = {id: data.id, title: data.name};
+
+          if (data.building)
+            resource.building = data.building;
+
+          return resource;
         });
+
         callback(arr);
       } else {
         callback([]);

@@ -18,6 +18,10 @@ class NullUser
     UserCalendar.none
   end
 
+  def persisted?
+    false
+  end
+
   def setting_default_view
     @org.try :setting_default_view || "scheduler"
   end

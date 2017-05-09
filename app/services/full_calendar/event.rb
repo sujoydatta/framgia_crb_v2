@@ -29,8 +29,8 @@ module FullCalendar
       @event = event
       @start_date = @event.start_date
       @finish_date = @event.finish_date
-      @calendar = assign_calendar
-      @user = user
+      @user = user || NullUser.new
+      @calendar = @event.calendar
       @id = SecureRandom.urlsafe_base64
       @event_id = @event.id
     end
@@ -42,7 +42,7 @@ module FullCalendar
       @start_date = repeat_date.to_datetime + start_time
       @finish_date = repeat_date.to_datetime + end_time
       @id = Base64.encode64(@event_id.to_s + "-" + @start_date.to_s)
-      @persisted = @event.start_date == self.start_date
+      @persisted = @event.start_date == @start_date
     end
 
     def editable
@@ -57,22 +57,12 @@ module FullCalendar
       @event.delete_all_follow?
     end
 
-    def parent
-      @event
-    end
-
     private
     def valid_permission_user_in_calendar?
       user_calendar = UserCalendar.find_by(calendar: @calendar, user: @user)
 
       return false if user_calendar.nil?
       Settings.permissions_can_make_change.include? user_calendar.permission_id
-    end
-
-    def assign_calendar
-      return @event.calendar if @event.try(:attendee_user_id).nil?
-      attendee = User.find_by(id: @event.attendee_user_id) || NullUser.new
-      Calendar.find_by(address: attendee.email) || NullCalendar.new
     end
   end
 end

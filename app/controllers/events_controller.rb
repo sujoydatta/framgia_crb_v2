@@ -13,10 +13,10 @@ class EventsController < ApplicationController
   serialization_scope :current_user
 
   def index
-    if params[:organization_id].present?
-      @events = Event.in_calendars params[:calendar_ids], nil
-    else
-      @events = Event.in_calendars params[:calendar_ids], context_user
+    @events = Event.in_calendars params[:calendar_ids]
+
+    if user_signed_in? && !params[:category_id]
+      @events += Event.shared_with_user current_user
     end
 
     @events = CalendarService.new(@events, params[:start_time_view],
@@ -50,7 +50,7 @@ class EventsController < ApplicationController
     if event_id = params[:event][:event_id]
       @event = Event.find(event_id).dup
     else
-      @event = Event.new @event_params
+      @event = Event.new event_params
     end
 
     load_related_data

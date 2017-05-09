@@ -7,7 +7,10 @@ class CalendarService
   end
 
   def repeat_data
-    event_no_repeats = @base_events.no_repeats.not_delete_only
+    event_no_repeats = @base_events.select do |event|
+      event.repeat_type.nil? && event.not_delete_only?
+    end
+
     event_no_repeats.each do |event|
       @events << FullCalendar::Event.new(event, self.user)
     end
