@@ -55,14 +55,21 @@ class Event < ApplicationRecord
   accepts_nested_attributes_for :notification_events, allow_destroy: true
   accepts_nested_attributes_for :repeat_ons, allow_destroy: true
 
-  scope :in_calendars, ->calendar_ids, user do
-    if user
-      select("events.*, at.user_id as attendee_user_id, \n
-        at.event_id as attendee_event_id")
-      .joins("RIGHT JOIN attendees as at ON events.id = at.event_id")
-      .where("at.user_id = ? OR events.calendar_id IN (?)", user.id, calendar_ids)
+  scope :in_calendars, ->calendar_ids do
+    where("events.calendar_id IN (?)", calendar_ids)
+  end
+  scope :shared_with_user, ->user do
+    if user.persisted?
+      selected_columns = (Event.attribute_names - ["calendar_id"]).map! do |column|
+        "events.#{column}"
+      end.join(", ")
+
+      select("#{selected_columns}, at.user_id as attendee_user_id, at.event_id as attendee_event_id, calendars.id as calendar_id")
+      .joins("INNER JOIN attendees as at ON events.id = at.event_id")
+      .joins("INNER JOIN calendars ON at.email = calendars.address")
+      .where("at.user_id = ?", user.id)
     else
-      where("events.calendar_id IN (?)", calendar_ids)
+      Event.none
     end
   end
   scope :reject_with_id, ->event_id do
@@ -149,6 +156,10 @@ class Event < ApplicationRecord
 
   def old_exception_edit_all_follow?
     self.old_exception_type == Event.exception_types[:edit_all_follow]
+  end
+
+  def not_delete_only?
+    exception_type.nil? || exception_type != Event.exception_types[:delete_only]
   end
 
   private
