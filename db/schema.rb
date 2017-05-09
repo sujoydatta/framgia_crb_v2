@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20170419030652) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email", "event_id"], name: "index_attendees_on_email_and_event_id", unique: true, using: :btree
-    t.index ["user_id"], name: "index_attendees_on_user_id", unique: true, using: :btree
+    t.index ["user_id"], name: "index_attendees_on_user_id", using: :btree
   end
 
   create_table "calendars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

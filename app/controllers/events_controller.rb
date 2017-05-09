@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   load_resource except: [:index]
   authorize_resource
   skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :load_calendars, only: [:new, :edit]
+  before_action :load_calendars, :build_event_params, only: [:new, :edit]
   before_action only: [:edit, :update, :destroy] do
     validate_permission_change_of_calendar @event.calendar
   end
@@ -40,27 +40,17 @@ class EventsController < ApplicationController
           popup_content: render_to_string(partial: "events/popup",
             formats: :html,
             layout: false,
-            locals: {event_presenter: @event_presenter}
-          )
+            locals: {event_presenter: @event_presenter})
         }
       end
     end
   end
 
   def new
-    if params[:fdata]
-      hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
-      @event =
-        if hash_params["event_id"].present?
-           Event.find(hash_params["event_id"]).dup
-        elsif hash_params["title"].present?
-          Event.new title: hash_params["title"]
-        elsif hash_params["calendar_id"].present?
-          Event.new calendar_id: hash_params["calendar_id"],
-            start_date: hash_params["start_date"], finish_date: hash_params["finish_date"]
-        else
-          Event.new hash_params["event"]
-        end
+    if event_id = params[:event][:event_id]
+      @event = Event.find(event_id).dup
+    else
+      @event = Event.new @event_params
     end
 
     load_related_data
@@ -93,9 +83,8 @@ class EventsController < ApplicationController
 
   def edit
     if params[:fdata]
-      hash_params = JSON.parse(Base64.decode64 params[:fdata]) rescue {"event": {}}
-      @event.start_date = hash_params["start_date"]
-      @event.finish_date = build_finish_date(hash_params)
+      @event.start_date = event_params["start_date"]
+      @event.finish_date = build_finish_date(event_params)
     end
     load_related_data
   end
@@ -163,5 +152,14 @@ class EventsController < ApplicationController
   def build_finish_date hparams
     return @event.start_date.end_of_day if @event.all_day?
     hparams["finish_date"]
+  end
+
+  def build_event_params
+    begin
+      response = JSON.parse(Base64.decode64 params[:fdata])
+      params[:event] = response
+    rescue JSON::ParserError => e
+      params[:event] = {}
+    end
   end
 end

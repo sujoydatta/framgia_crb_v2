@@ -36,8 +36,8 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
-  # config.action_cable.url = 'wss://example.com/cable'
-  # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
+  config.action_cable.url = "ws://crb.framgia.vn/cable"
+  config.action_cable.allowed_request_origins = [ "http://crb.framgia.vn" ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
@@ -54,12 +54,26 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "base_app_#{Rails.env}"
+  # config.active_job.queue_name_prefix = "wsm_02_#{Rails.env}"
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
+
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.default_url_options = {host: ENV["CRB_HOST"]}
+  # config.action_mailer.smtp_settings = {
+  #   address: ENV["CRB_ADDRESS"],
+  #   port: ENV["CRB_PORT_MAILER"],
+  #   authentication: ENV["CRB_AUTHENTICAION"],
+  #   user_name: ENV["CRB_EMAIL_USERNAME"],
+  #   password: ENV["CRB_EMAIL_PASSWORD"],
+  #   domain: ENV["CRB_DOMAIN"],
+  #   enable_starttls_auto: true
+  # }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -83,4 +97,12 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Rails.application.config.middleware.use ExceptionNotification::Rack,
+  #   email: {
+  #     email_prefix: "[CRB Exception Notifier] ",
+  #     sender_address: %{"CRB Exception Notification" <fcrb.info@gmail.com>},
+  #     exception_recipients: %w{fcrb.info@gmail.com}
+  #   }
+
 end

@@ -8,7 +8,8 @@ class EventWorker
     event = Event.find_by id: event_id
     @event_push = EventWorker.g_event_data event
     @client = EventWorker.initialize_googleapi_client
-    if action === "insert"
+
+    if action == "insert"
       api_method = @client.discovered_api("calendar", "v3").events.insert
       @result = @client.execute(api_method: api_method,
         parameters: {calendarId: "primary"},
@@ -16,7 +17,7 @@ class EventWorker
         headers: {"Content-Type" => "application/json"})
       event.update_attributes google_calendar_id: @result.data.iCalUID.as_json,
         google_event_id: @result.data.id.as_json
-    elsif action === "update"
+    elsif action == "update"
       api_method = @client.discovered_api("calendar", "v3").events.update
       @client.execute(api_method: api_method,
         parameters: {calendarId: "primary", eventId: event.google_event_id},

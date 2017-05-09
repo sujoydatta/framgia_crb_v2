@@ -20,9 +20,4 @@ class EventSerializer < ActiveModel::Serializer
   def color
     object.color || object.calendar.color.try(:color_hex)
   end
-
-  private
-  def timezone
-    @timezone ||= object.calendar.owner.setting.timezone rescue 7
-  end
 end

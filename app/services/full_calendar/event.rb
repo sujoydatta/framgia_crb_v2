@@ -15,48 +15,34 @@ module FullCalendar
       :persisted,
       :event,
       :user
-      ].freeze
+    ].freeze
 
     attr_accessor *ATTRS
 
     delegate :title, :description, :status, :color, :all_day,
+      :owner, :notification_events, :attendees, :repeat_ons,
       :repeat_type, :repeat_every, :user_id, :start_repeat,
       :end_repeat, :exception_time, :exception_type, to: :event, allow_nil: true
     delegate :id, :name, to: :calendar, prefix: true, allow_nil: true
 
-    def initialize event, user, persisted = false
+    def initialize event, user
       @event = event
       @start_date = @event.start_date
       @finish_date = @event.finish_date
       @calendar = assign_calendar
       @user = user
-      @id, @event_id = SecureRandom.urlsafe_base64, event.id
+      @id = SecureRandom.urlsafe_base64
+      @event_id = @event.id
     end
 
     def update_info repeat_date
-      start_time = self.start_date.seconds_since_midnight.seconds
-      end_time = self.finish_date.seconds_since_midnight.seconds
+      start_time = start_date.seconds_since_midnight.seconds
+      end_time = finish_date.seconds_since_midnight.seconds
 
-      self.start_date = repeat_date.to_datetime + start_time
-      self.finish_date = repeat_date.to_datetime + end_time
-      self.id = Base64.encode64(self.event_id.to_s + "-" + self.start_date.to_s)
-      self.persisted = @event.start_date == self.start_date
-    end
-
-    def owner
-      event.owner
-    end
-
-    def notification_events
-      event.notification_events
-    end
-
-    def attendees
-      event.attendees
-    end
-
-    def repeat_ons
-      event.repeat_ons
+      @start_date = repeat_date.to_datetime + start_time
+      @finish_date = repeat_date.to_datetime + end_time
+      @id = Base64.encode64(@event_id.to_s + "-" + @start_date.to_s)
+      @persisted = @event.start_date == self.start_date
     end
 
     def editable
@@ -64,15 +50,15 @@ module FullCalendar
     end
 
     def delete_only?
-      self.event.delete_only?
+      @event.delete_only?
     end
 
     def delete_all_follow?
-      self.event.delete_all_follow?
+      @event.delete_all_follow?
     end
 
     def parent
-      self.event
+      @event
     end
 
     private

@@ -15,7 +15,8 @@ $(document).on('ready', function() {
       var gCalendarIds = [];
       $('.sidebar-calendars .divBox>div').not($('.uncheck')).each(function() {
         gCalendarIds.push({
-          googleCalendarId: $(this).attr('google_calendar_id')
+          googleCalendarId: $(this).attr('google_calendar_id'),
+          resourceId: $(this).attr('data-calendar-id')
         });
       });
 
@@ -125,7 +126,7 @@ $(document).on('ready', function() {
     eventClick: function(event, jsEvent, view) {
       localStorage.setItem('current_event', event)
 
-      if(event.event_id) {
+      if(event.id) {
         initDialogEventClick(event, jsEvent);
       } else {
         dialogCordinate(jsEvent, 'new-event-dialog', 'prong');

@@ -9,7 +9,7 @@ class CalendarService
   def repeat_data
     event_no_repeats = @base_events.no_repeats.not_delete_only
     event_no_repeats.each do |event|
-      @events << FullCalendar::Event.new(event, self.user, true)
+      @events << FullCalendar::Event.new(event, self.user)
     end
 
     (@base_events - event_no_repeats).each do |event|
@@ -181,7 +181,7 @@ class CalendarService
       elsif exception_event.edit_only?
         unless event.repeat_weekly? && start.wday != exception_event.exception_time.wday
           ex_update_events << exception_event.exception_time.to_date
-          event_fullcalendar = FullCalendar::Event.new exception_event, user, true
+          event_fullcalendar = FullCalendar::Event.new exception_event, user
           @events << event_fullcalendar
 
           if function.present?

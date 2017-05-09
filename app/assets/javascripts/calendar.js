@@ -526,24 +526,23 @@ $(document).on('ready', function() {
     var form =  $('#new_event');
     var url = $(form).attr('action') + '/new';
 
-    obj = Object();
+    var event_object = {};
     var data = $(form).serializeArray();
     $.each(data, function(_, element) {
       if(element.name.indexOf('start_date') > 0) {
-        obj['start_date'] = element.value
+        event_object['start_date'] = element.value
       } else if(element.name.indexOf('finish_date') > 0) {
-        obj['finish_date'] = element.value
+        event_object['finish_date'] = element.value
       } else if(element.name.indexOf('all_day') > 0) {
-        obj['all_day'] = element.value
+        event_object['all_day'] = element.value
       } else if(element.name.indexOf('title') > 0) {
-        obj['title'] = element.value
+        event_object['title'] = element.value
       } else if(element.name.indexOf('calendar_id') > 0) {
-        obj['calendar_id'] = element.value
+        event_object['calendar_id'] = element.value
       }
     });
 
-    content = JSON.stringify({event: obj})
-
+    content = JSON.stringify(event_object)
     window.location.href = url + '?fdata='+ Base64.encode(content);
   });
 
