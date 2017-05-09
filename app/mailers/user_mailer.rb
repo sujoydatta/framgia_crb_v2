@@ -21,18 +21,16 @@ class UserMailer < ApplicationMailer
     mail to: @user.email, subject: "[#{@event.title}]"
   end
 
-  def send_email_after_event_update(event_before_update_id, event_after_update_id,
-    start_date_before, finish_date_before)
+  def send_email_after_event_update event_before_update_id, event_after_update_id, start_date_before, finish_date_before
     @event_before_update = Event.find_by id: event_before_update_id
     @event_after_update = Event.find_by id: event_after_update_id
-    if (@event_after_update.start_date != start_date_before ||
-      @event_after_update.finish_date != finish_date_before)
+
+    if (@event_after_update.start_date != start_date_before || @event_after_update.finish_date != finish_date_before)
       send_email_after_event_update_to_attendees start_date_before, finish_date_before
     end
   end
 
-  def send_email_after_delete_event(user_id, event_title, event_start_date,
-    event_finish_date, event_exception_type)
+  def send_email_after_delete_event user_id, event_title, event_start_date, event_finish_date, event_exception_type
     @user = User.find_by id: user_id
     @event_title = event_title
     @event_start_date = event_start_date
@@ -48,19 +46,19 @@ class UserMailer < ApplicationMailer
   end
 
   private
+
   def send_email_after_event_update_to_attendees start_date_before, finish_date_before
-    @start_date_before = DateTime.parse start_date_before
-    @finish_date_before = DateTime.parse finish_date_before
-    if @event_before_update.parent_id.nil?
-      parent = @event_before_update
-    else
-      parent = @event_before_update.event_parent
-    end
+    @start_date_before = DateTime.parse.in_time_zone start_date_before
+    @finish_date_before = DateTime.parse.in_time_zone finish_date_before
+
+    parent = @event_before_update.event_parent
+    parent = @event_before_update if @event_before_update.parent_id.nil?
+
     parent.attendees.each do |attendee|
       @user = attendee.user
-      if @user.email_require
-        mail to: @user.email, subject: t("calendars.mailer.event_update.subject")
-      end
+      next unless @user.email_require
+
+      mail to: @user.email, subject: t("calendars.mailer.event_update.subject")
     end
   end
 end

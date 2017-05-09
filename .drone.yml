@@ -1,8 +1,8 @@
 build:
-  image: dieunb/wsm_02
+  image: dieunb/crb
   pull: true
   environment:
-    RAILS_ENV=test
+    RAILS_ENV: test
   commands:
     - rm -f config/database.yml
     - cp config/drone.database.yml config/database.yml
@@ -14,7 +14,7 @@ compose:
   database:
     image: mysql:5.7
     environment:
-      MYSQL_DATABASE: wsm_02_test
+      MYSQL_DATABASE: crb_test
       MYSQL_USER: test
       MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: root

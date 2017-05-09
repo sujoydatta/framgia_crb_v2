@@ -19,10 +19,6 @@ class EventPresenter
     Base64.urlsafe_encode64(@locals)
   end
 
-  def owner_name
-    object.owner_name
-  end
-
   private
 
   def make_range_time_title
@@ -47,10 +43,10 @@ class EventPresenter
     @start_date = build_start_date
     @finish_date = build_finish_date
     @locals ||= {
-                  event_id: @object.id,
-                  start_date: @start_date,
-                  finish_date: @finish_date
-                }.to_json
+      event_id: @object.id,
+      start_date: @start_date,
+      finish_date: @finish_date
+    }.to_json
   end
 
   def is_same_day?
@@ -58,12 +54,12 @@ class EventPresenter
   end
 
   def build_start_date
-    return  @params[:start_date].to_datetime if @params[:start_date]
+    return @params[:start_date].to_datetime if @params[:start_date]
     @object.start_date
   end
 
   def build_finish_date
-    return  @params[:finish_date].to_datetime if @params[:finish_date]
+    return @params[:finish_date].to_datetime if @params[:finish_date]
     @object.finish_date
   end
 end

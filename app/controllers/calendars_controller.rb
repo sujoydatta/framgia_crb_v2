@@ -27,7 +27,9 @@ class CalendarsController < ApplicationController
       flash[:success] = t "calendar.success_create"
       redirect_to root_path
     else
-      load_users; load_permissions; load_owners
+      load_users
+      load_permissions
+      load_owners
       flash.now[:alert] = t "calendar.danger_create"
       render :new
     end

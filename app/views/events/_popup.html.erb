@@ -29,7 +29,7 @@
         </div>
         <div id="footer-popup">
           <% if params[:controller] == "api/particular_events" %>
-            <%= link_via_permission event_presenter.object, fdata %>
+            <%= link_via_permission event_presenter.object, event_presenter.fdata %>
           <% else %>
             <%= btn_via_permission context_user,
               event_presenter.object, event_presenter.fdata %>

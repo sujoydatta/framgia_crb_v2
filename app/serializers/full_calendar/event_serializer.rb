@@ -20,9 +20,9 @@ module FullCalendar
       object.calendar.get_color(user_context.id)
     end
 
-    private
-    def event
-      @event ||= object.event
-    end
+    # private
+    # def event
+    #   @event ||= object.event
+    # end
   end
 end

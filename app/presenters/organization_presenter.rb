@@ -22,7 +22,7 @@ class OrganizationPresenter
     if @calendars["Workspace"].nil?
       return @workspace_calendars = NullCalendar.workspace_calendars
     end
-    @workspace_calendars ||= @calendars["Workspace"].group_by &:owner
+    @workspace_calendars ||= @calendars["Workspace"].group_by(&:owner)
   end
 
   def direct_calendars
@@ -34,14 +34,14 @@ class OrganizationPresenter
 
   def activities
     @activities = PublicActivity::Activity.order(created_at: :desc)
-      .where owner_type: User.name , recipient_type: Organization.name,
-      recipient_id: @organization.id
+      .where owner_type: User.name, recipient_type: Organization.name,
+        recipient_id: @organization.id
     @activities.map{|activity| ActivityPresenter.new activity}
   end
 
   private
 
   def calendars
-    @calendars ||= Calendar.of_org(@organization).group_by &:owner_type
+    @calendars ||= Calendar.of_org(@organization).group_by(&:owner_type)
   end
 end

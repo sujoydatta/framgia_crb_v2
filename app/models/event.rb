@@ -59,7 +59,7 @@ class Event < ApplicationRecord
     if user
       select("events.*, at.user_id as attendee_user_id, \n
         at.event_id as attendee_event_id")
-      .joins("LEFT JOIN attendees as at ON events.id = at.event_id")
+      .joins("RIGHT JOIN attendees as at ON events.id = at.event_id")
       .where("at.user_id = ? OR events.calendar_id IN (?)", user.id, calendar_ids)
     else
       where("events.calendar_id IN (?)", calendar_ids)
