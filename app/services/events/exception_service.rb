@@ -2,19 +2,21 @@ module Events
   class ExceptionService
     attr_accessor :new_event
 
+    EXCEPTION_TYPE = ["edit_only", "edit_all", "edit_all_follow"]
+
     def initialize event, params
       @event = event
-      @event_params = params.require(:event).permit Event::ATTRIBUTES_PARAMS
+      @params = params
+      @event_params = @params.require(:event).permit Event::ATTRIBUTES_PARAMS
       @exception_type = @event_params[:exception_type]
-      @is_drop = params[:is_drop].to_i rescue 0
-      @start_time_before_drag = params[:start_time_before_drag]
-      @finish_time_before_drag = params[:finish_time_before_drag]
-      @persisted = params[:persisted]
+      @start_time_before_drag = @params[:start_time_before_drag]
+      @finish_time_before_drag = @params[:finish_time_before_drag]
+      @persisted = @params[:persisted]
       @parent = @event.event_parent.present? ? @event.event_parent : @event
     end
 
     def perform
-      if @is_drop == 0 && @exception_type.in?(["edit_only", "edit_all", "edit_all_follow"])
+      if !is_drop? && @exception_type.in?(EXCEPTION_TYPE)
         unless Event.find_with_exception @event_params[:exception_time]
           send @exception_type
         end
@@ -66,6 +68,10 @@ module Events
     end
 
     private
+    def is_drop?
+      @params[:is_drop].to_i == 1
+    end
+
     def make_time_value
       start_date = @event_params[:start_date]
       finish_date = @event_params[:finish_date]
@@ -95,24 +101,18 @@ module Events
       if event.event_parent.present?
         @event_after_update = event
       else
-        @event_params[:parent_id] = @event.id
-        @event_params.delete :id
         @event_after_update = @event.dup
         @event_after_update.parent_id = @event.id
       end
-      @event_after_update.save
-      if @event_params[:notification_events_attributes].present?
-        @event_params[:notification_events_attributes].each do |key, notify|
-          if notify["_destroy"] == "false"
-            @event_after_update.notification_events
-              .create(event_id: @event_after_update.id,
-              notification_id: notify[:notification_id])
-          end
-        end
-      end
-      @event_params[:id]= @event_after_update.id
-      @event_params.delete :notification_events_attributes
-      @event_after_update.update_attributes @event_params.permit!
+
+      attribute_params = [:title, :description, :status, :color, :all_day,
+        :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
+        :finish_date, :start_repeat, :end_repeat, :exception_type, :exception_time,
+        attendees_attributes: [:email, :_destroy, :user_id],
+        repeat_ons_attributes: [:days_of_week_id, :_destroy],
+        notification_events_attributes: [:notification_id, :_destroy]].freeze
+
+      @event_after_update.update @event_params.permit(attribute_params)
       self.new_event = @event_after_update
     end
 

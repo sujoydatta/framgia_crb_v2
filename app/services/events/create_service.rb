@@ -30,8 +30,8 @@ module Events
     end
 
     def is_overlap?
-      overlap_handler = OverlapHandler.new @event
-      self.is_overlap = overlap_handler.overlap?
+      overlap_time_handler = OverlapTimeHandler.new @event
+      self.is_overlap = overlap_time_handler.valid?
     end
 
     def not_allow_overlap?

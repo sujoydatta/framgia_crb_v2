@@ -8,4 +8,4 @@ Rails.application.config.assets.version = '1.0'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( calendar.js calendar_not_sign_in.js particular_calendar.js home.js )
+Rails.application.config.assets.precompile += %w( calendar.js calendar_not_sign_in.js home.js )

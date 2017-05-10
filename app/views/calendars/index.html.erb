@@ -72,17 +72,13 @@
       </div>
     </div>
     <div class="mainbody">
-      <div id="full-calendar"></div>
+      <div id="full-calendar" data-reload-page="false"></div>
     </div>
   </div>
   <%= render "sidebar_menu" %>
 
-  <div id="dialog_overlap_confirm" class="hidden">
-    <%= t"events.overlap.do_you_want_create" %>
-  </div>
-  <div id="dialog_overlap" class="hidden">
-    <p><%= t"events.overlap.fulloverlap" %></p>
-  </div>
+  <div id="dialog_overlap_confirm" class="hidden" title="<%= t 'events.overlap.do_you_want_create' %>"></div>
+  <div id="dialog_overlap" class="hidden" title="<%= t"events.overlap.fulloverlap" %>"></div>
   <%= render "events/dialog_form" if user_signed_in? %>
   <%= confirm_popup_repeat_events t("events.repeat_dialog.delete") %>
   <%= confirm_popup_repeat_events t("events.repeat_dialog.edit") %>

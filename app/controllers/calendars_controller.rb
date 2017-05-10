@@ -14,7 +14,7 @@ class CalendarsController < ApplicationController
 
   def index
     @organization = Organization.find_by slug: params[:organization_id]
-    @calendar_presenter = CalendarPresenter.new current_user, @organization
+    @calendar_presenter = CalendarPresenter.new context_user, @organization
     @event = Event.new if user_signed_in?
   end
 
