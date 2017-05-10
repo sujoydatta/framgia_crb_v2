@@ -54,7 +54,7 @@ module ApplicationHelper
   end
 
   def context_user
-    current_user || NullUser.new
+    current_user || NullUser.new(@organization)
   end
 
   def go_back_link

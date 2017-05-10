@@ -2,7 +2,7 @@ class CalendarPresenter
   attr_reader :user, :organization, :object
 
   def initialize user, organization = nil
-    @user = user || NullUser.new(organization)
+    @user = user
     @organization = organization
     @object = existed_org? ? @organization : @user
   end

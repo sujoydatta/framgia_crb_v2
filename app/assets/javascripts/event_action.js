@@ -104,10 +104,12 @@ function dialogCordinate(jsEvent, dialogId, prongId) {
 }
 
 function showDialog(dialogId) {
+  var docHeight = $(document).height();
+  $('.overlay-bg').css({'height' : docHeight, 'display': 'block'});
+
   var dialog = $('#' + dialogId);
   $(dialog).removeClass('dialog-hidden');
   $(dialog).addClass('dialog-visible');
-  $('#event-title').focus();
 }
 
 function deleteEventPopup(event) {
@@ -139,6 +141,7 @@ $('body').on('click', '.btn-cancel, .bubble-close', function(){
   hiddenDialog('dialog-update-popup');
   hiddenDialog('dialog-repeat-popup');
   hiddenDialog('google-event-popup');
+  $('.overlay-bg').hide();
 })
 
 function clickEditTitle(event) {
@@ -156,8 +159,10 @@ function clickEditTitle(event) {
 }
 
 $(document).click(function() {
-  if ($('.fc-view-container').length !== 0)
-    saveLastestView();
+  if ($('.fc-view-container').length == 0)
+    return
+
+  saveLastestView();
 
   if (!$(event.target).hasClass('create') && !$(event.target).closest('#event-popup').hasClass('dropdown-menu')) {
     $('#source-popup').removeClass('open');
@@ -213,4 +218,10 @@ function updateGoogleEventPopupData(event) {
 
   $('#gtime-event-popup').html(time_summary);
   $('#gcalendar-event-popup').html(event.orgnaizer);
+}
+
+var hiddenDialog = function(dialogId) {
+  var dialog = $('#' + dialogId);
+  $(dialog).addClass('dialog-hidden');
+  $(dialog).removeClass('dialog-visible');
 }

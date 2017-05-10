@@ -1,64 +1,66 @@
 <div id="<%= action[:id] %>" class="modal-dialog dialog-hidden">
   <div class="modal-title">
     <%= action[:title] %>
-  <div id="bubble-close" class="bubble-close close-popup cancel-popup-event"></div>
+    <div id="bubble-close" class="bubble-close close-popup cancel-popup-event"></div>
   </div>
-  <div class="modal-content">
-    <p><%= action[:content] %></p>
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            <% if is_event_controller? %>
-              <button class="btn btn-confirm btn-default" type="submit" name="event[exception_type]" value="edit_only">
-                <%= action[:only][:btn] %>
-              </button>
-            <% else%>
-              <div rel="<%= action[:only][:rel] %>" class="btn btn-confirm btn-default">
-                <%= action[:only][:btn] %>
-              </div>
-            <% end %>
-          </td>
-          <td class="explanation-cell">
-            <p><%= action[:only][:explanation] %></p>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <% if is_event_controller? %>
-              <button class="btn btn-confirm btn-default" type="submit" name="event[exception_type]" value="edit_all_follow">
-                <%= action[:following][:btn] %>
-              </button>
-            <% else%>
-              <div class="btn btn-confirm btn-default" rel="<%= action[:following][:rel] %>">
-                <%= action[:following][:btn] %>
-              </div>
-            <% end %>
-          </td>
-          <td class="explanation-cell">
-            <%= simple_format action[:following][:explanation] %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <% if is_event_controller? %>
-              <button class="btn btn-confirm btn-default" type="submit" name="event[exception_type]" value="edit_all">
-                <%= action[:all][:btn] %>
-              </button>
-            <% else%>
-              <div rel="<%= action[:all][:rel] %>" class="btn btn-confirm btn-default">
-                <%= action[:all][:btn] %>
-              </div>
-            <% end %>
-          </td>
-          <td class="explanation-cell">
-            <%= simple_format action[:all][:explanation] %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div tabindex="0">
-      <div class="btn-right btn btn-default btn-cancel"><%= action[:cancel] %></div>
+  <div class="body">
+    <div class="modal-content">
+      <p><%= action[:content] %></p>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <% if is_event_controller? %>
+                <button class="btn btn-confirm btn-default" type="submit" name="event[exception_type]" value="edit_only">
+                  <%= action[:only][:btn] %>
+                </button>
+              <% else%>
+                <div rel="<%= action[:only][:rel] %>" class="btn btn-confirm btn-default">
+                  <%= action[:only][:btn] %>
+                </div>
+              <% end %>
+            </td>
+            <td class="explanation-cell">
+              <p><%= action[:only][:explanation] %></p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <% if is_event_controller? %>
+                <button class="btn btn-confirm btn-default" type="submit" name="event[exception_type]" value="edit_all_follow">
+                  <%= action[:following][:btn] %>
+                </button>
+              <% else%>
+                <div class="btn btn-confirm btn-default" rel="<%= action[:following][:rel] %>">
+                  <%= action[:following][:btn] %>
+                </div>
+              <% end %>
+            </td>
+            <td class="explanation-cell">
+              <%= simple_format action[:following][:explanation] %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <% if is_event_controller? %>
+                <button class="btn btn-confirm btn-default" type="submit" name="event[exception_type]" value="edit_all">
+                  <%= action[:all][:btn] %>
+                </button>
+              <% else%>
+                <div rel="<%= action[:all][:rel] %>" class="btn btn-confirm btn-default">
+                  <%= action[:all][:btn] %>
+                </div>
+              <% end %>
+            </td>
+            <td class="explanation-cell">
+              <%= simple_format action[:all][:explanation] %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div tabindex="0">
+        <div class="btn-right btn btn-default btn-cancel"><%= action[:cancel] %></div>
+      </div>
     </div>
    </div>
 </div>

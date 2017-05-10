@@ -61,7 +61,7 @@
 UNUSED.gcal-contenteditable-textinput.textarea {
   box-sizing: border-box;
   color: #1b1b1b;
-  padding: 3px;
+  padding: 6px;
   width: 100%;
 }
 
@@ -433,48 +433,52 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   background-color: #A9A9A9 !important;
 }
 
-.modal-dialog {
-  background-color: #fff;
-  border: 1px solid #acacac;
-  -webkit-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  -ms-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  color: #222;
-  outline: 0;
-  padding: 5px 5px 15px 5px;
-  position: absolute;
-  z-index: 1011;
-  .btn {
-    font-size: 11px;
-    font-weight: bold;
-    height: auto;
-  }
-  .btn-confirm {
-    margin-right: 10px;
-    width: 160px;
-  }
-  .btn-right {
-    float: right;
-  }
-  .modal-content {
+#dialog-update-popup {
+  margin: 0 auto;
+  &.modal-dialog {
     background-color: #fff;
+    border: 1px solid #acacac;
+    -webkit-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    -ms-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     color: #222;
+    outline: 0;
     padding: 15px;
-  }
-  .modal-title {
-    background-color: #fff;
-    color: #222;
-    cursor: default;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 10px 15px;
-    position: relative;
-    vertical-align: middle;
-  }
-  .explanation-cell {
-    font-size: 12px;
-    padding-top: 10px;
+    position: absolute;
+    z-index: 1011;
+    .btn {
+      font-size: 11px;
+      font-weight: bold;
+      height: auto;
+    }
+    .btn-confirm {
+      margin-right: 10px;
+      width: 160px;
+    }
+    .btn-right {
+      float: right;
+    }
+    .modal-content {
+      background-color: #fff;
+      color: #222;
+      border: none;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+    .modal-title {
+      background-color: #fff;
+      color: #222;
+      cursor: default;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px 15px;
+      position: relative;
+      vertical-align: middle;
+    }
+    .explanation-cell {
+      font-size: 12px;
+    }
   }
 }
 
@@ -720,11 +724,12 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
 .group_attendee {
   display: block;
+  margin-bottom: 5px;
   li {
     display: inline-block;
   }
   .remove_attendee {
-    margin-left: 13px;
+    float: right;
     &:hover {
       cursor: pointer
     }

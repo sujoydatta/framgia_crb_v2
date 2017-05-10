@@ -1,4 +1,4 @@
-class OverlapHandler
+class OverlapTimeHandler
   ATTRS = [:overlap_time]
   attr_accessor *ATTRS
 
@@ -12,7 +12,7 @@ class OverlapHandler
     end
   end
 
-  def overlap?
+  def valid?
     return true if check_overlap_event @repeat_events, @temp_events
     return true if check_overlap_event @db_events, @temp_events
     return false
@@ -23,6 +23,8 @@ class OverlapHandler
     events.each do |event|
       temp_events.each do |temp_event|
         if compare_time? event, temp_event
+          binding.pry
+
           @overlap_time = event.start_date
           return true
         end
@@ -33,7 +35,6 @@ class OverlapHandler
 
   def generate_db_events calendar_id, parent_id
     events = Event.of_calendar(calendar_id).reject_with_id parent_id
-
     calendar_service = CalendarService.new(events, @start_time, @end_time)
     calendar_service.repeat_data.select do |event|
       event.exception_type.nil? || (!event.delete_only? && !event.delete_all_follow?)

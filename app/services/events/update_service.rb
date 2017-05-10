@@ -8,6 +8,7 @@ module Events
       @user = user
       @event = event
       @params = params
+      @event_handler = Event.new handle_event_params
     end
 
     def perform
@@ -18,13 +19,13 @@ module Events
         end_repeat: end_repeat
       })
 
-      if change_datetime? && is_overlap? && not_allow_overlap?
+      if changed_time? && is_overlap? && not_allow_overlap?
         return false
       else
         exception_service = Events::ExceptionService.new(@event, @params)
 
         if exception_service.perform
-          self.event = exception_service.new_event
+          @event = exception_service.new_event
           make_activity @user, @event, :update
           return true
         else
@@ -47,11 +48,10 @@ module Events
     end
 
     def is_overlap?
-      event = Event.new handle_event_params
-      event.parent_id = @event.parent? ? @event.id : @event.parent_id
-      event.calendar_id = @event.calendar_id
-      overlap_handler = OverlapHandler.new(event)
-      self.is_overlap = overlap_handler.overlap?
+      @event_handler.parent_id = @event.parent? ? @event.id : @event.parent_id
+      @event_handler.calendar_id = @event.calendar_id
+      overlap_time_handler = OverlapTimeHandler.new(@event_handler)
+      self.is_overlap = overlap_time_handler.valid?
     end
 
     def not_allow_overlap?
@@ -66,10 +66,8 @@ module Events
       event_params[:end_repeat] || @event.end_repeat
     end
 
-    def change_datetime?
-      event_hour_minute = @event.start_date.strftime("%H:%M")
-      params_hour_minute = event_params[:start_date].to_datetime.strftime("%H:%M")
-      event_hour_minute != params_hour_minute
+    def changed_time?
+      @event.start_date != @event_handler.start_date
     end
   end
 end

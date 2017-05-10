@@ -4,7 +4,7 @@
 //= require event_action
 
 $(document).on('ready', function() {
-  var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
+  var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
   var $schedulers = $('#my-calendar').data('mcalendar');
   var day_format = I18n.t('events.time.formats.day_format');
   var schedulerRightMenu = 'timelineDay,timelineWeek,timelineMonth';
@@ -141,7 +141,7 @@ $(document).on('ready', function() {
       var currentView = $calendar.fullCalendar('getView').name;
       var isAllDay = false;
 
-      if (currentView === "month") {
+      if (currentView === 'month') {
         end = start;
         isAllDay = true;
       } else {
@@ -160,6 +160,7 @@ $(document).on('ready', function() {
       dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
       hiddenDialog('popup');
       showDialog('new-event-dialog');
+      $('#event-title').focus();
     },
     eventResizeStart: function( event, jsEvent, ui, view ) {
       hiddenDialog('new-event-dialog');
@@ -332,12 +333,15 @@ $(document).on('ready', function() {
           var dialogOverlap = $('#dialog_overlap');
           dialogOverlap.dialog({
             autoOpen: false,
-            modal: true
+            modal: true,
+            resizable: false,
+            height: 'auto',
+            width: 400
           });
           dialogOverlap.dialog({
             buttons : {
               'Confirm' : function() {
-                dataUpdate.allow_overlap = "true";
+                dataUpdate.allow_overlap = 'true';
                 $.ajax({
                   type: 'PATCH',
                   url: '/events/' + event.event_id,
@@ -364,14 +368,12 @@ $(document).on('ready', function() {
   function confirm_update_popup(event, allDay, end_date){
     var dialog = $('#dialog-update-popup');
     var dialogW = $(dialog).width();
-    var dialogH = $(dialog).height();
     var windowW = $(window).width();
-    var windowH = $(window).height();
     var xCordinate, yCordinate;
     xCordinate = (windowW - dialogW) / 2;
-    yCordinate = (windowH - dialogH) / 2;
-    dialog.css({'top': yCordinate, 'left': xCordinate});
+    dialog.css({'top': 44, 'left': xCordinate});
     showDialog('dialog-update-popup');
+
     $('.btn-confirm').unbind('click');
     $('.btn-confirm').click(function() {
       if ($(this).attr('rel') != null) {
@@ -380,6 +382,7 @@ $(document).on('ready', function() {
           event.end = end_date;
           updateServerEvent(event, allDay, $(this).attr('rel'), 0);
           hiddenDialog('dialog-update-popup');
+          $('.overlay-bg').hide();
         }
       }
     });
@@ -389,7 +392,7 @@ $(document).on('ready', function() {
     var view = $calendar.fullCalendar('getView');
     var event = window.event || e;
     delta = event.detail ? event.detail*(-120) : event.wheelDelta;
-    if(mousewheelEvent === "DOMMouseScroll"){
+    if(mousewheelEvent === 'DOMMouseScroll'){
       delta = event.originalEvent.detail ? event.originalEvent.detail*(-120) : event.wheelDelta;
     }
     if (view.name === 'month') {
@@ -440,14 +443,13 @@ $(document).on('ready', function() {
     }
   }
 
-  hiddenDialog = function(dialogId) {
-    var dialog = $('#' + dialogId);
-    $(dialog).addClass('dialog-hidden');
-    $(dialog).removeClass('dialog-visible');
-  }
-
   $('form.event-form').submit(function(event) {
     event.preventDefault();
+    var submitDom = $(document.activeElement);
+
+    if (submitDom.context.value.length > 0 ) {
+      $('.exception_type').val(submitDom.context.value);
+    }
 
     $.ajax({
       url: $(this).attr('action'),
@@ -457,17 +459,16 @@ $(document).on('ready', function() {
       success: function(data) {
         if(data.is_overlap) {
           overlapConfirmation();
-          return;
         } else if (data.is_errors) {
-          var $errorsTitle = $(".error-title");
+          var $errorsTitle = $('.error-title');
           $errorsTitle.text(I18n.t('events.dialog.title_error'));
           $errorsTitle.show();
         } else {
-          if (window.location.pathname === '/' || window,location.pathname.indexOf('orgs') === 1){
+          if ($calendar.attr('data-reload-page') == 'false') {
             hiddenDialog('new-event-dialog');
             addEventToCalendar(data);
           } else {
-            window.location = '/';
+            window.history.back();
           }
         }
       },
@@ -475,7 +476,7 @@ $(document).on('ready', function() {
         if (jqXHR.status == 500) {
           alert('Internal error: ' + jqXHR.responseText);
         } else {
-          alert('Unexpected error.');
+          alert('Unexpected error!!!');
         }
       }
     });
@@ -490,12 +491,15 @@ $(document).on('ready', function() {
     var dialogOverlapConfirm = $('#dialog_overlap_confirm');
     dialogOverlapConfirm.dialog({
       autoOpen: false,
-      modal: true
+      modal: true,
+      resizable: false,
+      height: 'auto',
+      width: 400
     });
     dialogOverlapConfirm.dialog({
       buttons : {
         'Confirm' : function() {
-          $("#allow-overlap").val("true");
+          $('#allow-overlap').val('true');
           $.ajax({
             type: 'POST',
             url: '/events',
@@ -503,14 +507,14 @@ $(document).on('ready', function() {
             data: $('#new_event').serialize(),
             success: function(data) {
               addEventToCalendar(data);
-              $("#allow-overlap").val("false");
+              $('#allow-overlap').val('false');
               dialogOverlapConfirm.dialog('close');
             },
             error: function (jqXHR, textStatus, errorThrown) {
               if (jqXHR.status == 500) {
                 alert('Internal error: ' + jqXHR.responseText);
               } else {
-                alert('Unexpected error.');
+                alert('Unexpected error!');
               }
             }
           });
@@ -637,7 +641,7 @@ $(document).on('ready', function() {
 
   $('#request-email-button').click(function() {
     var email = $('#request-email-input').val();
-    if (email === "") {
+    if (email === '') {
       alert('Please add email to request!');
     } else {
       $.ajax({
@@ -650,7 +654,6 @@ $(document).on('ready', function() {
         }
       });
     }
-
   });
 
   $('#add-attendee').on('click', function() {

@@ -73,8 +73,7 @@ class Event < ApplicationRecord
     end
   end
   scope :reject_with_id, ->event_id do
-    where("id != ? AND (parent_id IS NULL \n
-      OR parent_id != ?)", event_id, event_id) if event_id.present?
+    where("id != ? OR parent_id != ?", event_id, event_id) if event_id.present?
   end
   scope :no_repeats, ->{where repeat_type: nil}
   scope :has_exceptions, ->{where.not exception_type: nil}

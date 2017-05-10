@@ -158,6 +158,6 @@ en:
       remind_edit_all_following_event: "All The Following Events is edited"
     overlap:
       fulloverlap: "Event Overlap!"
-      do_you_want_create: "Event overlap! Do you want continue?"
+      do_you_want_create: "Event overlap! Do you want to continue?"
     datetime: "%m-%d-%Y %H:%M %p"
     framgia_crb_system: "Framgia CRB System"

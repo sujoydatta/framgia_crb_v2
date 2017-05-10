@@ -15,7 +15,7 @@ class EventsController < ApplicationController
   def index
     @events = Event.in_calendars params[:calendar_ids]
 
-    if user_signed_in? && !params[:category_id]
+    if user_signed_in? && params[:organization_id].nil?
       @events += Event.shared_with_user current_user
     end
 
@@ -101,9 +101,10 @@ class EventsController < ApplicationController
           render json: update_service.event, serializer: EventSerializer,
             meta: t("events.flashs.updated"), meta_key: :message, status: :ok
         end
+      elsif @is_overlap = update_service.is_overlap
+        format.json{render json: {is_overlap: @is_overlap}}
       else
-        @is_overlap = update_service.is_overlap
-        format.json{render json: {is_overlap: @is_overlap}, status: 422}
+        format.json{render json: {error: "Error"}, status: 422}
       end
     end
   end
