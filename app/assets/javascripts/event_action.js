@@ -22,7 +22,7 @@ function eventData(data) {
     isGoogleEvent: false,
     start_time_before_drag: start_time,
     finish_time_before_drag: end_time
-  }
+  };
 }
 
 function initDialogEventClick(event, jsEvent){
@@ -51,11 +51,12 @@ function initDialogEventClick(event, jsEvent){
         dialogCordinate(jsEvent, 'popup', 'prong-popup');
         showDialog('popup');
         deleteEventPopup(event);
+
         if (event.editable) clickEditTitle(event);
         cancelPopupEvent(event);
       },
       errors: function() {
-        console.log('OOP, Errors!!!');
+        alert('OOP, Errors!!!');
       }
     });
   }
@@ -70,20 +71,20 @@ function dialogCordinate(jsEvent, dialogId, prongId) {
   var dialogW = $(dialog).width();
   var dialogH = $(dialog).height();
   var windowW = $(window).width();
-  var windowH = $(window).height();
   var xCordinate, yCordinate;
   var prongRotateX, prongXCordinate, prongYCordinate;
 
-  if(jsEvent.clientX - dialogW/2 < 0) {
+  if (jsEvent.clientX - dialogW/2 < 0) {
     xCordinate = jsEvent.clientX - dialogW/2;
   } else if(windowW - jsEvent.clientX < dialogW/2) {
     xCordinate = windowW - 2 * dialogW/2 - 10;
   } else {
     xCordinate = jsEvent.clientX - dialogW/2;
   }
+
   if(xCordinate < 0) xCordinate = 10;
 
-  if(jsEvent.clientY - dialogH < 0) {
+  if (jsEvent.clientY - dialogH < 0) {
     yCordinate = jsEvent.clientY + 20;
     prongRotateX = 180;
     prongYCordinate = -9;
@@ -116,7 +117,7 @@ function deleteEventPopup(event) {
   $('#btn-delete-event').unbind('click');
   $('#btn-delete-event').click(function() {
     hiddenDialog('popup');
-    if (event.repeat_type == null || event.repeat_type.length == 0) {
+    if (event.repeat_type === null || event.repeat_type.length === 0) {
       deleteEvent(event, 'delete_all');
     } else if (event.exception_type == 'edit_only') {
       deleteEvent(event, 'delete_only');
@@ -135,14 +136,14 @@ function cancelPopupEvent(event){
   });
 }
 
-$('body').on('click', '.btn-cancel, .bubble-close', function(){
+$('body').on('click', '.btn-cancel, .bubble-close', function() {
   unSelectCalendar();
   hiddenDialog('new-event-dialog');
   hiddenDialog('dialog-update-popup');
   hiddenDialog('dialog-repeat-popup');
   hiddenDialog('google-event-popup');
   $('.overlay-bg').hide();
-})
+});
 
 function clickEditTitle(event) {
   var titleInput = $('#title-input-popup');
@@ -159,8 +160,8 @@ function clickEditTitle(event) {
 }
 
 $(document).click(function() {
-  if ($('.fc-view-container').length == 0)
-    return
+  if ($('.fc-view-container').length === 0)
+    return;
 
   saveLastestView();
 
@@ -173,7 +174,7 @@ $(document).click(function() {
     unSelectCalendar();
   }
 
-  if ($(event.target).closest('#popup').length === 0 && $(event.target).closest('.fc-body').length == 0) {
+  if ($(event.target).closest('#popup').length === 0 && $(event.target).closest('.fc-body').length === 0) {
     hiddenDialog('popup');
   }
 
@@ -194,7 +195,9 @@ function updateEventPopup(event) {
   $('#btn-save-event').unbind('click');
   $('#btn-save-event').click(function() {
     hiddenDialog('popup');
+
     if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type === 'edit_only') {
+      var exception_type;
       if (event.exception_type !== null)
         exception_type = event.exception_type;
       else
@@ -209,8 +212,9 @@ function updateEventPopup(event) {
 function updateGoogleEventPopupData(event) {
   $('#gtitle-popup span').html(event.title);
   $('#gevent-btn').attr('href', event.link);
+  var time_summary;
 
-  if(event.allDay) {
+  if (event.allDay) {
     time_summary = event.start.format('MMMM Do YYYY');
   } else {
     time_summary = event.start.format('dddd') + ' ' + event.start.format('H:mm A') + ' To ' + event.end.format('H:mm A') + ' ' + event.end.format('DD-MM-YYYY');
@@ -224,4 +228,69 @@ var hiddenDialog = function(dialogId) {
   var dialog = $('#' + dialogId);
   $(dialog).addClass('dialog-hidden');
   $(dialog).removeClass('dialog-visible');
+};
+
+function confirm_repeat_popup(event){
+  var dialog = $('#dialog-repeat-popup');
+  var dialogW = $(dialog).width();
+  var dialogH = $(dialog).height();
+  var windowW = $(window).width();
+  var windowH = $(window).height();
+  var xCordinate, yCordinate;
+  xCordinate = (windowW - dialogW) / 2;
+  yCordinate = (windowH - dialogH) / 2;
+  dialog.css({'top': yCordinate, 'left': xCordinate});
+  showDialog('dialog-repeat-popup');
+
+  $('.btn-confirm').click(function() {
+    if ($(this).attr('rel') !== null) {
+      var check_is_delete = $(this).attr('rel').indexOf(I18n.t('events.repeat_dialog.delete.delete'));
+
+      if (check_is_delete !== -1){
+        $('.btn-confirm').unbind('click');
+        deleteEvent(event, $(this).attr('rel'));
+        hiddenDialog('dialog-repeat-popup');
+      }
+    }
+  });
+}
+
+function deleteEvent(event, exception_type) {
+  var start_date_before_delete, finish_date_before_delete;
+
+  if (!event.allDay) finish_date_before_delete = event.end._i;
+  start_date_before_delete = event.start._i;
+
+  $.ajax({
+    url: '/events/' + event.event_id,
+    type: 'DELETE',
+    data: {
+      exception_type: exception_type,
+      exception_time: event.start.format(),
+      finish_date: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
+      start_date_before_delete: start_date_before_delete,
+      finish_date_before_delete: finish_date_before_delete,
+      persisted: event.persisted ? 1 : 0
+    },
+    dataType: 'json',
+    success: function() {
+      if (exception_type == 'delete_all_follow')
+        $calendar.fullCalendar('removeEvents', function(e) {
+          if(e.event_id === event.event_id && e.start.format() >= event.start.format())
+            return true;
+        });
+      else
+        if (exception_type == 'delete_all') {
+          $calendar.fullCalendar('removeEvents', function(e) {
+            if (e.event_id === event.event_id)
+              return true;
+          });
+        } else {
+          event.exception_type = exception_type;
+        }
+      $calendar.fullCalendar('refetchEvents');
+    },
+    error: function() {
+    }
+  });
 }

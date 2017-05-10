@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  load_resource except: [:index]
+  load_resource except: [:index, :new, :destroy, :create]
   authorize_resource
   skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :load_calendars, :build_event_params, only: [:new, :edit]

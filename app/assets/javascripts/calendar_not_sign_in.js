@@ -4,9 +4,7 @@
 //= require event_action
 
 $(document).on('ready', function() {
-  var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel";
   var $schedulers = $('#my-calendar').data('mcalendar');
-  var day_format = I18n.t('events.time.formats.day_format');
   var schedulerRightMenu = 'timelineDay,timelineWeek,timelineMonth';
   var calendarRightMenu = 'agendaDay,agendaWeek,month,agendaFiveDay';
 

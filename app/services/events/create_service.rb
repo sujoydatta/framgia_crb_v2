@@ -3,6 +3,15 @@ module Events
     include MakeActivity
     attr_accessor :is_overlap, :event
 
+    ATTRIBUTES_PARAMS = [:title, :description, :status, :color, :all_day,
+      :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
+      :finish_date, :start_repeat, :end_repeat, :exception_type, :exception_time,
+      attendees_attributes: [:email, :_destroy, :user_id],
+      repeat_ons_attributes: [:days_of_week_id, :_destroy],
+      notification_events_attributes: [:notification_id, :_destroy]].freeze
+    REPEAT_PARAMS = [:repeat_type, :repeat_every, :start_repeat, :end_repeat,
+      :repeat_ons_attributes].freeze
+
     def initialize user, params
       @user = user
       @params = params
@@ -22,11 +31,11 @@ module Events
 
     private
     def event_params
-      @params.require(:event).permit Event::ATTRIBUTES_PARAMS
+      @params.require(:event).permit ATTRIBUTES_PARAMS
     end
 
     def modify_repeat_params
-      Event::REPEAT_PARAMS.each {|attribute| @params[:event].delete attribute}
+      REPEAT_PARAMS.each {|attribute| @params[:event].delete attribute}
     end
 
     def is_overlap?

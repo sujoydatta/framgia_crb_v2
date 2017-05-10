@@ -23,8 +23,6 @@ class OverlapTimeHandler
     events.each do |event|
       temp_events.each do |temp_event|
         if compare_time? event, temp_event
-          binding.pry
-
           @overlap_time = event.start_date
           return true
         end

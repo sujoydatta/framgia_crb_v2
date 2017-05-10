@@ -4,6 +4,9 @@ module Events
 
     attr_accessor :is_overlap, :event
 
+    REPEAT_PARAMS = [:repeat_type, :repeat_every, :start_repeat, :end_repeat,
+      :repeat_ons_attributes].freeze
+
     def initialize user, event, params
       @user = user
       @event = event
@@ -44,7 +47,7 @@ module Events
     end
 
     def modify_repeat_params
-      Event::REPEAT_PARAMS.each{|attribute| @params[:event].delete attribute}
+      REPEAT_PARAMS.each{|attribute| @params[:event].delete attribute}
     end
 
     def is_overlap?
