@@ -17,8 +17,6 @@ class Event < ApplicationRecord
     attendees_attributes: [:id, :email, :_destroy, :user_id],
     repeat_ons_attributes: [:id, :days_of_week_id, :_destroy],
     notification_events_attributes: [:id, :notification_id, :_destroy]].freeze
-  REPEAT_PARAMS = [:repeat_type, :repeat_every, :start_repeat, :end_repeat,
-    :repeat_ons_attributes].freeze
 
   has_many :attendees, dependent: :destroy
   has_many :users, through: :attendees

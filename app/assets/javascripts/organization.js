@@ -31,7 +31,7 @@ $(document).ready(function(){
     var url = $(this).attr('data-url');
     var tab = $(this).attr('data-tab');
     if (url) {
-      if (tab === 'activities') {
+      if (tab == 'activities') {
         $.ajax({
           url: url,
           method: 'get',

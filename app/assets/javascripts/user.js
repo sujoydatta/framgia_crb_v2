@@ -7,7 +7,7 @@ $(document).on('ready', function() {
     $('.sub-menu').addClass('sub-menu-hidden');
   });
 
-  $('.header-nav-item.dropdown').click(function(event) {
+  $('.header-nav-item.dropdown').click(function() {
     var $subMenu = $('> .sub-menu', $(this).parent());
     $('.sub-menu').not($subMenu).addClass('sub-menu-hidden');
 
@@ -27,6 +27,6 @@ $(document).on('ready', function() {
     } else {
       $subMenu.removeClass('sub-menu-hidden');
       $subMenu.addClass('sub-menu-visible');
-    };
+    }
   });
 });

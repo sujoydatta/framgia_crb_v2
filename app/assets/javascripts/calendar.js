@@ -4,7 +4,6 @@
 //= require event_action
 
 $(document).on('ready', function() {
-  var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
   var $schedulers = $('#my-calendar').data('mcalendar');
   var day_format = I18n.t('events.time.formats.day_format');
   var schedulerRightMenu = 'timelineDay,timelineWeek,timelineMonth';
@@ -120,14 +119,14 @@ $(document).on('ready', function() {
     },
     eventRender: function(event, element) {
       var isOldEvent = event.allDay && event.start.isBefore(new Date(), 'day');
-      var isEndOfEvent = event.end && event.end.isBefore(new Date())
+      var isEndOfEvent = event.end && event.end.isBefore(new Date());
 
       if(isOldEvent || isEndOfEvent) {
         $(element).addClass('before-current');
       }
     },
-    eventClick: function(event, jsEvent, view) {
-      localStorage.setItem('current_event', event)
+    eventClick: function(event, jsEvent) {
+      localStorage.setItem('current_event', event);
 
       if(event.id) {
         initDialogEventClick(event, jsEvent);
@@ -168,12 +167,8 @@ $(document).on('ready', function() {
     },
     eventResize: function(event, delta, revertFunc) {
       if(event.end.format(day_format) == event.start.format(day_format)) {
-        if (event.repeat_type == null || event.repeat_type.length == 0 || event.exception_type == 'edit_only') {
-          if (event.exception_type != null)
-            exception_type = event.exception_type;
-          else
-            exception_type = null;
-          updateServerEvent(event, 0, exception_type, 0);
+        if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type == 'edit_only') {
+          updateServerEvent(event, 0, event.exception_type, 0);
         } else {
           end_date = event.end;
           event.end = finish_date;
@@ -219,71 +214,6 @@ $(document).on('ready', function() {
     }
   });
 
-  function deleteEvent(event, exception_type) {
-    var start_date_before_delete, finish_date_before_delete;
-    if (!event.allDay) finish_date_before_delete = event.end._i;
-    start_date_before_delete = event.start._i;
-
-    $.ajax({
-      url: '/events/' + event.event_id,
-      type: 'DELETE',
-      data: {
-        exception_type: exception_type,
-        exception_time: event.start.format(),
-        finish_date: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
-        start_date_before_delete: start_date_before_delete,
-        finish_date_before_delete: finish_date_before_delete,
-        persisted: event.persisted ? 1 : 0
-      },
-      dataType: 'json',
-      success: function(text){
-        var _event = event;
-        var count = 0;
-        if(exception_type === 'delete_all_follow')
-          $calendar.fullCalendar('removeEvents', function(e){
-            if(e.event_id === event.event_id && e.start.format() >= event.start.format())
-              return true;
-          });
-        else
-          if(exception_type === 'delete_all'){
-            $calendar.fullCalendar('removeEvents', function(e){
-              if(e.event_id === event.event_id)
-                return true;
-            });
-          } else {
-            event.exception_type = exception_type;
-          }
-        $calendar.fullCalendar('refetchEvents');
-      },
-      error: function(text) {
-      }
-    });
-  }
-
-  function confirm_repeat_popup(event){
-    var dialog = $('#dialog-repeat-popup');
-    var dialogW = $(dialog).width();
-    var dialogH = $(dialog).height();
-    var windowW = $(window).width();
-    var windowH = $(window).height();
-    var xCordinate, yCordinate;
-    xCordinate = (windowW - dialogW) / 2;
-    yCordinate = (windowH - dialogH) / 2;
-    dialog.css({'top': yCordinate, 'left': xCordinate});
-    showDialog('dialog-repeat-popup');
-
-    $('.btn-confirm').click(function() {
-      if ($(this).attr('rel') != null){
-        var check_is_delete = $(this).attr('rel').indexOf(I18n.t('events.repeat_dialog.delete.delete'));
-        if (check_is_delete != -1){
-          $('.btn-confirm').unbind('click');
-          deleteEvent(event, $(this).attr('rel'));
-          hiddenDialog('dialog-repeat-popup');
-        }
-      }
-    });
-  }
-
   function updateServerEvent(event, allDay, exception_type, is_drop) {
     var start_date, finish_date, start_date_with_timezone;
 
@@ -296,6 +226,7 @@ $(document).on('ready', function() {
       finish_date = start_date_with_timezone.endOf('day').format();
     } else {
       start_date = start_date_with_timezone.format();
+
       if (event.end === null) {
         finish_date = start_date_with_timezone.add(2, 'hours').format();
       } else {
@@ -316,7 +247,7 @@ $(document).on('ready', function() {
       persisted: event.persisted ? 1 : 0,
       start_time_before_drag: event.start_time_before_drag,
       finish_time_before_drag: event.finish_time_before_drag
-    }
+    };
 
     $.ajax({
       url: '/events/' + event.event_id,
@@ -369,16 +300,17 @@ $(document).on('ready', function() {
     var dialog = $('#dialog-update-popup');
     var dialogW = $(dialog).width();
     var windowW = $(window).width();
-    var xCordinate, yCordinate;
+    var xCordinate;
     xCordinate = (windowW - dialogW) / 2;
     dialog.css({'top': 44, 'left': xCordinate});
     showDialog('dialog-update-popup');
 
     $('.btn-confirm').unbind('click');
     $('.btn-confirm').click(function() {
-      if ($(this).attr('rel') != null) {
+      if ($(this).attr('rel') !== undefined) {
         var check_is_edit = $(this).attr('rel').indexOf(I18n.t('events.repeat_dialog.edit.edit'));
-        if (check_is_edit != -1) {
+
+        if (check_is_edit !== -1) {
           event.end = end_date;
           updateServerEvent(event, allDay, $(this).attr('rel'), 0);
           hiddenDialog('dialog-update-popup');
@@ -387,25 +319,6 @@ $(document).on('ready', function() {
       }
     });
   }
-
-  $calendar.bind(mousewheelEvent, function(e) {
-    var view = $calendar.fullCalendar('getView');
-    var event = window.event || e;
-    delta = event.detail ? event.detail*(-120) : event.wheelDelta;
-    if(mousewheelEvent === 'DOMMouseScroll'){
-      delta = event.originalEvent.detail ? event.originalEvent.detail*(-120) : event.wheelDelta;
-    }
-    if (view.name === 'month') {
-      if(delta > 60) {
-        $calendar.fullCalendar('next');
-      } else{
-        $calendar.fullCalendar('prev');
-      };
-      var moment = $calendar.fullCalendar('getDate');
-      $('#mini-calendar').datepicker();
-      $('#mini-calendar').datepicker('setDate', new Date(moment.format('MM/DD/YYYY')));
-    };
-  });
 
   $('.disable').addClass('disable-on');
 
@@ -434,7 +347,7 @@ $(document).on('ready', function() {
 
     if (resource === undefined) {
       $('.calendar-container').show();
-      calendarName.hide()
+      calendarName.hide();
     } else {
       $('.calendar-selectbox').val(resource.id).trigger('change');
       $('.calendar-container').hide();
@@ -445,6 +358,7 @@ $(document).on('ready', function() {
 
   $('form.event-form').submit(function(event) {
     event.preventDefault();
+    var form = $(this);
     var submitDom = $(document.activeElement);
 
     if (submitDom.context.value.length > 0 ) {
@@ -457,8 +371,8 @@ $(document).on('ready', function() {
       dataType: 'json',
       data: $(this).serialize(),
       success: function(data) {
-        if(data.is_overlap) {
-          overlapConfirmation();
+        if (data.is_overlap) {
+          overlapConfirmation(form);
         } else if (data.is_errors) {
           var $errorsTitle = $('.error-title');
           $errorsTitle.text(I18n.t('events.dialog.title_error'));
@@ -472,8 +386,8 @@ $(document).on('ready', function() {
           }
         }
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        if (jqXHR.status == 500) {
+      error: function (jqXHR) {
+        if (jqXHR.status === 500) {
           alert('Internal error: ' + jqXHR.responseText);
         } else {
           alert('Unexpected error!!!');
@@ -487,7 +401,7 @@ $(document).on('ready', function() {
     $calendar.fullCalendar('unselect');
   }
 
-  function overlapConfirmation() {
+  function overlapConfirmation(form) {
     var dialogOverlapConfirm = $('#dialog_overlap_confirm');
     dialogOverlapConfirm.dialog({
       autoOpen: false,
@@ -500,18 +414,23 @@ $(document).on('ready', function() {
       buttons : {
         'Confirm' : function() {
           $('#allow-overlap').val('true');
+          form.find('input[name="_method"]').remove();
           $.ajax({
             type: 'POST',
             url: '/events',
             dataType: 'json',
-            data: $('#new_event').serialize(),
+            data: form.serialize(),
             success: function(data) {
-              addEventToCalendar(data);
-              $('#allow-overlap').val('false');
-              dialogOverlapConfirm.dialog('close');
+              if ($calendar.attr('data-reload-page') == 'false') {
+                addEventToCalendar(data);
+                $('#allow-overlap').val('false');
+                dialogOverlapConfirm.dialog('close');
+              } else {
+                window.history.back();
+              }
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-              if (jqXHR.status == 500) {
+            error: function (jqXHR) {
+              if (jqXHR.status === 500) {
                 alert('Internal error: ' + jqXHR.responseText);
               } else {
                 alert('Unexpected error!');
@@ -536,23 +455,22 @@ $(document).on('ready', function() {
     var data = $(form).serializeArray();
     $.each(data, function(_, element) {
       if(element.name.indexOf('start_date') > 0) {
-        event_object['start_date'] = element.value
+        event_object.start_date = element.value;
       } else if(element.name.indexOf('finish_date') > 0) {
-        event_object['finish_date'] = element.value
+        event_object.finish_date = element.value;
       } else if(element.name.indexOf('all_day') > 0) {
-        event_object['all_day'] = element.value
+        event_object.all_day = element.value;
       } else if(element.name.indexOf('title') > 0) {
-        event_object['title'] = element.value
+        event_object.title = element.value;
       } else if(element.name.indexOf('calendar_id') > 0) {
-        event_object['calendar_id'] = element.value
+        event_object.calendar_id = element.value;
       }
     });
 
-    content = JSON.stringify(event_object)
-    window.location.href = url + '?fdata='+ Base64.encode(content);
+    window.location.href = url + '?fdata='+ Base64.encode(JSON.stringify(event_object));
   });
 
-  $('#event-title').click(function(event) {
+  $('#event-title').click(function() {
     $('.error-title').text('');
   });
 
@@ -564,11 +482,11 @@ $(document).on('ready', function() {
   } else if ($('#make_public').val() === 'no_public') {
     $('#make_public').prop('checked', false);
     $('#free_busy').prop('disabled', true);
-  };
+  }
 
   $('#make_public').click(function() {
     $('#make_public').val((this.checked) ? 'share_public' : 'no_public');
-    $('#free_busy').prop('disabled', (this.checked) ? false : true);
+    $('#free_busy').prop('disabled', !this.checked);
   });
 
   $('#free_busy').click(function() {
@@ -586,10 +504,11 @@ $(document).on('ready', function() {
   var user_ids = [current_user];
 
   $('.user_share_ids').each(function() {
-    user_id_temp = $(this).val();
+    var user_id_temp = $(this).val();
+
     if ($.inArray(user_id_temp, user_ids) == -1) {
       user_ids.push(user_id_temp);
-    };
+    }
   });
 
   $('#add-person').on('click', function() {
@@ -613,8 +532,7 @@ $(document).on('ready', function() {
             if($('#user-calendar-share-' + user_id).length > 0) {
               $('#user-calendar-share-' + user_id).css('display', 'block');
               $('#user-calendar-share-' + user_id).find('.user_calendar_destroy').val(false);
-              per_id_new = $('#permission-select').val();
-              $('#user-calendar-share-' + user_id).find('.permission-select').val(per_id_new);
+              $('#user-calendar-share-' + user_id).find('.permission-select').val($('#permission-select').val());
             } else {
               $('#list-share-calendar').append(html);
               $('#user-calendar-share-' + user_id).find('.permission-select').select2({
@@ -623,7 +541,7 @@ $(document).on('ready', function() {
               });
               user_ids.push(user_id);
             }
-          };
+          }
         }
       });
     }
@@ -634,7 +552,8 @@ $(document).on('ready', function() {
   $('#list-share-calendar').on('click', '.image-remove', function() {
     $(this).parent().parent().find('.user_calendar_destroy').val('1');
     $(this).parent().parent().hide();
-    index = user_ids.indexOf($(this).prop('id'));
+    var index = user_ids.indexOf($(this).prop('id'));
+
     if (index !== -1)
       user_ids.splice(index, 1);
   });
@@ -657,57 +576,55 @@ $(document).on('ready', function() {
   });
 
   $('#add-attendee').on('click', function() {
-    id = $('#list-attendee').find('li').length;
-    attendee = $('#load-attendee').val();
-    exitEmail(attendee);
-    if (validateEmail(attendee)){
-      list_attendee = document.getElementById('list-attendee');
-      if(!exitEmail(attendee)){
-        var attendee_form = $('#group_attendee_'+(id-1)).clone()[0];
+    var id = $('#list-attendee').find('li').length;
+    var email = $('.attendee-email').val();
 
-        var group_attendee = $('#group_attendee_'+(id-1));
+    if (validateEmail(email)){
+      var list_attendee = document.getElementById('list-attendee');
 
-        $(group_attendee).find('li')[0].innerHTML = attendee;
-        $(group_attendee).find('input[type=hidden]')[0].value = attendee;
+      if (!exitEmail(email)){
+        var attendee_form = $('#group_attendee_' + (id - 1)).clone()[0];
+        var group_attendee = $('#group_attendee_' + (id - 1));
+
+        $(group_attendee).find('li')[0].innerHTML = email;
+        $(group_attendee).find('input[type=hidden]')[0].value = email;
         $(group_attendee).find('input[type=hidden]')[1].value = false;
-        $(group_attendee).find('input[type=hidden]')[2].value = $('#load-attendee').attr('data-user-id');
+        $(group_attendee).find('input[type=hidden]')[2].value = $('.attendee-email').attr('data-user-id');
         $(group_attendee).show();
 
-        attendee_form.id = 'group_attendee_'+id;
-        $(attendee_form).find('input[type=hidden]')[0].name = 'event[attendees_attributes]['+id+'][email]';
-        $(attendee_form).find('input[type=hidden]')[1].name = 'event[attendees_attributes]['+id+'][_destroy]';
-        $(attendee_form).find('input[type=hidden]')[2].name = 'event[attendees_attributes]['+id+'][user_id]';
-        $(attendee_form).find('input[type=hidden]')[1].value = true
+        attendee_form.id = 'group_attendee_' + id;
+        $(attendee_form).find('input[type=hidden]')[0].name = 'event[attendees_attributes][' + id + '][email]';
+        $(attendee_form).find('input[type=hidden]')[1].name = 'event[attendees_attributes][' + id + '][_destroy]';
+        $(attendee_form).find('input[type=hidden]')[2].name = 'event[attendees_attributes][' + id + '][user_id]';
+        $(attendee_form).find('input[type=hidden]')[1].value = true;
 
         list_attendee.appendChild(attendee_form);
-        $('#load-attendee').val('');
-        $('#load-attendee').focus();
-      }else {
+        $('.attendee-email').val('');
+        $('.attendee-email').focus();
+      } else {
         alert(I18n.t('events.flashs.attendee_added'));
       }
-    }else {
+    } else {
       alert(I18n.t('events.flashs.invalid_email'));
     }
   });
 
-  $('#load-attendee').autocomplete({
+  $('.attendee-email').autocomplete({
     source: '/search',
     create: function(){
-      $(this).data('ui-autocomplete')._renderItem = function(ul, item){
-        return $('<li>')
-          .append('<a class="selected-item" data-id='+item.user_id+'>' + item.email + '</a>')
-          .appendTo(ul);
+      $(this).data('ui-autocomplete')._renderItem = function(ul, item) {
+        return $('<li>').append('<a class="selected-item" data-id='+item.user_id+'>' + item.email + '</a>').appendTo(ul);
       };
     }
   });
 
   $(document).on('click', '.selected-item', function(){
-    $('#load-attendee').val($(this).text());
-    $('#load-attendee').attr('data-user-id', $(this).data('id'));
+    $('.attendee-email').val($(this).text());
+    $('.attendee-email').attr('data-user-id', $(this).data('id'));
   });
 
-  $('#list-attendee').on('click', '.remove_attendee', function(event){
-    $($(this).parent().find('input[type=hidden]')[1]).val(true)
+  $('#list-attendee').on('click', '.remove_attendee', function(){
+    $($(this).parent().find('input[type=hidden]')[1]).val(true);
     $(this).parent().hide();
   });
 
@@ -727,20 +644,16 @@ $(document).on('ready', function() {
 });
 
 function validateEmail(email) {
-  var email = document.getElementById('load-attendee')
   var re = /^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (!re.test(email.value)) {
-    return false;
-  }
-  return true;
+
+  return re.test(email.value);
 }
 
 function exitEmail(email) {
-  for(var i = 0; i < $('#list-attendee').find('li').length; i++){
-    if(email == $('#list-attendee').find('li')[i].innerHTML
-      && $($('#list-attendee').find('li')[i]).parent().find('input[type=hidden]')[1].value == 'false'){
+  for (var i = 0; i < $('#list-attendee').find('li').length; i++) {
+    if (email == $('#list-attendee').find('li')[i].innerHTML && $($('#list-attendee').find('li')[i]).parent().find('input[type=hidden]')[1].value == 'false') {
       return true;
     }
-  };
+  }
   return false;
 }
