@@ -181,14 +181,14 @@ ActiveRecord::Schema.define(version: 20170419030652) do
   end
 
   create_table "settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "timezone"
+    t.decimal  "timezone",      precision: 2, scale: 1
     t.string   "timezone_name"
     t.string   "country"
-    t.string   "default_view",  default: "scheduler", null: false
+    t.string   "default_view",                          default: "scheduler", null: false
     t.integer  "owner_id"
     t.string   "owner_type"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
     t.index ["owner_id", "owner_type"], name: "index_settings_on_owner_id_and_owner_type", using: :btree
   end
 

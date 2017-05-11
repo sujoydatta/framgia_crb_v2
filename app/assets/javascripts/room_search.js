@@ -1,5 +1,5 @@
 $(document).on('ready', function(){
-  if ($('.room-search-submit').length == 0) {
+  if ($('.room-search-submit').length === 0) {
     return;
   }
 
@@ -7,7 +7,7 @@ $(document).on('ready', function(){
     if($(this).is(':checked') ){
       $('.calendar-select > option').prop('selected', 'selected');
       $('.calendar-select').trigger('change');
-    }else{
+    } else {
       $('.calendar-select > option').removeAttr('selected');
       $('.calendar-select').trigger('change');
      }
@@ -22,27 +22,28 @@ $(document).on('ready', function(){
     var calendar_ids = $('#calendar_ids').val();
     var number_of_seats = $('#number_of_seats').val();
 
-    if (start_date == null || start_date == ''){
+    if (start_date === null || start_date === '') {
       $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_start_date_input') + '</div>').appendTo('.result');
       return;
     }
 
-    if (start_time == null || start_time == ''){
+    if (start_time === null || start_time === '') {
       $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_start_time_input') + '</div>').appendTo('.result');
       return;
     }
 
-    if (finish_time == null || finish_time == ''){
+    if (finish_time === null || finish_time === '') {
       $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_finish_time_input') + '</div>').appendTo('.result');
       return;
     }
 
     var start_datetime = start_date + ' ' + start_time;
     var finish_datetime = finish_date + ' ' + finish_time;
-    if (calendar_ids == null){
-      calendar_ids_url = "";
-    } else {
-      calendar_ids_url = new Array();
+    var calendar_ids_url = '';
+
+    if (calendar_ids !== null) {
+      calendar_ids_url = [];
+
       for (var i = 0; i < calendar_ids.length; i++) {
         calendar_ids_url.push('calendar_ids' + encodeURIComponent('[]') + '=' + encodeURIComponent(calendar_ids[i]));
       }
@@ -61,7 +62,7 @@ $(document).on('ready', function(){
 
     $.ajax({
       url: '/calendars/search',
-      dataType: "json",
+      dataType: 'json',
       data: {
         start_time: start_in_time_zone,
         finish_time: finish_in_time_zone,
@@ -82,8 +83,9 @@ $(document).on('ready', function(){
         html += '<th>' + I18n.t('room_search.time') + '</th>';
         html += '<th>' + I18n.t('room_search.action') + '</th>';
         html += '</tr>';
+
         for (var i = 0; i < data_arr.length; i++) {
-          var result = data_arr[i]
+          var result = data_arr[i];
           var room_name = result.room_name;
           var start_event_date = moment(result.start_date, 'YYYY/MM/DD HH:mm:ss ZZ').tz(timezone).format('DD-MM-YYYY');
           var start_time = moment(result.start_date, 'YYYY/MM/DD HH:mm:ss ZZ').tz(timezone).format('HH:mm');
@@ -114,8 +116,7 @@ $(document).on('ready', function(){
         $('.result').html(this.renderResult(data)).appendTo('.result');
       },
       error: function(xhr, status, error){
-        $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.check_input') + '</div>')
-          .appendTo('.result');
+        $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.check_input') + '</div>').appendTo('.result');
       }
     });
   });

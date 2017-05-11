@@ -35,7 +35,7 @@ $(document).on('ready', function() {
           $calendar.fullCalendar('refetchEvents');
         },
         errors: function() {
-          console.log('')
+          console.log('');
         }
       });
     },
@@ -64,5 +64,5 @@ $(document).on('ready', function() {
         }
       });
     }
-  }
-})
+  };
+});

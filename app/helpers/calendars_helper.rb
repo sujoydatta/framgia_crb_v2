@@ -11,7 +11,7 @@ module CalendarsHelper
       btn += render "events/buttons/btn_edit",
         url: "/events/#{event.id}/edit?fdata=#{fdata}"
       btn += render "events/buttons/btn_save"
-      btn += render "events/buttons/btn_delete"
+      btn += render "events/buttons/btn_delete", event_id: event.id
     elsif user_calendar.permission_id == 3
       btn += render "events/buttons/btn_detail",
         url: "/events/#{event.id}"
@@ -41,6 +41,6 @@ module CalendarsHelper
   end
 
   def is_new_action?
-    %w("new" "create").include? action_name
+    %w(new create).include? action_name
   end
 end

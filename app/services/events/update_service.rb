@@ -6,6 +6,10 @@ module Events
 
     REPEAT_PARAMS = [:repeat_type, :repeat_every, :start_repeat, :end_repeat,
       :repeat_ons_attributes].freeze
+    HANDLE_ATTRIBUTES_PARAMS = [:all_day, :repeat_type, :repeat_every,
+      :calendar_id, :start_date, :finish_date, :start_repeat, :end_repeat,
+      :exception_type, :exception_time].freeze
+
 
     def initialize user, event, params
       @user = user
@@ -15,7 +19,6 @@ module Events
     end
 
     def perform
-      modify_repeat_params if @params[:repeat].blank?
       @params[:event] = @params[:event].merge({
         exception_time: event_params[:start_date],
         start_repeat: start_repeat,
@@ -43,11 +46,10 @@ module Events
     end
 
     def handle_event_params
-      @params.require(:event).permit Event::ATTRIBUTES_PARAMS[1..-2]
-    end
-
-    def modify_repeat_params
-      REPEAT_PARAMS.each{|attribute| @params[:event].delete attribute}
+      if @params[:repeat].blank?
+        REPEAT_PARAMS.each{|attribute| @params[:event].delete attribute}
+      end
+      @params.require(:event).permit HANDLE_ATTRIBUTES_PARAMS
     end
 
     def is_overlap?

@@ -41,12 +41,6 @@
       </section>
     </div>
 
-    <% if user_signed_in? %>
-      <%= javascript_include_tag "calendar" %>
-    <% else %>
-      <%= javascript_include_tag "calendar_not_sign_in" %>
-    <% end %>
-
     <script type="text/javascript">
       timezone = "<%= @calendar_presenter.try :tzinfo_name %>";
       calendarViewContext = "<%= @calendar_presenter.try :default_view %>";

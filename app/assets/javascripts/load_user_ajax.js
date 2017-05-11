@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $("#search-user").keydown(function load_ajax() {
+  $('#search-user').keydown(function load_ajax() {
     $.ajax({
       url: '/search_user/index',
       type: 'get',

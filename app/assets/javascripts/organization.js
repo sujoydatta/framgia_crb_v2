@@ -17,9 +17,9 @@ $(document).ready(function(){
     $(this).tab('show');
   });
 
-  $('a[data-toggle="tab"]').on("shown.bs.tab", function () {
-    var id = $(this).attr("href");
-    localStorage.setItem('selectedTab', id)
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+    var id = $(this).attr('href');
+    localStorage.setItem('selectedTab', id);
   });
 
   var selectedTab = localStorage.getItem('selectedTab');

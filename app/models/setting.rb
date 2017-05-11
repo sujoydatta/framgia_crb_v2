@@ -9,6 +9,6 @@ class Setting < ApplicationRecord
 
   def set_timezone
     utc_offset = ActiveSupport::TimeZone.new(self.timezone_name).now.utc_offset
-    self.timezone = utc_offset / 3600
+    self.timezone = utc_offset / 3600.0
   end
 end

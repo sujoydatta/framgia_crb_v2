@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  load_resource except: [:index, :new, :destroy, :create]
+  load_resource except: [:index, :new, :create]
   authorize_resource
   skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :load_calendars, :build_event_params, only: [:new, :edit]
@@ -94,7 +94,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if update_service.perform
         format.html do
-          flash[:success] =  t("events.flashs.updated")
+          flash[:success] = t("events.flashs.updated")
           redirect_to root_path
         end
         format.json do
@@ -102,8 +102,16 @@ class EventsController < ApplicationController
             meta: t("events.flashs.updated"), meta_key: :message, status: :ok
         end
       elsif @is_overlap = update_service.is_overlap
+        format.html do
+          flash[:danger].now = t("events.flashs.overlap")
+          render :edit
+        end
         format.json{render json: {is_overlap: @is_overlap}}
       else
+        format.html do
+          flash[:danger] = t("events.flashs.not_updated")
+          redirect_to :back
+        end
         format.json{render json: {error: "Error"}, status: 422}
       end
     end
@@ -135,6 +143,7 @@ class EventsController < ApplicationController
   end
 
   def load_calendars
+    @calendar_presenter = CalendarPresenter.new context_user
     @calendars = current_user.manage_calendars
   end
 
