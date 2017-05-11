@@ -1,12 +1,13 @@
+@import 'color';
+
 #calcontent {
   #nav {
     left: 0;
-    top: 0;
     margin-left: 0;
+    position: absolute;
+    top: 0;
     -moz-transition: all .218s;
     -webkit-transition: all .218s;
-    -moz-transition: all .218s;
-    position: absolute;
     width: 175px;
     #sidebar {
       // margin-bottom: 1em;
@@ -164,7 +165,7 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: 20px 20px;
-        color: #999;
+        color: $dusty-gray-color;
         font-size: 14px;
         height: 23px;
         outline: none;
@@ -294,7 +295,7 @@
     }
     ;
     #btn-quick-add {
-      border: 1px solid rgba(0, 0, 0, 0.1);
+      border: 1px solid $black-10;
       cursor: pointer;
       display: inline-block;
       height: 32px;
@@ -572,7 +573,7 @@
   .sub-menu {
     background: #fff;
     border: 1px solid rgba(0, 0, 0, .2);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px $black-20;
     cursor: default;
     font-size: 13px;
     position: absolute;

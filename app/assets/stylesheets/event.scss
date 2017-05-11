@@ -1,7 +1,9 @@
+@import 'color';
+
 .dialog {
-  background-color: white;
+  background-color: $white;
   border: 1px solid #ccc;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 $black-20, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   position: absolute;
   width: 400px;
   z-index: 1001;
@@ -101,7 +103,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .tab-container .tab-label {
-  border-right: 1px solid #999;
+  border-right: 1px solid $dusty-gray-color;
   margin-left: 1ex;
   padding-right: 1ex;
 }
@@ -213,7 +215,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
     position: absolute;
     right: -350px;
     top: 0;
-    #add-attendee {
+    .add-attendee {
       margin-bottom: 0;
     }
     .form-control {
@@ -371,9 +373,9 @@ UNUSED.gcal-contenteditable-textinput.textarea {
                 &:hover {
                   background: #f8f8f8;
                   border: 1px solid #c6c6c6;
-                  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-                  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-                  box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+                  -webkit-box-shadow: 0 1px 1px $black-10;
+                  -moz-box-shadow: 0 1px 1px $black-10;
+                  box-shadow: 1px 1px $black-10;
                   color: #222;
                   -webkit-transition: all 0s;
                   -moz-transition: all 0s;
@@ -383,9 +385,9 @@ UNUSED.gcal-contenteditable-textinput.textarea {
                 }
                 &:active {
                   background: #f6f6f6;
-                  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-                  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-                  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+                  -webkit-box-shadow: inset 0 1px 2px $black-10;
+                  -moz-box-shadow: inset 0 1px 2px $black-10;
+                  box-shadow: inset 0 1px 2px $black-10;
                 }
               }
             }
@@ -438,10 +440,10 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   &.modal-dialog {
     background-color: #fff;
     border: 1px solid #acacac;
-    -webkit-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    -ms-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 4px 16px $black-20;
+    -moz-box-shadow: 0 4px 16px $black-20;
+    -ms-box-shadow: 0 4px 16px $black-20;
+    box-shadow: 0 4px 16px $black-20;
     color: #222;
     outline: 0;
     padding: 15px;

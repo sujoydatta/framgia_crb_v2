@@ -1,11 +1,11 @@
-@import "color";
+@import 'color';
 
-$font_0: Arial;
-$font_1: sans-serif;
+$font-0: Arial;
+$font-1: sans-serif;
 
 html,
 body {
-  background-color: #FFFFFF;
+  background-color: $white;
   display: block;
   font: small/normal Arial, sans-serif;
   font-size: 14px;
@@ -14,8 +14,13 @@ body {
   position: relative;
 }
 
+img {
+  border: 1px solid $gray;
+  border-radius: 2px;
+}
+
 p {
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
 }
 
 a {
@@ -35,19 +40,19 @@ ul {
 }
 
 ::-webkit-input-placeholder {
-  color: #999;
+  color: $dusty-gray-color;
 }
 
 :-moz-placeholder { /* Firefox 18- */
-  color: #999;
+  color: $dusty-gray-color;
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
-  color: #999;
+  color: $dusty-gray-color;
 }
 
 :-ms-input-placeholder {
-  color: #999;
+  color: $dusty-gray-color;
 }
 
 label {
@@ -96,119 +101,9 @@ label {
   }
 }
 
-.container:before,
-.container:after,
-.container-fluid:before,
-.container-fluid:after,
-.row:before,
-.row:after {
-  content: " ";
-  display: table;
-}
-
-.container:after,
-.container-fluid:after,
-.row:after {
-  clear: both;
-}
-
-.container {
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-  width: 95%;
-}
-
-.container-fluid {
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-}
-
-.col,
-.col-md-1,
-.col-md-2,
-.col-md-3,
-.col-md-4,
-.col-md-5,
-.col-md-6,
-.col-md-7,
-.col-md-8,
-.col-md-9,
-.col-md-10,
-.col-md-11,
-.col-md-12 {
-  float: left;
-  min-height: 1px;
-  position: relative;
-}
-
-.col-md-12 {
-  width: 100%;
-}
-
-.col-md-11 {
-  width: 91.66666667%;
-}
-
-.col-md-10 {
-  width: 83.33333333%;
-}
-
-.col-md-9 {
-  width: 75%;
-}
-
-.col-md-8 {
-  width: 66.66666667%;
-}
-
-.col-md-7 {
-  width: 58.33333333%;
-}
-
-.col-md-6 {
-  width: 50%;
-}
-
-.col-md-5 {
-  width: 41.66666667%;
-}
-
-.col-md-4 {
-  width: 33.33333333%;
-}
-
-.col-md-3 {
-  width: 25%;
-}
-
-.col-md-2 {
-  width: 16.66666667%;
-}
-
-.col-md-1 {
-  width: 8.33333333%;
-}
-
-.col-md-offset-1 {
-  margin-left: 8.33333333%;
-}
-
-.clearfix {
-  clear: both;
-}
-
-.row::after {
-  clear: bold;
-}
-
 .button {
-  border: none;
-  color: #FFFFFF;
+  border: 0;
+  color: $white;
   padding: 7px 12px;
 }
 
@@ -306,56 +201,49 @@ label {
   background-color: #dff0d8;
   border-color: #d6e9c6;
   color: #3c763d;
-}
-
-.alert-success hr {
-  border-top-color: #c9e2b3;
-}
-
-.alert-success .alert-link {
-  color: #2b542c;
+  hr {
+    border-top-color: #c9e2b3;
+  }
+  .alert-link {
+    color: #2b542c;
+  }
 }
 
 .alert-info {
   background-color: #d9edf7;
   border-color: #bce8f1;
   color: #31708f;
-}
-
-.alert-info hr {
-  border-top-color: #a6e1ec;
-}
-
-.alert-info .alert-link {
-  color: #245269;
+  hr {
+    border-top-color: #a6e1ec;
+  }
+  .alert-link {
+    color: #245269;
+  }
 }
 
 .alert-warning {
   background-color: #fcf8e3;
   border-color: #faebcc;
   color: #8a6d3b;
-}
+  hr {
+    border-top-color: #f7e1b5;
+  }
 
-.alert-warning hr {
-  border-top-color: #f7e1b5;
+  .alert-link {
+    color: #66512c;
+  }
 }
-
-.alert-warning .alert-link {
-  color: #66512c;
-}
-
 .alert-danger {
   background-color: #f2dede;
   border-color: #ebccd1;
   color: #a94442;
-}
+  hr {
+    border-top-color: #e4b9c0;
+  }
 
-.alert-danger hr {
-  border-top-color: #e4b9c0;
-}
-
-.alert-danger .alert-link {
-  color: #843534;
+  .alert-link {
+    color: #843534;
+  }
 }
 
 .table {
@@ -365,20 +253,20 @@ label {
 }
 
 .round-table {
-  border: solid 1px $color_swans_down_approx;
+  border: solid 1px $color-swans-down-approx;
   border-collapse: collapse;
   border-spacing: 0;
-  font: normal 13px $font_0, $font_1;
+  font: normal 13px $font-0, $font-1;
   thead th {
-    background-color: $color_swans_down_approx;
-    border: solid 1px $color_swans_down_approx;
-    color: $color_william_approx;
+    background-color: $color-swans-down-approx;
+    border: solid 1px $color-swans-down-approx;
+    color: $color-william-approx;
     padding: 10px;
     text-align: left;
     text-shadow: 1px 1px 1px $white;
   }
   tbody td {
-    border: solid 1px $color_swans_down_approx;
+    border: solid 1px $color-swans-down-approx;
     color: $color_mine_shaft_approx;
     padding: 10px;
     text-shadow: 1px 1px 1px $white;
@@ -388,15 +276,15 @@ label {
   border: none;
   tbody {
     td {
-      background-color: $color_chalky_approx;
+      background-color: $color-chalky-approx;
       border: none;
-      border-top: solid 1px $color_kumera_approx;
+      border-top: solid 1px $color-kumera-approx;
     }
   }
   thead th {
-    background-color: $color_laser_approx;
+    background-color: $color-laser-approx;
     border: none;
     color: $color_mine_shaft_approx;
-    text-shadow: 1px 1px 1px $color_celeste_approx;
+    text-shadow: 1px 1px 1px $color-celeste-approx;
   }
 }

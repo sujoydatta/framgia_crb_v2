@@ -1,5 +1,4 @@
-/*calendar index*/
-@import "color";
+@import 'color';
 
 #calcontent {
   padding: 0;
@@ -259,7 +258,7 @@
 .cal-dialog {
   background-color: white;
   border: 1px solid #ccc;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 $black-20, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   display: none;
   left: 150px;
   position: absolute;

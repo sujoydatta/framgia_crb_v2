@@ -26,6 +26,7 @@
 //= require datepair
 //= require jquery.datepair
 //= require event
+//= require attendee_action
 //= require clipboard.min
 //= require notification
 //= require base64.min
@@ -107,7 +108,7 @@ $(document).on('ready', function() {
   });
 
 
-  flag = parseInt(localStorage.getItem("isHideSidebarFlag"));
+  flag = parseInt(localStorage.getItem("isHideSidebarFlag") || 1);
   loadSidebar(flag);
 
   $(document).keydown(function(e){
