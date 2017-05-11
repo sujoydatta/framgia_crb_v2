@@ -484,16 +484,11 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   }
 }
 
-#repeat {
+.repeat-setting {
   .ep-recl-dialog {
     border-radius: 2px;
-     &:focus {
-      outline: none;
-    }
   }
-  div {
-    display: block;
-  }
+
   .ep-recl-dialog-title {
     background-color: #fff;
     color: #222;

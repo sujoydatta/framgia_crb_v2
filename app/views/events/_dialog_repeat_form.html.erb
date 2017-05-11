@@ -1,8 +1,8 @@
 <div id="dialog-repeat-event-form" class="dialog-hidden ep-recl-dialog" tabindex="0" role="dialog">
-  <div id="repeat">
+  <div class="repeat-setting">
     <div class="ep-recl-dialog-title">
       <span class="ep-recl-dialog-title"><%= t ".repeat_setting" %></span>
-      <span class="ep-recl-dialog-title-close" id="close"></span>
+      <span class="ep-recl-dialog-title-close close-repeat-modal"></span>
     </div>
     <div class="ep-recl-dialog-content">
       <table class="ep-rec" role="presentation">
@@ -48,34 +48,13 @@
           </tr>
           <tr>
             <th></th>
-            <td class="ep-rec-buttons-padding">
+            <td>
               <div>
-                <div class="goog-inline-block goog-imageless-button" id="done"
-                  role="button">
-                  <div class="goog-inline-block goog-imageless-button-outer-box">
-                    <div class="goog-inline-block goog-imageless-button-inner-box">
-                      <div class="goog-imageless-button-pos">
-                        <div class="goog-imageless-button-top-shadow">&nbsp;
-                        </div>
-                        <div class="goog-imageless-button-content btn btn-default" type="button">
-                          <%= t "done" %>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div class="done-repeat goog-imageless-button-content btn btn-default" type="button" role="button">
+                  <%= t ".done" %>
                 </div>
-                <div class="goog-inline-block goog-imageless-button" id="cancel"
-                  role="button">
-                  <div class="goog-inline-block goog-imageless-button-outer-box">
-                    <div class="goog-inline-block goog-imageless-button-inner-box">
-                      <div class="goog-imageless-button-pos">
-                        <div class="goog-imageless-button-top-shadow">&nbsp;</div>
-                      </div>
-                      <div class="goog-imageless-button-content btn btn-default" type="button">
-                        <%= t "cancel" %>
-                      </div>
-                    </div>
-                  </div>
+                <div class="cancel-repeat goog-imageless-button-content btn btn-default" type="button" role="button">
+                  <%= t ".cancel" %>
                 </div>
               </div>
             </td>

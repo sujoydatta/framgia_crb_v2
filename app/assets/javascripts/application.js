@@ -25,8 +25,6 @@
 //= require jquery.timepicker
 //= require datepair
 //= require jquery.datepair
-//= require event
-//= require attendee_action
 //= require clipboard.min
 //= require notification
 //= require base64.min
@@ -39,6 +37,7 @@
 //= require load_user_ajax
 //= require notification
 //= require cable
+//= require dialog
 
 $(document).on('ready', function() {
   $('.copied').hide();
@@ -79,13 +78,13 @@ $(document).on('ready', function() {
   $('.person-select').select2({
     tags: true,
     minimumResultsForSearch: Infinity,
-    placeholder: I18n.t("events.placeholder.choose_person")
+    placeholder: I18n.t('events.placeholder.choose_person')
   });
 
   $('#owner_id').select2({
     minimumResultsForSearch: Infinity
   }).on('select2:select', function(e) {
-    var ownerType = $(this).select2("data")[0].element.attributes["data-owner-type"].value;
+    var ownerType = $(this).select2('data')[0].element.attributes['data-owner-type'].value;
     $('#owner_type').val(ownerType);
   });
 
@@ -99,7 +98,7 @@ $(document).on('ready', function() {
 
   $('.calendar-select').select2({
     width: '100%',
-    theme: "bootstrap"
+    theme: 'bootstrap'
   });
 
   $('.calendar-default-view').select2({
@@ -108,7 +107,7 @@ $(document).on('ready', function() {
   });
 
 
-  flag = parseInt(localStorage.getItem("isHideSidebarFlag") || 1);
+  flag = parseInt(localStorage.getItem('isHideSidebarFlag') || 1);
   loadSidebar(flag);
 
   $(document).keydown(function(e){
@@ -129,16 +128,16 @@ $(document).on('ready', function() {
       $('.hide-sidebar').hide(200);
       $('.fc-view-container').animate({marginLeft: -184}, 200);
     }
-    localStorage.setItem("isHideSidebarFlag", flag);
+    localStorage.setItem('isHideSidebarFlag', flag);
   }
 });
 
-function add_fields(link, association, content){
+function add_fields(link, association, content) {
   var new_id = new Date().getTime();
-  var regexp = new RegExp("new_" + association, "g");
+  var regexp = new RegExp('new_' + association, 'g');
   $(link).parent().append(content.replace(regexp, new_id));
 }
 
-function remove_fields(link){
+function remove_fields(link) {
   $(link).parent().parent().remove();
 }

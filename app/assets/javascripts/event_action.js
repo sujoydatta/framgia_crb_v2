@@ -50,7 +50,6 @@ function initDialogEventClick(event, jsEvent){
         $calContent.append(data.popup_content);
         dialogCordinate(jsEvent, 'popup', 'prong-popup');
         showDialog('popup');
-        deleteEventPopup(event);
 
         if (event.editable) clickEditTitle(event);
         cancelPopupEvent(event);
@@ -66,57 +65,11 @@ function unSelectCalendar() {
   $calendar.fullCalendar('unselect');
 }
 
-function dialogCordinate(jsEvent, dialogId, prongId) {
-  var dialog = $('#' + dialogId);
-  var dialogW = $(dialog).width();
-  var dialogH = $(dialog).height();
-  var windowW = $(window).width();
-  var xCordinate, yCordinate;
-  var prongRotateX, prongXCordinate, prongYCordinate;
-
-  if (jsEvent.clientX - dialogW/2 < 0) {
-    xCordinate = jsEvent.clientX - dialogW/2;
-  } else if(windowW - jsEvent.clientX < dialogW/2) {
-    xCordinate = windowW - 2 * dialogW/2 - 10;
-  } else {
-    xCordinate = jsEvent.clientX - dialogW/2;
-  }
-
-  if(xCordinate < 0) xCordinate = 10;
-
-  if (jsEvent.clientY - dialogH < 0) {
-    yCordinate = jsEvent.clientY + 20;
-    prongRotateX = 180;
-    prongYCordinate = -9;
-  } else {
-    yCordinate = jsEvent.clientY - dialogH - 20;
-    prongRotateX = 0;
-    prongYCordinate = dialogH;
-  }
-
-  prongXCordinate = jsEvent.clientX - xCordinate - 10;
-
-  $(dialog).css({'top': yCordinate, 'left': xCordinate});
-  $('#' + prongId).css({
-    'top': prongYCordinate,
-    'left': prongXCordinate,
-    'transform': 'rotateX(' + prongRotateX + 'deg)'
-  });
-}
-
-function showDialog(dialogId) {
-  var docHeight = $(document).height();
-  $('.overlay-bg').css({'height' : docHeight, 'display': 'block'});
-
-  var dialog = $('#' + dialogId);
-  $(dialog).removeClass('dialog-hidden');
-  $(dialog).addClass('dialog-visible');
-}
-
 function deleteEventPopup(event) {
   $('#btn-delete-event').unbind('click');
   $('#btn-delete-event').click(function() {
     hiddenDialog('popup');
+
     if (event.repeat_type === null || event.repeat_type.length === 0) {
       deleteEvent(event, 'delete_all');
     } else if (event.exception_type == 'edit_only') {
@@ -224,12 +177,6 @@ function updateGoogleEventPopupData(event) {
   $('#gcalendar-event-popup').html(event.orgnaizer);
 }
 
-var hiddenDialog = function(dialogId) {
-  var dialog = $('#' + dialogId);
-  $(dialog).addClass('dialog-hidden');
-  $(dialog).removeClass('dialog-visible');
-};
-
 function confirm_repeat_popup(event){
   var dialog = $('#dialog-repeat-popup');
   var dialogW = $(dialog).width();
@@ -293,4 +240,89 @@ function deleteEvent(event, exception_type) {
     error: function() {
     }
   });
+}
+
+$('form.event-form').submit(function(event) {
+  event.preventDefault();
+  var form = $(this);
+  var submitDom = $(document.activeElement);
+
+  if (submitDom.context.value.length > 0 ) {
+    $('.exception_type').val(submitDom.context.value);
+  }
+
+  $.ajax({
+    url: $(this).attr('action'),
+    type: 'POST',
+    dataType: 'json',
+    data: $(this).serialize(),
+    success: function(data) {
+      if (data.is_overlap) {
+        overlapConfirmation(form);
+      } else if (data.is_errors) {
+        var $errorsTitle = $('.error-title');
+        $errorsTitle.text(I18n.t('events.dialog.title_error'));
+        $errorsTitle.show();
+      } else {
+        if ($calendar.attr('data-reload-page') == 'false') {
+          hiddenDialog('new-event-dialog');
+          addEventToCalendar(data);
+        } else {
+          window.history.back();
+        }
+      }
+    },
+    error: function (jqXHR) {
+      if (jqXHR.status === 500) {
+        alert('Internal error: ' + jqXHR.responseText);
+      } else {
+        alert('Unexpected error!!!');
+      }
+    }
+  });
+});
+
+function overlapConfirmation(form) {
+  var dialogOverlapConfirm = $('#dialog_overlap_confirm');
+  dialogOverlapConfirm.dialog({
+    autoOpen: false,
+    modal: true,
+    resizable: false,
+    height: 'auto',
+    width: 400
+  });
+  dialogOverlapConfirm.dialog({
+    buttons : {
+      'Confirm' : function() {
+        $('#allow-overlap').val('true');
+        form.find('input[name="_method"]').remove();
+        $.ajax({
+          type: 'POST',
+          url: '/events',
+          dataType: 'json',
+          data: form.serialize(),
+          success: function(data) {
+            if ($calendar.attr('data-reload-page') == 'false') {
+              addEventToCalendar(data);
+              $('#allow-overlap').val('false');
+              dialogOverlapConfirm.dialog('close');
+            } else {
+              window.history.back();
+            }
+          },
+          error: function (jqXHR) {
+            if (jqXHR.status === 500) {
+              alert('Internal error: ' + jqXHR.responseText);
+            } else {
+              alert('Unexpected error!');
+            }
+          }
+        });
+      },
+      'Cancel' : function() {
+        $(this).dialog('close');
+      }
+    }
+  });
+  dialogOverlapConfirm.dialog('open');
 }

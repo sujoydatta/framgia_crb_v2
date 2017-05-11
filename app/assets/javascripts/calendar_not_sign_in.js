@@ -115,14 +115,14 @@ $(document).on('ready', function() {
     },
     eventRender: function(event, element) {
       var isOldEvent = event.allDay && event.start.isBefore(new Date(), 'day');
-      var isEndOfEvent = event.end && event.end.isBefore(new Date())
+      var isEndOfEvent = event.end && event.end.isBefore(new Date());
 
       if(isOldEvent || isEndOfEvent) {
         $(element).addClass('before-current');
       }
     },
-    eventClick: function(event, jsEvent, view) {
-      localStorage.setItem('current_event', event)
+    eventClick: function(event, jsEvent) {
+      localStorage.setItem('current_event', event);
 
       if(event.id) {
         initDialogEventClick(event, jsEvent);
@@ -136,4 +136,4 @@ $(document).on('ready', function() {
       $('#loading').toggle(bool);
     }
   });
-})
+});
