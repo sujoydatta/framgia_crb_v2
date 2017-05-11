@@ -32,7 +32,7 @@
     }
   }
   button {
-    background-color: $black_30;
+    background-color: $black-30;
     border: none;
     bottom: 0;
     //Instead of the line below you could use @include box-sizing($bs)
@@ -62,7 +62,7 @@
     }
   }
   .content {
-    background-color: $black_50;
+    background-color: $black-50;
     bottom: 0;
     //Instead of the line below you could use @include box-sizing($bs)
     box-sizing: border-box;

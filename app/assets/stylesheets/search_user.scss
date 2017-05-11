@@ -1,3 +1,5 @@
+@import 'color';
+
 .organizations {
   .padding-none {
     padding: 0;
@@ -17,7 +19,7 @@
 
   #result {
     box-shadow: 1px 0 15px 0 #888;
-    background: #fff;
+    background: $white;
     position: relative;
     top: 0;
   }
@@ -30,18 +32,18 @@
     ul li {
       height: 40px;
       padding: 5px;
-      
-      &:hover {
-        a {
-      color: #fff;
-      font-weight: bold;
-        }
 
+      &:hover {
         background: #3b5998;
+
+        a {
+          color: $white;
+          font-weight: bold;
+        }
       }
 
       a {
-        color: #000000;
+        color: $black;
       }
     }
   }
@@ -53,25 +55,5 @@
 
   .left-user {
     text-align: left;
-  }
-
-  .invite-button {
-    background: #28a745;
-    border-radius: 5px;
-    float: right;
-    font-size: 14px;
-    padding: 0 5px;
-
-    &:hover {
-      background: #22a13f;
-    }
-
-    &:active {
-      background: #22a13f;
-    }
-  }
-
-  .display-none {
-    display: none; 
   }
 }

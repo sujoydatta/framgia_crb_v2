@@ -71,9 +71,9 @@
         <div class="form-attendee">
           <div class="form-group">
             <label for="load-attendee"><%= t "calendar.attendee" %></label>
-            <%= text_field_tag :term, params["term"], class: "attendee-email",
-              class: "form-control", placeholder: "Enter attendee email"  %>
-            <input type="button" id="add-attendee" class="btn button blue" value="Add Attendee"></input>
+            <%= text_field_tag :term, params["term"],
+              class: "attendee-email form-control", placeholder: "Enter attendee email"  %>
+            <button type="button" class="add-attendee btn button blue">Add Attendee</button>
           </div>
 
           <div class="form-group" id="list-attendee">
@@ -84,7 +84,9 @@
                 <input type="hidden" name="event[attendees_attributes][<%= key %>][user_id]" value="<%= attendee.user_id %>"></input>
                 <input type="hidden" name="event[attendees_attributes][<%= key %>][id]" value="<%= attendee.id %>"></input>
                 <li><%= attendee.email %></li>
-                <span class="remove_attendee"><%= image_tag "cancel_icon.gif" %></span>
+                <span class="remove_attendee">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </span>
               </div>
             <% end %>
             <div class="group_attendee" style="display: none" id="group_attendee_<%= @event.attendees.count %>">
@@ -92,7 +94,9 @@
               <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][_destroy]" value=true></input>
               <input type="hidden" name="event[attendees_attributes][<%= @event.attendees.count %>][user_id]" value="-1"></input>
               <li>email</li>
-              <span class="remove_attendee"><%= image_tag "cancel_icon.gif" %></span>
+              <span class="remove_attendee">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </span>
             </div>
           </div>
         </div>

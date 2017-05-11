@@ -4,7 +4,7 @@
     <% if can? :manage, team %>
       <%= link_to "", class: "rm-team", id: "#{team.id}",
         data: {organization: organization.id} do %>
-        <%= image_tag "cancel_icon.gif" %>
+        <i class="fa fa-times" aria-hidden="true"></i>
       <% end %>
     <% end %>
   </li>

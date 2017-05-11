@@ -1,3 +1,6 @@
+<%= render partial: "shared/control_action",
+  locals: {f: nil, partials: ["/organizations/btn_invite"]} %>
+
 <div class="tbl-object">
   <%= image_tag @organization.logo_url, class: "avatar tbl-item" %>
   <div class="tbl-item tbl-item-primary infor-organization">
@@ -18,15 +21,14 @@
     <li>
       <a href="#members" data-toggle="tab">Members</a>
     </li>
-    <li><%= link_to "Activities", "#activities", data: {tab: "activities", toggle: "tab",
-      url: organization_path + "/activities"} %></li>
-<!--     <li class="dropdown">
-      <a href="#" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-      <ul class="dropdown-menu" role="menu">
-        <li><a href="#tab4default" data-toggle="tab">Default 4</a></li>
-        <li><a href="#tab5default" data-toggle="tab">Default 5</a></li>
-      </ul>
-    </li> -->
+    <li>
+      <%= link_to "Activities", "#activities",
+        data: {
+          tab: "activities",
+          toggle: "tab",
+          url: organization_path + "/activities"
+        } %>
+    </li>
   </ul>
 </div>
 <div class="tab-content">
@@ -35,7 +37,6 @@
   </div>
   <div class="tab-pane fade" id="members">
     <div class="member">
-      <%= render "modal_search_user" %>
       <%= render @member_paginate %>
     </div>
     <div class="paginator">
@@ -43,6 +44,6 @@
     </div>
   </div>
   <div class="tab-pane fade" id="activities"></div>
-<!--   <div class="tab-pane fade" id="tab4default">Default 4</div>
-  <div class="tab-pane fade" id="tab5default">Default 5</div> -->
 </div>
+
+<%= render "modal_search_user" %>
