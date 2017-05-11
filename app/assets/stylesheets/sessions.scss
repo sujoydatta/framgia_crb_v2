@@ -1,14 +1,17 @@
+@import 'color';
+
 .update-profile {
   background: none repeat scroll 0% 0%;
   padding: 0 15px;
-  #my-modal {
+
+  .my-modal {
     .update-password {
       padding-right: 65px;
     }
   }
+
   .modal {
-    background-color: rgba(0, 0, 0, 0.4);
-    background-color: rgb(0, 0, 0);
+    background-color: $black-40;
     display: none;
     height: 100%;
     left: 0;
@@ -18,9 +21,10 @@
     width: 100%;
     z-index: 1;
   }
+
   .modal-content {
-    background-color: #fefefe;
-    border: 1px solid #888;
+    background-color: $session-white;
+    border: 1px solid $session-grey;
     margin: 15% auto;
     padding: 20px;
     width: 60%;
