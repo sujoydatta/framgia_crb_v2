@@ -1,10 +1,10 @@
 <div class="tbl-object">
   <%= image_tag @organization.logo_url, class: "avatar tbl-item" %>
   <div class="tbl-item tbl-item-primary infor-organization">
-    <h1 class="org-name">
+    <h1 class="tbl-item-org-name">
       <%= @organization.name %>
     </h1>
-    <%= link_to edit_organization_path(@organization), class:"btn-edit-organization" do %>
+    <%= link_to edit_organization_path(@organization), class:"tbl-item-btn-edit-organization" do %>
       <i class="fa fa-pencil" aria-hidden="true"></i>
     <% end %>
   </div>
