@@ -1,13 +1,15 @@
+@import 'color';
+
 .organizations {
-  ul.nav {
+  .nav {
     padding: 0 15px;
   }
 
-  div.tab-content {
+  .tab-content {
     padding: 15px;
   }
 
-  div.tabs {
+  .tabs {
     margin-left: -15px;
     margin-right: -15px;
   }
@@ -16,28 +18,7 @@
     display: table;
     padding: 15px 0;
 
-    .tbl-item {
-      display: table-cell;
-      vertical-align: middle;
-
-      h1.org-name {
-        color: #333;
-        font-weight: normal;
-      }
-
-      .btn-edit-organization {
-        float: left;
-        font-size: 1.5em;
-      }
-    }
-
-    .tbl-item.tbl-item-primary {
-      padding-left: 20px;
-      white-space: normal;
-      width: 99%;
-    }
-
-    .tbl-item.avatar {
+    .avatar {
       border-radius: 3px;
       display: block;
       height: 100px;
@@ -46,26 +27,43 @@
       vertical-align: middle;
       width: 100px;
     }
+
+    .tbl-item {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    .tbl-item-org-name {
+      color: $color-mine-shaft-approx;
+      font-weight: normal;
+    }
+
+    .btn-edit-organization {
+      float: left;
+      font-size: 1.5em;
+    }
+
+    .tbl-item-primary {
+      padding-left: 20px;
+      white-space: normal;
+      width: 99%;
+    }
   }
 
   .calendar {
     margin-bottom: 5px;
 
-    .media-left {
-      span {
-        border-radius: 2px;
-        display:block;
-        height: 22px;
-        width: 22px;
-      }
+    .media-left-color-id {
+      border-radius: 2px;
+      display: block;
+      height: 22px;
+      width: 22px;
     }
 
-    .media-body {
-      span {
-        display: block;
-        height: 22px;
-        line-height: 24px;
-      }
+    .media-body-calendar-name {
+      display: block;
+      height: 22px;
+      line-height: 24px;
     }
   }
 
@@ -77,22 +75,18 @@
     margin-top: 10px;
 
     img {
+      border: 1px solid $gray;
       border-radius: 2px;
-      border: 1px solid #bfbaba;
     }
 
-    .workspace-infor {
-      .media-body {
-        span {
-          display: block;
-          height: 44px;
-          line-height: 46px;
-        }
-      }
+    .media-body-workspace-name {
+      display: block;
+      height: 44px;
+      line-height: 46px;
     }
   }
 
-  .hidden-box{
+  .hidden-box {
     display: block;
     width: 44px;
   }
@@ -115,33 +109,33 @@
     }
 
     .btn-file {
-      background-color: #46484A;
-      border-radius: 4px;
+      background-color: $btn-black;
       border: 0;
+      border-radius: 4px;
       display: none;
       font-size: 45px;
       height: 144px;
       line-height: 137px;
-      opacity: 0.8;
+      opacity: .8;
       overflow: hidden;
       position: relative;
       width: 144px;
+    }
 
-      input[type = file] {
-        background: #ffffff;
-        cursor: inherit;
-        display: block;
-        filter: alpha(opacity = 0);
-        font-size: 100px;
-        min-height: 100%;
-        min-width: 100%;
-        opacity: 0;
-        outline: none;
-        position: absolute;
-        right: 0;
-        text-align: right;
-        top: 0;
-      }
+    .logo-upload {
+      background: $white;
+      cursor: inherit;
+      display: block;
+      filter: alpha(opacity = 0);
+      font-size: 100px;
+      min-height: 100%;
+      min-width: 100%;
+      opacity: 0;
+      outline: none;
+      position: absolute;
+      right: 0;
+      text-align: right;
+      top: 0;
     }
 
     fieldset {

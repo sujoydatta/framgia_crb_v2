@@ -3,10 +3,10 @@
     <%= link_to "javascript:void(0)" do %>
       <div class="media calendar">
         <div class="media-left">
-          <span class="color-<%= calendar.color_id %>"></span>
+          <span class="color-<%= calendar.color_id %> media-left-color-id" ></span>
         </div>
         <div class="media-body">
-          <span><%= calendar.name %></span>
+          <span class="media-body-calendar-name"><%= calendar.name %></span>
         </div>
       </div>
     <% end %>
@@ -22,7 +22,7 @@
           </span>
         </div>
         <div class="media-body">
-          <span><%= workspace.name %></span>
+          <span class="media-body-workspace-name"><%= workspace.name %></span>
         </div>
       </div>
     </div>
