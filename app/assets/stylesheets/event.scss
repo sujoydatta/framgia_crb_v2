@@ -771,16 +771,14 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   line-height: 30px;
 }
 
-.room-search-form {
-  .fix-width-time {
-    display: inline-block;
-    width: 90px;
-  }
-  .fix-width-date {
-    display: inline-block;
+.datetime {
+  .date {
+    display: inline;
     width: 120px;
   }
-  .room-search-submit {
-    margin-top: 6px;
+
+  .time {
+    display: inline;
+    width: 90px;
   }
 }

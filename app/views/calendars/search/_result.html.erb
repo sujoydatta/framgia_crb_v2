@@ -1,0 +1,41 @@
+<%= form_tag new_multi_events_path, method: :get do %>
+  <div class="form-group">
+    <button type="submit" rel="button" class="btn btn-success btn-multi-book">
+      <%= t ".multi_book" %>
+    </button>
+  </div>
+
+  <%= hidden_field_tag :start_date, params[:event_start_date] %>
+  <%= hidden_field_tag :finish_date, params[:event_finish_date] %>
+
+  <table class="table table-striped">
+    <tr>
+      <th>#</th>
+      <th><%= t ".room_name" %></th>
+      <th><%= t ".date" %></th>
+      <th><%= t ".time" %></th>
+      <th><%= t ".action" %></th>
+    </tr>
+    <% @results.each do |result| %>
+      <tr>
+        <td>
+          <%= check_box_tag :calendar_id, result.calendar_id, false,
+            name: "calendar_ids[]",
+            id: "calendar-id-#{result.calendar_id}",
+            class: "calendar-id" %>
+        </td>
+        <td><%= result.room_name %></td>
+        <td><%= datetime_format result.start_date, "short_date" %></td>
+        <td>
+          <%= datetime_format(result.start_date, "short_time") + " - " +
+            datetime_format(result.finish_date, "short_time")
+          %>
+        </td>
+        <td>
+          <%= link_to t(".book"), new_event_path(fdata: result.encode_event_params),
+            class: "btn btn-success" %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

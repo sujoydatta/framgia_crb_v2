@@ -14,18 +14,6 @@ $(document).on('ready', function() {
     $('.all-day').hide();
   }
 
-  $('#dateTime .time').timepicker({
-    timeFormat: 'g:ia',
-    scrollDefault: 'now'
-  });
-
-  $('#dateTime .date').datepicker({
-    dateFormat: 'dd-mm-yy',
-    autoclose: true
-  });
-
-  $('#dateTime').datepair();
-
   start_date_repeat.datepicker({
     dateFormat: 'dd-mm-yy',
     autoclose: true,
@@ -66,19 +54,8 @@ $(document).on('ready', function() {
     $('#start_date').datepicker('setDate', $('#start_date').val());
   }
 
-  $(document).on('change', '.date-time', function(event) {
-    var start_datetime = start_date.val() + ' ' + start_time.val();
-    var finish_datetime = finish_date.val() + ' ' + finish_time.val();
-
-    $('#event_start_date').val(moment.tz(start_datetime, 'DD-MM-YYYY hh:mma', timezone).format());
-    $('#event_finish_date').val(moment.tz(finish_datetime, 'DD-MM-YYYY hh:mma', timezone).format());
-    $('#event_start_repeat').val(start_date_repeat.val());
-    $('#event_end_repeat').val(end_date_repeat.val());
-    $('.all-day').show();
-  });
-
   $('.btn-del').click(function() {
-    attendee = $(this).attr('id');
+    var attendee = $(this).attr('id');
     var attendeeId = attendee.substr(4);
     eventId = $(this).attr('ev-id');
     userId = $(this).attr('user-id');

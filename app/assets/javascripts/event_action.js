@@ -326,3 +326,8 @@ function overlapConfirmation(form) {
   });
   dialogOverlapConfirm.dialog('open');
 }
+
+function addEventToCalendar(data) {
+  $calendar.fullCalendar('renderEvent', eventData(data), true);
+  $calendar.fullCalendar('unselect');
+}

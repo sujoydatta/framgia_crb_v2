@@ -353,11 +353,6 @@ $(document).on('ready', function() {
     }
   }
 
-  function addEventToCalendar(data) {
-    $calendar.fullCalendar('renderEvent', eventData(data), true);
-    $calendar.fullCalendar('unselect');
-  }
-
   $('#edit-event-btn').on('click', function(event) {
     event.preventDefault();
     var form =  $('#new_event');

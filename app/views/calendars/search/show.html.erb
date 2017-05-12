@@ -1,12 +1,11 @@
-<%= render partial: "shared/control_action", locals: {f: nil, partials: []} %>
-
-<div class="room-search-form">
+<%= form_tag search_calendars_path, method: :get do %>
+  <%= render partial: "shared/control_action", locals: {f: nil, partials: ["/calendars/search/btn_search"]} %>
   <div class="row">
     <div class="col-xs-6">
       <div class="form-group">
         <%= label_tag t(".calendar") %>
         <label class="divBox">
-          <input type="checkbox" class="select-all-item" <%= "checked" if @room_search.is_selected_all_calendars? %>/> Select All
+          <input type="checkbox" class="select-all-calendar" <%= "checked" if @room_search.is_selected_all_calendars? %>/> Select All
         </label>
 
         <%= select :calendar, :ids, @room_search.manage_calendars,
@@ -19,36 +18,34 @@
           class: "form-control col-xs-12 fix-width-input",
           placeholder: t(".number_of_seats_placeholder"), type: "number" %>
       </div>
-      <div class="form-group" id="dateTime">
+      <%= hidden_field_tag :event_start_date, params[:event_start_date] %>
+      <%= hidden_field_tag :event_finish_date, params[:event_finish_date] %>
+      <div class="form-group datetime" id="dateTime">
         <%= label_tag t(".range_time") %>
-        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-        <%= text_field_tag :start_date_time,
+        <%= text_field_tag :start_date,
           datetime_format(params[:start_time], "short_date"), required: true,
-          class: "date start form-control fix-width-date",
+          class: "date start form-control fix-width-date date-time",
           placeholder: datetime_format(Time.zone.now, "short_date") %>
         <%= text_field_tag :start_time,
           datetime_format(params[:start_time], "short_time"),
-          class: "time start form-control ui-timepicker-input fix-width-time",
+          class: "time start form-control ui-timepicker-input fix-width-time date-time",
           placeholder: datetime_format(Time.zone.now, "short_time") %>
         <span><%= t ".to" %></span>
         <%= text_field_tag :finish_time,
           datetime_format(params[:finish_time], "short_time"),
-          class: "time finish form-control ui-timepicker-input fix-width-time",
+          class: "time finish form-control ui-timepicker-input fix-width-time date-time",
           placeholder: datetime_format(Time.zone.now + 1.hours, "short_time") %>
-        <%= text_field_tag :finish_date_time,
+        <%= text_field_tag :finish_date,
           datetime_format(params[:finish_time], "short_date"), required: true,
-          class: "date finish form-control fix-width-date",
+          class: "date finish form-control fix-width-date date-time",
           placeholder: datetime_format(Time.zone.now, "short_date") %>
-      </div>
-      <div class="form-group">
-        <span class="btn btn-success room-search-submit"><%= t ".search" %></span>
       </div>
     </div>
   </div>
+<% end %>
 
-  <div class="row">
-    <div class="result col-xs-8">
-      <%= render "room_search_result" if @results.present? %>
-    </div>
+<div class="row">
+  <div class="result col-xs-6">
+    <%= render "result" if @results.present? %>
   </div>
 </div>
