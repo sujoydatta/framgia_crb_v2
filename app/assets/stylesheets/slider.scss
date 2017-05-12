@@ -1,11 +1,12 @@
-@import "color";
+@import 'color';
 
-#slider {
+.slider {
   height: 800px;
   margin: 0 auto;
   overflow: hidden;
   position: relative;
   width: 100%;
+
   ul {
     height: 100%;
     list-style: none;
@@ -15,8 +16,9 @@
     top: 0;
     width: 300%;
   }
+
   li {
-    border: none;
+    border: 0;
     bottom: 0;
     height: 100%;
     margin: 0;
@@ -25,15 +27,17 @@
     position: absolute;
     top: 0;
     width: 33.333333%;
+
     img {
-      border: none;
+      border: 0;
       min-height: 100%;
       width: 100%;
     }
   }
+
   button {
     background-color: $black-30;
-    border: none;
+    border: 0;
     bottom: 0;
     //Instead of the line below you could use @include box-sizing($bs)
     box-sizing: border-box;
@@ -48,19 +52,24 @@
     top: 0;
     width: 5%;
     z-index: 2;
+
     &.prev {
       left: 0;
     }
+
     &.next {
       right: 0;
     }
+
     &:hover {
-      opacity: 1.0;
+      opacity: 1;
     }
+
     &:active {
-      opacity: 1.0;
+      opacity: 1;
     }
   }
+
   .content {
     background-color: $black-50;
     bottom: 0;
@@ -75,6 +84,7 @@
     position: absolute;
     right: 0;
     z-index: 3;
+
     a {
       color: inherit;
     }
