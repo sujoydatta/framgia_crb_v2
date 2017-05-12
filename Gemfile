@@ -71,6 +71,7 @@ group :development, :test do
   gem "rails_best_practices"
   gem "reek"
   gem "railroady"
+  gem "autoprefixer-rails"
 end
 
 group :development do
