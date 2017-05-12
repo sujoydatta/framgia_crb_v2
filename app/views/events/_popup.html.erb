@@ -2,40 +2,42 @@
   <div class="bubblemain">
     <div id="bubble-close" class="bubble-close close-popup cancel-popup-event"></div>
     <div id="bubbleContent" class="bubblecontent">
-      <div class="tab-container">
-        <div id="current-user-id-popup" ><%= context_user.id %></div>
-        <div id="head-popup" class="form-group">
-          <div class="title-popup-wap" >
-            <div id="color-event"></div>
-            <input id="title-input-popup" class="title-popup data-none-display">
-            <div id="title-popup" class="title-popup data-display">
-              <%= event_presenter.title %>
+      <%= form_for event_presenter.object, html: {class: "event-form"} do |f| %>
+        <div class="tab-container">
+          <div id="current-user-id-popup" ><%= context_user.id %></div>
+          <div id="head-popup" class="form-group">
+            <div class="title-popup-wap" >
+              <div id="color-event"></div>
+              <input class="title-input-popup data-none-display" value="<%= event_presenter.title %>" name="event[title]">
+              <div id="title-popup" class="title-popup data-display">
+                <%= event_presenter.title %>
+              </div>
             </div>
           </div>
-        </div>
-        <div id="data-popup">
-          <div id="time-data" class="form-group">
-            <label><%= t ".time" %></label>
-            <span id="time-event-popup" class="tile-content">
-              <%= event_presenter.range_time_title %>
-            </span>
+          <div id="data-popup">
+            <div id="time-data" class="form-group">
+              <label><%= t ".time" %></label>
+              <span id="time-event-popup" class="tile-content">
+                <%= event_presenter.range_time_title %>
+              </span>
+            </div>
+            <div id="calendar-data" class="form-group">
+              <label><%= t ".calendar" %></label>
+              <span id="calendar-event-popup" class="tile-content">
+                <%= event_presenter.calendar_name %>
+              </span>
+            </div>
           </div>
-          <div id="calendar-data" class="form-group">
-            <label><%= t ".calendar" %></label>
-            <span id="calendar-event-popup" class="tile-content">
-              <%= event_presenter.calendar_name %>
-            </span>
+          <div id="footer-popup">
+            <% if params[:controller] == "api/particular_events" %>
+              <%= link_via_permission event_presenter.object, event_presenter.fdata %>
+            <% else %>
+              <%= btn_via_permission context_user,
+                event_presenter.object, event_presenter.fdata %>
+            <% end %>
           </div>
         </div>
-        <div id="footer-popup">
-          <% if params[:controller] == "api/particular_events" %>
-            <%= link_via_permission event_presenter.object, event_presenter.fdata %>
-          <% else %>
-            <%= btn_via_permission context_user,
-              event_presenter.object, event_presenter.fdata %>
-          <% end %>
-        </div>
-      </div>
+      <% end %>
     </div>
     <div id="prong-popup" class="bottom-prong">
       <div class="prong-dk"></div>

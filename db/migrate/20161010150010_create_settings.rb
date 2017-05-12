@@ -1,7 +1,6 @@
 class CreateSettings < ActiveRecord::Migration
   def change
     create_table :settings do |t|
-      t.decimal :timezone, precision: 2, scale: 1
       t.string :timezone_name
       t.string :country
       t.string :default_view, null: false, default: :scheduler

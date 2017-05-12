@@ -11,7 +11,7 @@ $(document).on('ready', function() {
 
   $('.datetime').datepair();
 
-  $(document).on('change', '.date-time', function(event) {
+  $(document).on('change', '.date-time', function() {
     var start_time = $('#start_time');
     var start_date = $('#start_date');
     var finish_time = $('#finish_time');
@@ -29,4 +29,4 @@ $(document).on('ready', function() {
     $('#event_end_repeat').val(end_date_repeat.val());
     $('.all-day').show();
   });
-})
+});

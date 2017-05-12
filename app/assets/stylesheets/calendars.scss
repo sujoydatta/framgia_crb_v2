@@ -31,10 +31,6 @@
     font-weight: bold;
     margin: 0;
   }
-  .disable-on {
-    opacity: 0.4;
-    pointer-events: none;
-  }
   .fc-button {
     background-image: none;
     border-radius: 2px;
@@ -80,17 +76,18 @@
     font-size: 11px;
     font-weight: bold;
   }
-  #title-popup {
+  .title-popup,
+  .gtitle-popup {
     color: $blue;
     font-size: 15px;
     font-weight: bold;
     overflow: hidden;
     width: 335px;
-    &:hover {
-      background-color: #f1f1f1
-    }
   }
-  #title-input-popup {
+  .title-popup:hover {
+    background-color: #f1f1f1
+  }
+  .title-input-popup {
     font-size: 14px;
     width: 335px;
     height: 20px;

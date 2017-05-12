@@ -46,13 +46,10 @@ function initDialogEventClick(event, jsEvent){
         start_date: start_date,
         finish_date: finish_date,
       },
-      success: function(data){
+      success: function(data) {
         $calContent.append(data.popup_content);
         dialogCordinate(jsEvent, 'popup', 'prong-popup');
         showDialog('popup');
-
-        if (event.editable) clickEditTitle(event);
-        cancelPopupEvent(event);
       },
       errors: function() {
         alert('OOP, Errors!!!');
@@ -65,32 +62,22 @@ function unSelectCalendar() {
   $calendar.fullCalendar('unselect');
 }
 
-function deleteEventPopup(event) {
-  $('#btn-delete-event').unbind('click');
-  $('#btn-delete-event').click(function() {
-    hiddenDialog('popup');
+$(document).on('click', '#btn-delete-event', function() {
+  hiddenDialog('popup');
+  var event = current_event();
 
-    if (event.repeat_type === null || event.repeat_type.length === 0) {
-      deleteEvent(event, 'delete_all');
-    } else if (event.exception_type == 'edit_only') {
-      deleteEvent(event, 'delete_only');
-    } else {
-      confirm_repeat_popup(event);
-    }
-  });
-}
+  if (event.repeat_type === null || event.repeat_type.length === 0) {
+    deleteEvent(event, 'delete_all');
+  } else if (current_event.exception_type == 'edit_only') {
+    deleteEvent(event, 'delete_only');
+  } else {
+    confirm_repeat_popup();
+  }
+});
 
-function cancelPopupEvent(event){
-  $calContent.on('click', '.cancel-popup-event', function() {
-    event.title = $('#title-popup').text().trim();
-    hiddenDialog('popup');
-    hiddenDialog('dialog-repeat-popup');
-    hiddenDialog('dialog-update-popup');
-  });
-}
-
-$('body').on('click', '.btn-cancel, .bubble-close', function() {
+$(document).on('click', '.btn-cancel, .bubble-close, .cancel-popup-event', function() {
   unSelectCalendar();
+  hiddenDialog('popup');
   hiddenDialog('new-event-dialog');
   hiddenDialog('dialog-update-popup');
   hiddenDialog('dialog-repeat-popup');
@@ -98,19 +85,11 @@ $('body').on('click', '.btn-cancel, .bubble-close', function() {
   $('.overlay-bg').hide();
 });
 
-function clickEditTitle(event) {
-  var titleInput = $('#title-input-popup');
-  $('#title-popup').click(function() {
-    $('.data-display').css('display', 'none');
-    $('.data-none-display').css('display', 'inline-block');
-    titleInput.val(event.summary);
-    titleInput.unbind('change');
-    titleInput.on('change', function(e) {
-      event.summary = e.target.value;
-    });
-    updateEventPopup(event);
-  });
-}
+$(document).on('click', '.title-popup', function() {
+  $('.data-display').css('display', 'none');
+  $('.data-none-display').css('display', 'inline-block');
+  $('.title-input-popup').focus();
+});
 
 $(document).click(function() {
   if ($('.fc-view-container').length === 0)
@@ -144,24 +123,6 @@ function saveLastestView() {
   localStorage.setItem('currentView', $calendar.fullCalendar('getView').name);
 }
 
-function updateEventPopup(event) {
-  $('#btn-save-event').unbind('click');
-  $('#btn-save-event').click(function() {
-    hiddenDialog('popup');
-
-    if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type === 'edit_only') {
-      var exception_type;
-      if (event.exception_type !== null)
-        exception_type = event.exception_type;
-      else
-        exception_type = null;
-      updateServerEvent(event, event.allDay, exception_type, 0);
-    } else {
-      confirm_update_popup(event, event.allDay, event.end);
-    }
-  });
-}
-
 function updateGoogleEventPopupData(event) {
   $('#gtitle-popup span').html(event.title);
   $('#gevent-btn').attr('href', event.link);
@@ -177,7 +138,7 @@ function updateGoogleEventPopupData(event) {
   $('#gcalendar-event-popup').html(event.orgnaizer);
 }
 
-function confirm_repeat_popup(event){
+function confirm_repeat_popup(){
   var dialog = $('#dialog-repeat-popup');
   var dialogW = $(dialog).width();
   var dialogH = $(dialog).height();
@@ -188,19 +149,19 @@ function confirm_repeat_popup(event){
   yCordinate = (windowH - dialogH) / 2;
   dialog.css({'top': yCordinate, 'left': xCordinate});
   showDialog('dialog-repeat-popup');
-
-  $('.btn-confirm').click(function() {
-    if ($(this).attr('rel') !== null) {
-      var check_is_delete = $(this).attr('rel').indexOf(I18n.t('events.repeat_dialog.delete.delete'));
-
-      if (check_is_delete !== -1){
-        $('.btn-confirm').unbind('click');
-        deleteEvent(event, $(this).attr('rel'));
-        hiddenDialog('dialog-repeat-popup');
-      }
-    }
-  });
 }
+
+$(document).on('click', '.btn-confirm', function() {
+  if ($(this).attr('rel') !== null) {
+    var check_is_delete = $(this).attr('rel').indexOf(I18n.t('events.repeat_dialog.delete.delete'));
+
+    if (check_is_delete !== -1) {
+      var event = current_event();
+      deleteEvent(event, $(this).attr('rel'));
+      hiddenDialog('dialog-repeat-popup');
+    }
+  }
+});
 
 function deleteEvent(event, exception_type) {
   var start_date_before_delete, finish_date_before_delete;
@@ -242,8 +203,35 @@ function deleteEvent(event, exception_type) {
   });
 }
 
+$(document).on('click', '#btn-save-event', function(e) {
+  e.preventDefault();
+
+  hiddenDialog('popup');
+  var fevent = current_event();
+
+  if (fevent.repeat_type === null || fevent.exception_type === 'edit_only') {
+    var form = $(this).parents('form');
+    $.ajax({
+      url: form.attr('action'),
+      type: 'POST',
+      dataType: 'json',
+      data: form.serialize(),
+      success: function(data) {
+        $calendar.fullCalendar('removeEvents', [fevent.id]);
+        $calendar.fullCalendar('renderEvent', eventData(data), true);
+      },
+      error: function () {
+        alert('Unexpected error!!!');
+      }
+    });
+  } else {
+    confirm_update_popup();
+  }
+});
+
 $('form.event-form').submit(function(event) {
   event.preventDefault();
+
   var form = $(this);
   var submitDom = $(document.activeElement);
 
@@ -331,3 +319,102 @@ function addEventToCalendar(data) {
   $calendar.fullCalendar('renderEvent', eventData(data), true);
   $calendar.fullCalendar('unselect');
 }
+
+function updateServerEvent(event, allDay, exception_type, is_drop) {
+  var start_date, finish_date, start_date_with_timezone;
+
+  if(event.title.length === 0)
+    event.title = I18n.t('calendars.events.no_title');
+  else
+    event.title = $('.title-input-popup').val();
+
+  start_date_with_timezone = moment.tz(event.start.format(), 'YYYY-MM-DDTHH:mm:ss', timezone);
+
+  if (allDay) {
+    start_date = start_date_with_timezone.startOf('day').format();
+    finish_date = start_date_with_timezone.endOf('day').format();
+  } else {
+    start_date = start_date_with_timezone.format();
+
+    if (event.end === null) {
+      finish_date = start_date_with_timezone.add(2, 'hours').format();
+    } else {
+      finish_date = moment.tz(event.end.format(), 'YYYY-MM-DDTHH:mm:ss', timezone).format();
+    }
+  }
+
+  var dataUpdate = {
+    event: {
+      title: event.summary,
+      start_date: start_date,
+      finish_date: finish_date,
+      all_day: allDay,
+      exception_type: exception_type,
+      end_repeat: event.end_repeat,
+    },
+    is_drop: is_drop,
+    persisted: event.persisted ? 1 : 0,
+    start_time_before_drag: event.start_time_before_drag,
+    finish_time_before_drag: event.finish_time_before_drag
+  };
+
+  $.ajax({
+    url: '/events/' + event.event_id,
+    data: dataUpdate,
+    type: 'PATCH',
+    dataType: 'json',
+    success: function() {
+      // if (exception_type == 'edit_all_follow' || exception_type == 'edit_all') {
+      $calendar.fullCalendar('removeEvents');
+      $calendar.fullCalendar('refetchEvents');
+    },
+    error: function(data) {
+      if (data.status == 422) {
+        var dialogOverlap = $('#dialog_overlap');
+        dialogOverlap.dialog({
+          autoOpen: false,
+          modal: true,
+          resizable: false,
+          height: 'auto',
+          width: 400
+        });
+        dialogOverlap.dialog({
+          buttons : {
+            'Confirm' : function() {
+              dataUpdate.allow_overlap = 'true';
+              $.ajax({
+                type: 'PATCH',
+                url: '/events/' + event.event_id,
+                dataType: 'json',
+                data: dataUpdate,
+                success: function() {
+                  $('#dialog_overlap').dialog('close');
+                }
+              });
+            },
+            'Cancel' : function() {
+              $(this).dialog('close');
+              $calendar.fullCalendar('removeEvents');
+              $calendar.fullCalendar('refetchEvents');
+            }
+          }
+        });
+        dialogOverlap.dialog('open');
+      }
+    }
+  });
+}
+
+function confirm_update_popup(){
+  var dialog = $('#dialog-update-popup');
+  var dialogW = $(dialog).width();
+  var windowW = $(window).width();
+  var xCordinate = (windowW - dialogW) / 2;
+  dialog.css({'top': 44, 'left': xCordinate});
+  showDialog('dialog-update-popup');
+}
+
+var current_event = function() {
+  var event_id = localStorage.getItem('current_event_id');
+  return $calendar.fullCalendar('clientEvents', [event_id])[0];
+};
