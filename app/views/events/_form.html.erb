@@ -28,7 +28,7 @@
         <%= f.text_field :title, placeholder: t("events.placeholder.new_event"),
           autofocus: true, required: true, class: "form-control" %>
       </div>
-      <div class="form-group" id="dateTime">
+      <div class="form-group datetime" id="dateTime">
         <%= f.hidden_field :start_date %>
         <%= f.hidden_field :finish_date %>
         <%= text_field_tag :start_date,

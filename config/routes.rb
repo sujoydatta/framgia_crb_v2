@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   end
   resources :share_calendars, only: :new
   resources :events
+  resource :multi_events, only: [:new, :create]
   resources :attendees, only: [:create, :destroy]
   resources :particular_calendars, only: [:show, :update]
   resources :organizations, path: "orgs" do

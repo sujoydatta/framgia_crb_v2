@@ -1,123 +1,21 @@
 $(document).on('ready', function(){
-  if ($('.room-search-submit').length === 0) {
-    return;
-  }
-
-  $('.select-all-item').click(function(){
+  $('.select-all-calendar').click(function(){
     if($(this).is(':checked') ){
       $('.calendar-select > option').prop('selected', 'selected');
       $('.calendar-select').trigger('change');
     } else {
       $('.calendar-select > option').removeAttr('selected');
       $('.calendar-select').trigger('change');
-     }
+    }
   });
 
-  $('.room-search-submit').click(function (event) {
+  $(document).on('click', '.btn-multi-book', function(event) {
     event.preventDefault();
-    var start_date = $('#start_date_time').val();
-    var finish_date = $('#finish_date_time').val();
-    var start_time = $('#start_time').val();
-    var finish_time = $('#finish_time').val();
-    var calendar_ids = $('#calendar_ids').val();
-    var number_of_seats = $('#number_of_seats').val();
+    var numberCheckedBox = $('.calendar-id:checkbox:checked').length;
 
-    if (start_date === null || start_date === '') {
-      $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_start_date_input') + '</div>').appendTo('.result');
-      return;
-    }
+    if (numberCheckedBox === 0) return;
 
-    if (start_time === null || start_time === '') {
-      $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_start_time_input') + '</div>').appendTo('.result');
-      return;
-    }
-
-    if (finish_time === null || finish_time === '') {
-      $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.empty_finish_time_input') + '</div>').appendTo('.result');
-      return;
-    }
-
-    var start_datetime = start_date + ' ' + start_time;
-    var finish_datetime = finish_date + ' ' + finish_time;
-    var calendar_ids_url = '';
-
-    if (calendar_ids !== null) {
-      calendar_ids_url = [];
-
-      for (var i = 0; i < calendar_ids.length; i++) {
-        calendar_ids_url.push('calendar_ids' + encodeURIComponent('[]') + '=' + encodeURIComponent(calendar_ids[i]));
-      }
-      calendar_ids_url = calendar_ids_url.join('&');
-    }
-
-    var start_in_time_zone = moment.tz(start_datetime, 'DD-MM-YYYY hh:mma', timezone).format();
-    var finish_in_time_zone = moment.tz(finish_datetime, 'DD-MM-YYYY hh:mma', timezone).format();
-    var new_url = '/calendars/search?';
-    new_url += 'start_time=' + encodeURIComponent(start_in_time_zone.toString());
-    new_url += '&finish_time=' + encodeURIComponent(finish_in_time_zone.toString());
-    new_url += '&' + calendar_ids_url;
-    new_url += '&number_of_seats=' + encodeURIComponent(number_of_seats.toString());
-
-    history.pushState(null, null, new_url);
-
-    $.ajax({
-      url: '/calendars/search',
-      dataType: 'json',
-      data: {
-        start_time: start_in_time_zone,
-        finish_time: finish_in_time_zone,
-        number_of_seats: number_of_seats,
-        calendar_ids: calendar_ids
-      },
-      renderResult: function(data){
-        var data_arr = data.results;
-
-        if (data_arr.length <= 0){
-          return '<div class="alert alert-info"><strong>' + I18n.t('room_search.dont_have_empty_room') + '</strong></div>';
-        }
-
-        var html = '<table class="table table-striped">';
-        html += '<tr>';
-        html += '<th>' + I18n.t('room_search.room_name') + '</th>';
-        html += '<th>' + I18n.t('room_search.date') + '</th>';
-        html += '<th>' + I18n.t('room_search.time') + '</th>';
-        html += '<th>' + I18n.t('room_search.action') + '</th>';
-        html += '</tr>';
-
-        for (var i = 0; i < data_arr.length; i++) {
-          var result = data_arr[i];
-          var room_name = result.room_name;
-          var start_event_date = moment(result.start_date, 'YYYY/MM/DD HH:mm:ss ZZ').tz(timezone).format('DD-MM-YYYY');
-          var start_time = moment(result.start_date, 'YYYY/MM/DD HH:mm:ss ZZ').tz(timezone).format('HH:mm');
-          var finish_time = moment(result.finish_date, 'YYYY/MM/DD HH:mm:ss ZZ').tz(timezone).format('HH:mm');
-          var detail_time = start_time + ' - ' + finish_time;
-
-          var event_params = JSON.stringify({
-            calendar_id: result.calendar.id.toString(),
-            start_date: result.start_date.toString(),
-            finish_date: result.finish_date.toString()
-          });
-
-          html += '<tr>';
-          html += '<td>'+ room_name +'</td>';
-          html += '<td>'+ start_event_date +'</td>';
-          html += '<td>'+ detail_time +'</td>';
-          html += '<td>';
-          html += '<a href="/events/new?fdata=' + Base64.encode(event_params) + '" ';
-          html += 'class="btn btn-success">' + I18n.t('room_search.book') + '</a>';
-          html += '</td>';
-          html += '</tr>';
-        }
-        html += '</table>';
-
-        return html;
-      },
-      success: function(data){
-        $('.result').html(this.renderResult(data)).appendTo('.result');
-      },
-      error: function(xhr, status, error){
-        $('.result').html('<div class="alert alert-danger">' + I18n.t('room_search.check_input') + '</div>').appendTo('.result');
-      }
-    });
+    var form = $(this).parents('form');
+    form.submit();
   });
 });

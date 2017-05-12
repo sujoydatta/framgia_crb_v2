@@ -32,12 +32,13 @@
 //= require scheduler
 //= require bootstrap/tab
 //= require bootstrap/modal
-//= require room_search
 //= require organization
 //= require load_user_ajax
 //= require notification
 //= require cable
 //= require dialog
+//= require range_time_select
+//= require room_search
 
 $(document).on('ready', function() {
   $('.copied').hide();

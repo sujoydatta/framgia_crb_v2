@@ -75,12 +75,15 @@ en:
         exception_type: "Exception type: "
         has_been_deleted: "Has been deleted."
     search:
+      btn_search:
+        search: "Search"
       show:
         calendar: "Calendars"
         number_of_seats: "Number of seats"
         number_of_seats_placeholder: "Number of seats"
         range_time: "Range time"
-      room_search_result:
+      result:
+        multi_book: "Multi Book"
         room_name: "Room"
         date: "Date"
         time: "Time"
