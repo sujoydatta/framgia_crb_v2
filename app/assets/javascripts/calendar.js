@@ -131,7 +131,6 @@ $(document).on('ready', function() {
         initDialogEventClick(event, jsEvent);
       } else {
         dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
-        showDialog('new-event-dialog');
         $('#event-title').focus();
       }
     },
@@ -152,10 +151,9 @@ $(document).on('ready', function() {
         }
       }
 
+      hiddenDialog('popup');
       initDialogCreateEvent(start, end, isAllDay, resource);
       dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
-      hiddenDialog('popup');
-      showDialog('new-event-dialog');
       $('#event-title').focus();
     },
     eventResizeStart: function() {
@@ -164,10 +162,11 @@ $(document).on('ready', function() {
     },
     eventResize: function(event, delta, revertFunc) {
       if(event.end.format(day_format) == event.start.format(day_format)) {
+        localStorage.setItem('current_event_id', event.id);
+
         if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type == 'edit_only') {
           updateServerEvent(event, 0, event.exception_type, 0);
         } else {
-          localStorage.setItem('current_event_id', event.id);
           confirm_update_popup();
         }
       } else {
@@ -197,7 +196,13 @@ $(document).on('ready', function() {
         return;
       }
 
-      updateServerEvent(event, event.allDay, null, 1);
+      localStorage.setItem('current_event_id', event.id);
+
+      if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type == 'edit_only') {
+        updateServerEvent(event, event.allDay, null, 1);
+      } else {
+        confirm_update_popup();
+      }
     },
     eventOverlap: function(stillEvent, movingEvent) {
       // Handle code is here
@@ -207,18 +212,6 @@ $(document).on('ready', function() {
     },
     loading: function(bool) {
       $('#loading').toggle(bool);
-    }
-  });
-
-  $(document).on('click', '.btn-confirm', function() {
-    if ($(this).attr('rel') === undefined) return;
-
-    var check_is_edit = $(this).attr('rel').indexOf(I18n.t('events.repeat_dialog.edit.edit'));
-
-    if (check_is_edit !== -1) {
-      updateServerEvent(current_event, current_event.allDay, $(this).attr('rel'), 0);
-      hiddenDialog('dialog-update-popup');
-      $('.overlay-bg').hide();
     }
   });
 

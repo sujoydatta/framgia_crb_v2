@@ -109,7 +109,6 @@
   <%= f.hidden_field :exception_type, class: "exception_type" %>
   <div id="dialog_overlap_confirm" class="hidden" title="<%= t 'events.overlap.do_you_want_create' %>"></div>
   <div id="dialog_overlap" class="hidden" title="<%= t 'events.overlap.fulloverlap' %>"></div>
-  <div class="overlay-bg"></div>
   <%= render "events/dialog_repeat_form", f: f %>
 
   <%= confirm_popup_repeat_events t("events.repeat_dialog.edit") %>

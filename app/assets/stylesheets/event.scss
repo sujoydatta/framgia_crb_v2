@@ -156,7 +156,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .bubble-close {
-  background: url(image_path("combined_v46_vr.png")) -228px -48px;
+  background: url(image_path('combined_v46_vr.png')) -228px -48px;
   cursor: pointer;
   height: 13px;
   position: absolute;
@@ -397,7 +397,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
               li {
                 padding-bottom: 10px;
                 .btn-del {
-                  background: url(image_path("combined_v46_vr.png")) -228px -48px;
+                  background: url(image_path('combined_v46_vr.png')) -228px -48px;
                   cursor: pointer;
                   float: left;
                   height: 13px;
@@ -435,7 +435,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   background-color: #A9A9A9 !important;
 }
 
-#dialog-update-popup {
+#dialog-update-popup, #dialog-delete-popup {
   margin: 0 auto;
   &.modal-dialog {
     background-color: #fff;
@@ -474,7 +474,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
       cursor: default;
       font-size: 16px;
       font-weight: bold;
-      padding: 10px 15px;
+      padding: 15px 0 15px;
       position: relative;
       vertical-align: middle;
     }
@@ -500,7 +500,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
     vertical-align: middle;
   }
   .ep-recl-dialog-title-close {
-    background: url(image_path("combined_v46_vr.png")) -215px -51px;
+    background: url(image_path('combined_v46_vr.png')) -215px -51px;
     cursor: pointer;
     height: 10px;
     position: absolute;
@@ -596,7 +596,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   height: 96px;
   position: absolute;
   width: 148px;
-  background-image: url(image_path("bubble_combined_v2.png"));
+  background-image: url(image_path('bubble_combined_v2.png'));
 }
 
 .bubble-cell-main {
@@ -680,7 +680,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   right: 10px;
   top: 10px;
   width: 14px;
-  background: url(image_path("combined_v22.png")) 0 -50px;
+  background: url(image_path('combined_v22.png')) 0 -50px;
 }
 
 .prong {

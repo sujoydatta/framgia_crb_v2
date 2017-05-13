@@ -14,6 +14,7 @@ test:
     ignore: true
   scss-lint:
     command: /bin/bash -l -c scss-lint --require=scss_lint_reporter_checkstyle --format=Checkstyle --out=.framgia-ci-reports/scss-lint.xml app/assets/stylesheets/
+    ignore: true
   eslint:
     command: eslint --format=checkstyle --output-file=.framgia-ci-reports/eslint.xml app/
     ignore: true

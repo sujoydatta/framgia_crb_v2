@@ -126,7 +126,6 @@ $(document).on('ready', function() {
         initDialogEventClick(event, jsEvent);
       } else {
         dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
-        showDialog('new-event-dialog');
         $('#event-title').focus();
       }
     },

@@ -109,7 +109,7 @@ class EventsController < ApplicationController
           flash[:danger].now = t("events.flashs.overlap")
           render :edit
         end
-        format.json{render json: {is_overlap: @is_overlap}}
+        format.json{render json: {is_overlap: @is_overlap}, status: 422}
       else
         format.html do
           flash[:danger] = t("events.flashs.not_updated")

@@ -5,7 +5,7 @@ class EventSerializer < ActiveModel::Serializer
     :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
     :finish_date, :start_repeat, :end_repeat, :exception_time, :exception_type,
     :old_exception_type, :parent_id, :google_event_id, :google_calendar_id,
-    :deleted_at
+    :deleted_at, :color_id
 
   # has_many :attendees
   # has_many :users, through: :attendees
@@ -13,7 +13,7 @@ class EventSerializer < ActiveModel::Serializer
   # has_many :event_exceptions, class_name: Event.name, foreign_key: :parent_id
   # has_many :notification_events
 
-  belongs_to :calendar
+  # belongs_to :calendar
   # belongs_to :owner, class_name: User.name, foreign_key: :user_id
   # belongs_to :event_parent, class_name: Event.name, foreign_key: :parent_id
 
@@ -23,5 +23,9 @@ class EventSerializer < ActiveModel::Serializer
 
   def id
     Event.generate_unique_secure_token.downcase!
+  end
+
+  def color_id
+    object.calendar.get_color(user_context.id)
   end
 end

@@ -40,7 +40,7 @@
         <%= render "shared/devise_modal" unless user_signed_in? %>
       </section>
     </div>
-
+    <div class="overlay-bg"></div>
     <script type="text/javascript">
       timezone = "<%= @calendar_presenter.try :tzinfo_name %>";
       calendarViewContext = "<%= @calendar_presenter.try :default_view %>";
