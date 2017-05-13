@@ -94,7 +94,7 @@ en:
       create_event: "Create event"
     repeat_dialog:
       delete:
-        id: "dialog-repeat-popup"
+        id: "dialog-delete-popup"
         title: "Delete recurring event"
         content: "Would you like to delete only this event, all events in the series or this and all future events in the series?"
         delete: "delete"

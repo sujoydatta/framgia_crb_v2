@@ -5,12 +5,13 @@ var hiddenDialog = function(dialogId) {
 };
 
 function showDialog(dialogId) {
-  var docHeight = $(document).height();
-  $('.overlay-bg').css({'height' : docHeight, 'display': 'block'});
-
   var dialog = $('#' + dialogId);
   $(dialog).removeClass('dialog-hidden');
   $(dialog).addClass('dialog-visible');
+  $('.overlay-bg').css({
+    'height': $(document).height(),
+    'display': 'block'
+  });
 }
 
 function dialogCordinate(jsEvent, dialogId, prongId) {
@@ -49,4 +50,7 @@ function dialogCordinate(jsEvent, dialogId, prongId) {
     'left': prongXCordinate,
     'transform': 'rotateX(' + prongRotateX + 'deg)'
   });
+
+  $(dialog).removeClass('dialog-hidden');
+  $(dialog).addClass('dialog-visible');
 }
