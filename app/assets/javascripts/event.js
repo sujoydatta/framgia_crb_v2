@@ -41,7 +41,7 @@ $(document).on('ready', function() {
 
       if(startMomentDate.isValid() && endMomentDate.isValid()) {
         if (startMomentDate > endMomentDate) {
-          alert('events.warning.end_date_greater_than_start_date');
+          alert(I18n.t('events.warning.end_date_greater_than_start_date'));
           end_date_repeat.val('');
         }
       } else {
@@ -50,17 +50,16 @@ $(document).on('ready', function() {
     }
   });
 
-  if($('.edit_event').length > 0){
+  if($('.edit_event').length > 0) {
     $('#start_date').datepicker('setDate', $('#start_date').val());
   }
 
   $('.btn-del').click(function() {
     var attendee = $(this).attr('id');
     var attendeeId = attendee.substr(4);
-    eventId = $(this).attr('ev-id');
-    userId = $(this).attr('user-id');
     var text = confirm(I18n.t('events.confirm.delete'));
-    if (text === true){
+
+    if (text === true) {
       $('.l-att-' + attendeeId).fadeOut();
       $.ajax({
         url: '/attendees/' + attendeeId,
@@ -217,12 +216,12 @@ $(document).on('ready', function() {
     }
   });
 
-  function checkedWeekly() {
-    var repeatOn = $('#start-date-repeat').val().split('-');
-    var splitRepeatOn = new Date(repeatOn[2], repeatOn[1] - 1, repeatOn[0]);
-    var cb = $('#repeat-' + splitRepeatOn.getDay());
-    cb.prop('checked', true);
-  }
+  // function checkedWeekly() {
+  //   var repeatOn = $('#start-date-repeat').val().split('-');
+  //   var splitRepeatOn = new Date(repeatOn[2], repeatOn[1] - 1, repeatOn[0]);
+  //   var cb = $('#repeat-' + splitRepeatOn.getDay());
+  //   cb.prop('checked', true);
+  // }
 
   $.fn.centerScreen = function() {
     this.css('position', 'absolute');
@@ -261,4 +260,8 @@ $(document).on('ready', function() {
     $('#end-date-repeat').val('');
     $('#repeat-on').find('input:checkbox').prop('checked', false);
   }
+
+  $(document).on('click', '.btn-confirmation-repeat', function() {
+    confirm_update_popup();
+  });
 });

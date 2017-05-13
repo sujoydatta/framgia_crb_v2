@@ -14,7 +14,7 @@ module ApplicationHelper
 
   def datetime_format object, format
     return nil if object.nil?
-    l(object.in_time_zone(current_user.setting_timezone),
+    l(object.in_time_zone(current_user.setting_timezone_name),
       format: t("events.time.formats.#{format}"))
   end
 

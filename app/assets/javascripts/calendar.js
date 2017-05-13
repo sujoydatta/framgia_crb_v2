@@ -126,9 +126,8 @@ $(document).on('ready', function() {
       }
     },
     eventClick: function(event, jsEvent) {
-      localStorage.setItem('current_event', event);
-
       if(event.id) {
+        localStorage.setItem('current_event_id', event.id);
         initDialogEventClick(event, jsEvent);
       } else {
         dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
@@ -168,9 +167,8 @@ $(document).on('ready', function() {
         if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type == 'edit_only') {
           updateServerEvent(event, 0, event.exception_type, 0);
         } else {
-          end_date = event.end;
-          event.end = finish_date;
-          confirm_update_popup(event, 0, end_date);
+          localStorage.setItem('current_event_id', event.id);
+          confirm_update_popup();
         }
       } else {
         revertFunc();
@@ -185,8 +183,8 @@ $(document).on('ready', function() {
     },
     eventDrop: function(event, delta, revertFunc) {
       if (!event.allDay && event.end !== null) {
-        startMomentDay = moment.tz(event.start.format(), timezone).day();
-        endMomentDay = moment.tz(event.end.format(), timezone).day();
+        var startMomentDay = moment.tz(event.start.format(), timezone).day();
+        var endMomentDay = moment.tz(event.end.format(), timezone).day();
 
         if(startMomentDay !== endMomentDay) {
           revertFunc();
@@ -212,112 +210,17 @@ $(document).on('ready', function() {
     }
   });
 
-  function updateServerEvent(event, allDay, exception_type, is_drop) {
-    var start_date, finish_date, start_date_with_timezone;
-
-    if(event.title.length === 0) event.title = I18n.t('calendars.events.no_title');
-
-    start_date_with_timezone = moment.tz(event.start.format(), 'YYYY-MM-DDTHH:mm:ss', timezone);
-
-    if (allDay) {
-      start_date = start_date_with_timezone.startOf('day').format();
-      finish_date = start_date_with_timezone.endOf('day').format();
-    } else {
-      start_date = start_date_with_timezone.format();
-
-      if (event.end === null) {
-        finish_date = start_date_with_timezone.add(2, 'hours').format();
-      } else {
-        finish_date = moment.tz(event.end.format(), 'YYYY-MM-DDTHH:mm:ss', timezone).format();
-      }
-    }
-
-    var dataUpdate = {
-      event: {
-        title: event.summary,
-        start_date: start_date,
-        finish_date: finish_date,
-        all_day: allDay,
-        exception_type: exception_type,
-        end_repeat: event.end_repeat,
-      },
-      is_drop: is_drop,
-      persisted: event.persisted ? 1 : 0,
-      start_time_before_drag: event.start_time_before_drag,
-      finish_time_before_drag: event.finish_time_before_drag
-    };
-
-    $.ajax({
-      url: '/events/' + event.event_id,
-      data: dataUpdate,
-      type: 'PATCH',
-      dataType: 'json',
-      success: function(data) {
-        // if (exception_type == 'edit_all_follow' || exception_type == 'edit_all') {
-        $calendar.fullCalendar('removeEvents');
-        $calendar.fullCalendar('refetchEvents');
-      },
-      error: function(data) {
-        if (data.status == 422) {
-          var dialogOverlap = $('#dialog_overlap');
-          dialogOverlap.dialog({
-            autoOpen: false,
-            modal: true,
-            resizable: false,
-            height: 'auto',
-            width: 400
-          });
-          dialogOverlap.dialog({
-            buttons : {
-              'Confirm' : function() {
-                dataUpdate.allow_overlap = 'true';
-                $.ajax({
-                  type: 'PATCH',
-                  url: '/events/' + event.event_id,
-                  dataType: 'json',
-                  data: dataUpdate,
-                  success: function(data) {
-                    $('#dialog_overlap').dialog('close');
-                  }
-                });
-              },
-              'Cancel' : function() {
-                $(this).dialog('close');
-                $calendar.fullCalendar('removeEvents');
-                $calendar.fullCalendar('refetchEvents');
-              }
-            }
-          });
-          dialogOverlap.dialog('open');
-        }
-      }
-    });
-  }
-
-  function confirm_update_popup(event, allDay, end_date){
-    var dialog = $('#dialog-update-popup');
-    var dialogW = $(dialog).width();
-    var windowW = $(window).width();
-    var xCordinate;
-    xCordinate = (windowW - dialogW) / 2;
-    dialog.css({'top': 44, 'left': xCordinate});
-    showDialog('dialog-update-popup');
-  }
-
-  $(document).on('click', '.btn-confirm', function(){
+  $(document).on('click', '.btn-confirm', function() {
     if ($(this).attr('rel') === undefined) return;
 
     var check_is_edit = $(this).attr('rel').indexOf(I18n.t('events.repeat_dialog.edit.edit'));
 
     if (check_is_edit !== -1) {
-      event.end = end_date;
-      updateServerEvent(event, allDay, $(this).attr('rel'), 0);
+      updateServerEvent(current_event, current_event.allDay, $(this).attr('rel'), 0);
       hiddenDialog('dialog-update-popup');
       $('.overlay-bg').hide();
     }
   });
-
-  $('.disable').addClass('disable-on');
 
   function initDialogCreateEvent(start, end, isAllDay, resource) {
     $('#event-title').focus().val('');
@@ -462,37 +365,5 @@ $(document).on('ready', function() {
     var index = user_ids.indexOf($(this).prop('id'));
 
     if (index !== -1) user_ids.splice(index, 1);
-  });
-
-  $('#request-email-button').click(function() {
-    var email = $('#request-email-input').val();
-
-    if (email === '') {
-      alert('Please add email to request!');
-    } else {
-      $.ajax({
-        url: '/request_emails/new',
-        data: {request_email: email},
-        type: 'GET',
-        dataType: 'text',
-        success: function(text) {
-          alert(text);
-        }
-      });
-    }
-  });
-
-  $('.calendar-address').on('click', function() {
-    $('.cal-dialog').css('display', 'block');
-  });
-
-  $('.cal-dialog-title-close, .goog-buttonset-default').on('click', function() {
-    $('.cal-dialog').css('display', 'none');
-  });
-
-  $(document).on('click', '.btn-confirmation-repeat', function() {
-    var current_event = localStorage.getItem('current_event');
-    var allDay = current_event.allDay;
-    confirm_update_popup(current_event, allDay, current_event.end);
   });
 });

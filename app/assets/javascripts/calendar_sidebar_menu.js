@@ -1,6 +1,4 @@
 $(document).on('ready', function() {
-  var $calendar = $('#full-calendar');
-
   $('.list-group').on('click', 'span', function() {
     userCalendar.calendar_id = $(this).attr('id');
   });
@@ -24,7 +22,7 @@ $(document).on('ready', function() {
         method: 'PATCH',
         data: {user_calendar: {id: userCalendar.calendar_id, color_id: userCalendar.color_id}},
         dataType: 'json',
-        success: function(data) {
+        success: function() {
           var dColor = $('div[data-calendar-id='+ userCalendar.calendar_id +']');
           dColor.removeClass('color-' + dColor.attr('data-color-id'));
           dColor.addClass('color-' + userCalendar.color_id);
@@ -35,7 +33,7 @@ $(document).on('ready', function() {
           $calendar.fullCalendar('refetchEvents');
         },
         errors: function() {
-          console.log('');
+          alert('OHHH! Updating error!!!');
         }
       });
     },
@@ -60,9 +58,27 @@ $(document).on('ready', function() {
           $calendar.fullCalendar('refetchEvents');
         },
         errors: function() {
-
+          alert('OHHH! Updating error!!!');
         }
       });
     }
   };
+
+  $('#request-email-button').click(function() {
+    var email = $('#request-email-input').val();
+
+    if (email === '') {
+      alert('Please add email to request!');
+    } else {
+      $.ajax({
+        url: '/request_emails/new',
+        data: {request_email: email},
+        type: 'GET',
+        dataType: 'text',
+        success: function(text) {
+          alert(text);
+        }
+      });
+    }
+  });
 });

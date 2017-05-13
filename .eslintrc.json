@@ -16,7 +16,13 @@
     "I18n": true,
     "Base64": true,
     "moment": true,
-    "$calContent": true
+    "$calContent": true,
+    "hiddenDialog": true,
+    "dialogCordinate": true,
+    "eventData": true,
+    "initDialogEventClick": true,
+    "showDialog": true,
+    "App": true
   },
 
   "extends": "eslint:recommended",

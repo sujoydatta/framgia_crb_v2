@@ -122,8 +122,6 @@ $(document).on('ready', function() {
       }
     },
     eventClick: function(event, jsEvent) {
-      localStorage.setItem('current_event', event);
-
       if(event.id) {
         initDialogEventClick(event, jsEvent);
       } else {

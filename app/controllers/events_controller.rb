@@ -75,7 +75,10 @@ class EventsController < ApplicationController
           format.html{render :new}
         end
         format.json do
-          render json: {is_overlap: @is_overlap, is_errors: @event.errors.any?}
+          render json: {
+            is_overlap: @is_overlap,
+            is_errors: create_service.event.errors.any?
+          }
         end
       end
     end

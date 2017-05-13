@@ -26,10 +26,6 @@ class NullUser
     @org.try :setting_default_view || "scheduler"
   end
 
-  def setting_timezone
-    @org.try :setting_timezone
-  end
-
   def setting_timezone_name
     @org.try :setting_timezone_name
   end

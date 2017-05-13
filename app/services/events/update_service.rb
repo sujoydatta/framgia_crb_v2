@@ -72,6 +72,7 @@ module Events
     end
 
     def changed_time?
+      return false if @event_handler.start_date.nil?
       @event.start_date != @event_handler.start_date
     end
   end
