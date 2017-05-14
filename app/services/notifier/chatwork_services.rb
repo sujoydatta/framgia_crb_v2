@@ -6,7 +6,7 @@ module Notifier
 
     def perform
       send_messages
-      create_tasks
+      # create_tasks
     end
 
     private
@@ -22,17 +22,17 @@ module Notifier
       end
     end
 
-    def create_tasks
-      if @event.chatwork_room_id && @event.attendees
-        unix_time_limit = Time.parse(@event.start_date.to_s).to_i
-        ChatWork::Task.create(
-          room_id: @event.chatwork_room_id,
-          body: @event.task_content,
-          to_ids: chatwork_ids,
-          limit: unix_time_limit
-        )
-      end
-    end
+    # def create_tasks
+    #   if @event.chatwork_room_id && @event.attendees
+    #     unix_time_limit = Time.parse(@event.start_date.to_s).to_i
+    #     ChatWork::Task.create(
+    #       room_id: @event.chatwork_room_id,
+    #       body: @event.task_content,
+    #       to_ids: chatwork_ids,
+    #       limit: unix_time_limit
+    #     )
+    #   end
+    # end
 
     def chatwork_ids
       @event.attendees.map{|attendee| attendee.chatwork_id}.join(", ")

@@ -3,7 +3,7 @@ class Event < ApplicationRecord
   include SharedMethods
   require "chatwork"
 
-  acts_as_paranoid
+  # acts_as_paranoid
 
   after_create :send_notify, :push_event_to_google_calendar
   before_destroy :send_email_delete_no_repeat_event

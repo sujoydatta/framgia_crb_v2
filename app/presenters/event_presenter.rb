@@ -54,12 +54,12 @@ class EventPresenter
   end
 
   def build_start_date
-    return @params[:start_date].to_datetime if @params[:start_date]
+    return @params[:start_date].to_datetime if @params[:start_date].present?
     @object.start_date
   end
 
   def build_finish_date
-    return @params[:finish_date].to_datetime if @params[:finish_date]
+    return @params[:finish_date].to_datetime if @params[:finish_date].present?
     @object.finish_date
   end
 end

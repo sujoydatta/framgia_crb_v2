@@ -18,9 +18,6 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :exception_type
       t.integer :old_exception_type
       t.integer :parent_id
-      t.string :chatwork_room_id
-      t.text :task_content
-      t.text :message_content
       t.string :google_event_id
       t.string :google_calendar_id
 

@@ -81,13 +81,14 @@ $(document).on('ready', function() {
       });
       var start_time_view = $calendar.fullCalendar('getView').start;
       var end_time_view = $calendar.fullCalendar('getView').end;
+
       $.ajax({
         url: '/events',
         data: {
           calendar_ids: calendar_ids,
           organization_id: org_id,
-          start_time_view: moment(start_time_view).format(),
-          end_time_view: moment(end_time_view).format(),
+          start_time_view: moment.tz(start_time_view.format(), timezone).format(),
+          end_time_view: moment.tz(end_time_view.format(), timezone).format()
         },
         dataType: 'json',
         success: function(response) {
@@ -176,7 +177,9 @@ $(document).on('ready', function() {
       hiddenDialog('new-event-dialog');
       hiddenDialog('popup');
     },
-    eventDragStart: function() {
+    eventDragStart: function(event) {
+      localStorage.setItem('current_event_id', event.id);
+
       hiddenDialog('new-event-dialog');
       hiddenDialog('popup');
     },
@@ -198,8 +201,8 @@ $(document).on('ready', function() {
 
       localStorage.setItem('current_event_id', event.id);
 
-      if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type == 'edit_only') {
-        updateServerEvent(event, event.allDay, null, 1);
+      if (event.repeat_type === null || event.exception_type == 'edit_only') {
+        updateServerEvent(event, event.allDay, event.exception_type, 1);
       } else {
         confirm_update_popup();
       }

@@ -4,6 +4,7 @@ class CreateAttendees < ActiveRecord::Migration
       t.string :email
       t.references :user
       t.references :event
+      t.integer :status
 
       t.timestamps null: false
     end

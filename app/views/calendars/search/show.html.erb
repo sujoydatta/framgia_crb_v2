@@ -1,7 +1,7 @@
 <%= form_tag search_calendars_path, method: :get do %>
   <%= render partial: "shared/control_action", locals: {f: nil, partials: ["/calendars/search/btn_search"]} %>
   <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-12 col-md-6">
       <div class="form-group">
         <%= label_tag t(".calendar") %>
         <label class="divBox">
@@ -45,7 +45,7 @@
 <% end %>
 
 <div class="row">
-  <div class="result col-xs-6">
+  <div class="result col-xs-12 col-md-6">
     <%= render "result" if @results.present? %>
   </div>
 </div>

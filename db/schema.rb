@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20170419030652) do
     t.string   "email"
     t.integer  "user_id"
     t.integer  "event_id"
+    t.integer  "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email", "event_id"], name: "index_attendees_on_email_and_event_id", unique: true, using: :btree
@@ -115,9 +116,6 @@ ActiveRecord::Schema.define(version: 20170419030652) do
     t.integer  "exception_type"
     t.integer  "old_exception_type"
     t.integer  "parent_id"
-    t.string   "chatwork_room_id"
-    t.text     "task_content",       limit: 65535
-    t.text     "message_content",    limit: 65535
     t.string   "google_event_id"
     t.string   "google_calendar_id"
     t.datetime "created_at",                                       null: false
