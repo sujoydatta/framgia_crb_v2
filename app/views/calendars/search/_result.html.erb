@@ -1,4 +1,4 @@
-<%= form_tag new_multi_events_path, method: :get do %>
+<%= form_tag multi_events_path, method: :post do %>
   <div class="form-group">
     <button type="submit" rel="button" class="btn btn-success btn-multi-book">
       <%= t ".multi_book" %>
@@ -7,6 +7,8 @@
 
   <%= hidden_field_tag :start_date, params[:event_start_date] %>
   <%= hidden_field_tag :finish_date, params[:event_finish_date] %>
+
+  <%= render "shared/errors_messages", object: @object if @object %>
 
   <table class="table table-striped">
     <tr>

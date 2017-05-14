@@ -16,8 +16,8 @@ module Events
     end
 
     def perform
-      if !is_drop? && @exception_type.in?(EXCEPTION_TYPE)
-        unless Event.find_with_exception @event_params[:exception_time]
+      if @exception_type.in?(EXCEPTION_TYPE)
+        unless Event.find_with_exception @event_params[:exception_time].to_datetime.utc
           send @exception_type
         end
       elsif @event.is_repeat?
@@ -42,10 +42,6 @@ module Events
       end
 
       # if @event_after_update.present?
-      #   @event.attendees.each do|attendee|
-      #     @event_after_update.attendees.new(user_id: attendee.user_id,
-      #       event_id: @event_after_update.id)
-      #   end
         # argv =  {
         #   event_before_update_id: @event.id,
         #   event_after_update_id: @event_after_update.id,
@@ -72,31 +68,6 @@ module Events
       @params[:is_drop].to_i == 1
     end
 
-    def make_time_value
-      start_date = @event_params[:start_date]
-      finish_date = @event_params[:finish_date]
-
-      @pre_start_date = @event.start_date
-      @pre_finish_date = @event.finish_date
-      @start_date = if start_date.is_a?(String)
-        DateTime.parse(start_date)
-      else
-        start_date
-      end
-      @finish_date = if finish_date.is_a?(String)
-        DateTime.parse(finish_date)
-      else
-        start_date
-      end
-
-      @hour_start = @start_date.strftime("%H").to_i
-      @minute_start = @start_date.strftime("%M").to_i
-      @second_start = @start_date.strftime("%S").to_i
-      @hour_end = @finish_date.strftime("%H").to_i
-      @minute_end = @finish_date.strftime("%M").to_i
-      @second_end = @finish_date.strftime("%S").to_i
-    end
-
     def save_this_event_exception event
       if event.event_parent.present?
         @event_after_update = event
@@ -112,7 +83,7 @@ module Events
         repeat_ons_attributes: [:days_of_week_id, :_destroy],
         notification_events_attributes: [:notification_id, :_destroy]].freeze
 
-      @event_after_update.update @event_params.permit(attribute_params)
+      @event_after_update.update @params.require(:event).permit attribute_params
       self.new_event = @event_after_update
     end
 
@@ -156,7 +127,6 @@ module Events
     end
 
     def edit_all_follow
-      make_time_value
       exception_events = handle_end_repeat_of_last_event
       start_date = @event_params[:start_date]
       end_date = @event_params[:end_repeat]
@@ -167,7 +137,6 @@ module Events
     end
 
     def edit_all
-      make_time_value
       @event_after_update = @parent
       handle_end_repeat_of_last_event
       start_date = @event_params[:start_date]
@@ -177,10 +146,6 @@ module Events
     end
 
     def update_attributes_event event
-      @event_params[:start_date] = event.start_date
-        .change({hour: @hour_start, min: @minute_start, sec: @second_start})
-      @event_params[:finish_date] = event.finish_date
-        .change({hour: @hour_end, min: @minute_end, sec: @second_end})
       @event_params.delete :exception_type if event.delete_only?
       @event_params.delete :start_repeat
       event.update_attributes @event_params.permit!
@@ -194,6 +159,7 @@ module Events
 
       events_edit_all_follow = exception_events.edit_all_follow
       delete_only = exception_events.delete_only.old_exception_edit_all_follow
+
       if exception_events.present?
         if events_edit_all_follow.present?
           @event_params[:end_repeat] = events_edit_all_follow.first.end_repeat
@@ -206,7 +172,7 @@ module Events
 
     def handle_event_delete_only_and_old_exception_type start_repeat, end_repeat
       event_exceptions = @parent.event_exceptions.delete_only
-        .old_exception_type_not_null.in_range(start_repeat,end_repeat)
+        .old_exception_type_not_null.in_range(start_repeat, end_repeat)
       event_exceptions.each{|event| event.update old_exception_type: nil}
     end
   end

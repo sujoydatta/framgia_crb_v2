@@ -14,6 +14,7 @@ class CalendarService
     event_no_repeats.each do |event|
       @events << FullCalendar::Event.new(event, @user)
     end
+
     (@base_events - event_no_repeats).each do |event|
       next unless event.parent?
       generate_repeat_from_event_parent event
@@ -119,18 +120,18 @@ class CalendarService
     ex_update_follow = Array.new
 
     if @start_time_view.present?
-
       if event.end_repeat < @start_time_view.to_date || (@end_time_view.to_date < start)
         repeat_event = []
       elsif @start_time_view.to_date > start && (event.daily? || event.weekly?)
         mod = ((@start_time_view.to_date - start).to_i.days % step) / Settings.second_in_day
+
         if mod == 0
           repeat_event = [@start_time_view.to_date]
         else
           repeat_event = [@start_time_view.to_date + (step - mod.days)]
         end
       else
-        repeat_event = [start]
+        repeat_event = [@start_time_view.to_date]
       end
     else
       repeat_event = [start]
@@ -230,24 +231,29 @@ class CalendarService
     end
 
     if @end_time_view.present? && event.end_repeat > @end_time_view
-      end_repeat = @end_time_view
+      # Because fullcalendar always get end time view greater than 1 day
+      end_repeat = @end_time_view.to_date
     else
-      end_repeat = event.end_repeat
+      end_repeat = event.end_repeat.to_date
     end
 
     if repeat_event.any?
-      while repeat_event.last <= (end_repeat.to_date - step)
+      while repeat_event.last <= (end_repeat - step)
         repeat_event << repeat_event.last + step
       end
     end
 
     range_repeat_time = repeat_event - ex_destroy_events - ex_update_events - ex_update_follow
 
-    range_repeat_time.each do |repeat_date|
-      event_temp = FullCalendar::Event.new event, @user
-      repeat_date = event.start_date if repeat_date < event.start_date
+    event_end_repeat_date = event.end_repeat.to_date
 
-      if repeat_date <= event.end_repeat
+    range_repeat_time.each do |repeat_date|
+      next if event.start_repeat > repeat_date || event.end_repeat < repeat_date
+
+      event_temp = FullCalendar::Event.new event, @user
+      repeat_date = event.start_date.to_date if repeat_date < event.start_date
+
+      if repeat_date <= event_end_repeat_date
         event_temp.update_info(repeat_date)
         @events << event_temp
       end

@@ -1,11 +1,7 @@
 class EventSerializer < ActiveModel::Serializer
   include SharedMethods
 
-  attributes :id, :title, :description, :status, :all_day, :event_id,
-    :repeat_type, :repeat_every, :user_id, :calendar_id, :start_date,
-    :finish_date, :start_repeat, :end_repeat, :exception_time, :exception_type,
-    :old_exception_type, :parent_id, :google_event_id, :google_calendar_id,
-    :deleted_at, :color_id
+  attributes *SHARE_ATTRIBUTES
 
   # has_many :attendees
   # has_many :users, through: :attendees
@@ -27,5 +23,13 @@ class EventSerializer < ActiveModel::Serializer
 
   def color_id
     object.calendar.get_color(user_context.id)
+  end
+
+  def editable
+    true
+  end
+
+  def persisted
+    true
   end
 end

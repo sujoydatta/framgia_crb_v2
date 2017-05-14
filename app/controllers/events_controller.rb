@@ -15,7 +15,7 @@ class EventsController < ApplicationController
   def index
     @events = Event.in_calendars params[:calendar_ids]
 
-    if user_signed_in? && params[:organization_id].nil?
+    if user_signed_in? && params[:organization_id].blank?
       @events += Event.shared_with_user current_user
     end
 

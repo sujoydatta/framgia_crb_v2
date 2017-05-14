@@ -113,13 +113,14 @@ class RoomSearchService
   end
 
   def start_time_is_after_finish_time
-    errors.add(:time_errors, I18n.t("room_search.input_time_error")) if @start_time.nil? ||
-      @finish_time.nil? || @start_time >= @finish_time
+    if @start_time.nil? || @finish_time.nil? || @start_time >= @finish_time
+      errors.add(:time_errors, I18n.t("room_search.input_time_error"))
+    end
   end
 
   def assign_data
-    @start_time = @params[:start_time]
-    @finish_time = @params[:finish_time]
+    @start_time = @params[:event_start_date].to_datetime.utc
+    @finish_time = @params[:event_finish_date].to_datetime.utc
     @calendar_ids = selected_calendars
     @number_of_seats = @params[:number_of_seats].to_i
   end
