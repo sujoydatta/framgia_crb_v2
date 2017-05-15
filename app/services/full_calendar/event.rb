@@ -8,7 +8,7 @@ module FullCalendar
     end
 
     ATTRS = [:id, :color_id, :start_date, :finish_date, :event_id, :calendar_id,
-      :persisted, :event, :editable].freeze
+      :calendar_name, :persisted, :event, :editable].freeze
 
     attr_accessor *ATTRS
 
@@ -45,6 +45,7 @@ module FullCalendar
       @start_date = @event.start_date
       @finish_date = @event.finish_date
       @calendar = @event.calendar
+      @calendar_name = @calendar.name
       @calendar_id = @calendar.id
       @id = ::Event.generate_unique_secure_token.downcase!
       @event_id = @event.id

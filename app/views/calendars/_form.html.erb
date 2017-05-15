@@ -2,7 +2,6 @@
   <%= render partial: "shared/control_action", locals: {f: f, partials: []} %>
 
   <%= render "shared/errors_messages", object: @calendar %>
-  <%= hidden_field_tag "allow_overlap", false %>
   <%= f.hidden_field :parent_id,
     value: @calendar.parent_id.nil? ? params[:parent_id] : @calendar.parent_id %>
   <div class="row form-group">
@@ -49,6 +48,15 @@
       <%= f.label :is_auto_push_to_google_calendar do %>
         <%= f.check_box :is_auto_push_to_google_calendar %>
         <%= t(".auto_push_to_google_calendar")%>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-md-6">
+      <%= f.label :is_allow_overlap do %>
+        <%= f.check_box :is_allow_overlap %>
+        <%= t(".allow_overlap")%>
       <% end %>
     </div>
   </div>

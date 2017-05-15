@@ -24,7 +24,8 @@ class CalendarPresenter
       {
         id: calendar.id,
         name: calendar.name,
-        building: calendar.bulding_name
+        building: calendar.bulding_name,
+        is_allow_overlap: calendar.is_allow_overlap
       }
     end
 
@@ -33,7 +34,8 @@ class CalendarPresenter
         {
           id: calendar.id,
           name: calendar.name,
-          building: "Shared Calendar"
+          building: "Shared Calendar",
+          is_allow_overlap: calendar.is_allow_overlap
         }
       end
     end

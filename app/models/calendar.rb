@@ -9,7 +9,7 @@ class Calendar < ApplicationRecord
 
   ATTRIBUTES_PARAMS = [
     :name, :number_of_seats, :google_calendar_id, :description, :color_id,
-    :parent_id, :status,
+    :parent_id, :status, :is_allow_overlap,
     user_calendars_attributes: [
       :id,
       :user_id,

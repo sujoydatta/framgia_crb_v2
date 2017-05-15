@@ -20,7 +20,8 @@ module Events
     def perform
       modify_repeat_params if @params[:repeat].blank?
       @event = @user.events.build event_params
-      return false if is_overlap? && not_allow_overlap?
+
+      return false if is_overlap? && !@event.calendar.is_allow_overlap?
 
       if status = @event.save
         NotificationWorker.perform_async @event.id
@@ -41,10 +42,6 @@ module Events
     def is_overlap?
       overlap_time_handler = OverlapTimeHandler.new @event
       self.is_overlap = overlap_time_handler.valid?
-    end
-
-    def not_allow_overlap?
-      @params["allow_overlap"] != "true"
     end
   end
 end

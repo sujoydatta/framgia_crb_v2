@@ -103,20 +103,16 @@ $(document).on('ready', function() {
     resourceLabelText: I18n.t('calendars.calendar'),
     resourceGroupField: 'building',
     resources: function(callback) {
-      if (calendarViewContext === 'scheduler') {
-        var arr =  $schedulers.map(function (data) {
-          var resource = {id: data.id, title: data.name};
+      var arr = $schedulers.map(function (data) {
+        var resource = {id: data.id, title: data.name, isAllowOverlap: data.is_allow_overlap};
 
-          if (data.building)
-            resource.building = data.building;
+        if (data.building)
+          resource.building = data.building;
 
-          return resource;
-        });
+        return resource;
+      });
 
-        callback(arr);
-      } else {
-        callback([]);
-      }
+      callback(arr);
     },
     eventRender: function(event, element) {
       var isOldEvent = event.allDay && event.start.isBefore(new Date(), 'day');
@@ -157,6 +153,14 @@ $(document).on('ready', function() {
       dialogCordinate(jsEvent, 'new-event-dialog', 'prong');
       $('#event-title').focus();
     },
+    selectOverlap: function(event) {
+      if (calendarViewContext === 'calendar') return true;
+
+      var resource = $calendar.fullCalendar('getResourceById', event.resourceId);
+
+      if (resource === undefined) return true;
+      return resource.isAllowOverlap;
+    },
     eventResizeStart: function() {
       hiddenDialog('new-event-dialog');
       hiddenDialog('popup');
@@ -165,7 +169,7 @@ $(document).on('ready', function() {
       if(event.end.format(day_format) == event.start.format(day_format)) {
         localStorage.setItem('current_event_id', event.id);
 
-        if (event.repeat_type === null || event.repeat_type.length === 0 || event.exception_type == 'edit_only') {
+        if (event.repeat_type === null || event.exception_type == 'edit_only') {
           updateServerEvent(event, 0, event.exception_type, 0);
         } else {
           confirm_update_popup();

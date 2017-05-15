@@ -1,7 +1,6 @@
 <div id="event">
   <%= form_for @event, html: {class: "event-form"} do |f| %>
     <%= render "shared/errors_messages", object: @event %>
-    <input type="hidden" id="allow-overlap" name="allow_overlap" value="false">
 
     <div class="form-action">
       <%= link_to go_back_link, title: t("events.buttons.go_back"),
@@ -127,8 +126,7 @@
       </div>
     </div>
     <%= f.hidden_field :exception_type, class: "exception_type" %>
-    <div id="dialog_overlap_confirm" class="hidden" title="<%= t 'events.overlap.do_you_want_create' %>"></div>
-    <div id="dialog_overlap" class="hidden" title="<%= t 'events.overlap.fulloverlap' %>"></div>
+    <div id="dialog_overlap_confirm" class="hidden" title="<%= t 'events.overlap.content' %>"></div>
     <%= render "events/dialog_repeat_form", f: f %>
 
     <%= confirm_popup_repeat_events t("events.repeat_dialog.edit") %>

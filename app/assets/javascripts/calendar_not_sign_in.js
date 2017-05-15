@@ -1,6 +1,5 @@
 //= require_self
 //= require sidebar
-//= require calendar_sidebar_menu
 //= require event_action
 
 $(document).on('ready', function() {
@@ -65,10 +64,7 @@ $(document).on('ready', function() {
     allDaySlot: true,
     eventLimit: true,
     allDayDefault: false,
-    selectable: {
-      month: false,
-      agenda: true
-    },
+    selectable: false,
     height: $(window).height() - $('header').height() - 20,
     googleCalendarApiKey: 'AIzaSyBhk4cnXogD9jtzPVsp_zuJuEKhBRC-skI',
     eventSources: googleCalendarsData(),

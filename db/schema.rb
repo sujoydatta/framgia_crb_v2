@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20170419030652) do
     t.integer  "status",                          default: 0
     t.boolean  "is_default",                      default: false
     t.boolean  "is_auto_push_to_google_calendar", default: false
+    t.boolean  "is_allow_overlap",                default: false
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
     t.index ["address"], name: "index_calendars_on_address", unique: true, using: :btree

@@ -15,6 +15,7 @@ class CreateCalendars < ActiveRecord::Migration
       t.integer :status, default: 0
       t.boolean :is_default, default: false
       t.boolean :is_auto_push_to_google_calendar, default: false
+      t.boolean :is_allow_overlap, default: false
 
       t.timestamps null: false
     end

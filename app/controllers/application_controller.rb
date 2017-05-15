@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
   def authenticate_user! opts = {}
     if current_user
       super
