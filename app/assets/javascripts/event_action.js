@@ -1,7 +1,7 @@
 function eventData(data) {
   var start_time = moment(data.start_date).tz(timezone).format();
   var end_time = moment(data.finish_date).tz(timezone).format();
-  var titleEvent = calendarViewContext === 'calendar' ? (data.calendar.name + ': ' + data.title) : data.title;
+  var titleEvent = calendarViewContext === 'calendar' ? (data.calendar_name + ': ' + data.title) : data.title;
 
   return {
     id: data.id,
@@ -11,6 +11,7 @@ function eventData(data) {
     end: end_time,
     className: ['color-' + data.color_id, data.id],
     calendar_id: data.calendar_id,
+    calendar_name: data.calendar_name,
     resourceId: data.calendar_id,
     allDay: data.all_day,
     repeat_type: data.repeat_type,
@@ -285,32 +286,32 @@ function overlapConfirmation(form) {
   });
   dialogOverlapConfirm.dialog({
     buttons : {
-      'Confirm' : function() {
-        $('#allow-overlap').val('true');
-        form.find('input[name="_method"]').remove();
-        $.ajax({
-          type: 'POST',
-          url: '/events',
-          dataType: 'json',
-          data: form.serialize(),
-          success: function(data) {
-            if ($calendar.attr('data-reload-page') == 'false') {
-              addEventToCalendar(data);
-              $('#allow-overlap').val('false');
-              dialogOverlapConfirm.dialog('close');
-            } else {
-              window.history.back();
-            }
-          },
-          error: function (jqXHR) {
-            if (jqXHR.status === 500) {
-              alert('Internal error: ' + jqXHR.responseText);
-            } else {
-              alert('Unexpected error!');
-            }
-          }
-        });
-      },
+      // 'Confirm' : function() {
+      //   $('#allow-overlap').val('true');
+      //   form.find('input[name="_method"]').remove();
+      //   $.ajax({
+      //     type: 'POST',
+      //     url: '/events',
+      //     dataType: 'json',
+      //     data: form.serialize(),
+      //     success: function(data) {
+      //       if ($calendar.attr('data-reload-page') == 'false') {
+      //         addEventToCalendar(data);
+      //         $('#allow-overlap').val('false');
+      //         dialogOverlapConfirm.dialog('close');
+      //       } else {
+      //         window.history.back();
+      //       }
+      //     },
+      //     error: function (jqXHR) {
+      //       if (jqXHR.status === 500) {
+      //         alert('Internal error: ' + jqXHR.responseText);
+      //       } else {
+      //         alert('Unexpected error!');
+      //       }
+      //     }
+      //   });
+      // },
       'Cancel' : function() {
         $(this).dialog('close');
       }
@@ -380,7 +381,7 @@ function updateServerEvent(event, allDay, exception_type, is_drop) {
     },
     error: function(data) {
       if (data.status == 422) {
-        var dialogOverlap = $('#dialog_overlap');
+        var dialogOverlap = $('#dialog_overlap_confirm');
         dialogOverlap.dialog({
           autoOpen: false,
           modal: true,
@@ -390,18 +391,18 @@ function updateServerEvent(event, allDay, exception_type, is_drop) {
         });
         dialogOverlap.dialog({
           buttons : {
-            'Confirm' : function() {
-              dataUpdate.allow_overlap = 'true';
-              $.ajax({
-                type: 'PATCH',
-                url: '/events/' + event.event_id,
-                dataType: 'json',
-                data: dataUpdate,
-                success: function() {
-                  $('#dialog_overlap').dialog('close');
-                }
-              });
-            },
+            // 'Confirm' : function() {
+            //   dataUpdate.allow_overlap = 'true';
+            //   $.ajax({
+            //     type: 'PATCH',
+            //     url: '/events/' + event.event_id,
+            //     dataType: 'json',
+            //     data: dataUpdate,
+            //     success: function() {
+            //       $('#dialog_overlap').dialog('close');
+            //     }
+            //   });
+            // },
             'Cancel' : function() {
               reRenderCurrentEvent();
               $(this).dialog('close');

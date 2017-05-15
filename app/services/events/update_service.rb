@@ -10,7 +10,6 @@ module Events
       :calendar_id, :start_date, :finish_date, :start_repeat, :end_repeat,
       :exception_type, :exception_time].freeze
 
-
     def initialize user, event, params
       @user = user
       @event = event
@@ -25,7 +24,7 @@ module Events
         end_repeat: end_repeat
       })
 
-      if changed_time? && is_overlap? && not_allow_overlap?
+      if changed_time? && is_overlap? && !@event.calendar.is_allow_overlap?
         return false
       else
         exception_service = Events::ExceptionService.new(@event, @params)
@@ -57,10 +56,6 @@ module Events
       @event_handler.calendar_id = @event.calendar_id
       overlap_time_handler = OverlapTimeHandler.new(@event_handler)
       self.is_overlap = overlap_time_handler.valid?
-    end
-
-    def not_allow_overlap?
-      @params[:allow_overlap] != "true"
     end
 
     def start_repeat
