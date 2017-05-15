@@ -67,9 +67,9 @@ $(document).on('click', '#btn-delete-event', function(e) {
   var _event = current_event();
 
   if (_event.repeat_type === null) {
-    deleteServerEvent(event, 'delete_all');
+    deleteServerEvent(_event, 'delete_all');
   } else if (_event.exception_type == 'edit_only') {
-    deleteServerEvent(event, 'delete_only');
+    deleteServerEvent(_event, 'delete_only');
   } else {
     confirm_delete_popup();
   }
@@ -169,16 +169,21 @@ $(document).on('click', '.btn-confirm', function() {
 function deleteServerEvent(event, exception_type) {
   var start_date_before_delete, finish_date_before_delete;
 
-  if (!event.allDay) finish_date_before_delete = event.end._i;
-  start_date_before_delete = event.start._i;
+  if (!event.allDay)
+    finish_date_before_delete = event.finish_time_before_drag;
+
+  start_date_before_delete = event.start_time_before_drag;
+
+  if (event.end !== null)
+    var finish_date = moment.tz(event.end.format(), 'YYYY-MM-DDTHH:mm:ss', timezone).format();
 
   $.ajax({
     url: '/events/' + event.event_id,
     type: 'DELETE',
     data: {
       exception_type: exception_type,
-      exception_time: event.start.format(),
-      finish_date: (event.end !== null) ? event.end.format('MM-DD-YYYY H:mm A') : '',
+      exception_time: moment.tz(event.start.format(), 'YYYY-MM-DDTHH:mm:ss', timezone).format(),
+      finish_date: finish_date,
       start_date_before_delete: start_date_before_delete,
       finish_date_before_delete: finish_date_before_delete,
       persisted: event.persisted ? 1 : 0
@@ -188,15 +193,14 @@ function deleteServerEvent(event, exception_type) {
       if ($calendar.attr('data-reload-page') == 'false') {
         if (exception_type == 'delete_all_follow')
           $calendar.fullCalendar('removeEvents', function(e) {
-            return (e.event_id === event.event_id && e.start.format() >= event.start.format());
+            return (e.event_id === event.event_id && e.start >= event.start);
           });
-        else if (exception_type == 'delete_all') {
+        else if (exception_type == 'delete_all')
           $calendar.fullCalendar('removeEvents', function(e) {
             return (e.event_id === event.event_id);
           });
-        } else if (exception_type === 'delete_only') {
+        else
           $calendar.fullCalendar('removeEvents', [event.id]);
-        }
       } else {
         window.history.back();
         location.reload();
