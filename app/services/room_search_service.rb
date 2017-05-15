@@ -119,8 +119,14 @@ class RoomSearchService
   end
 
   def assign_data
-    @start_time = @params[:event_start_date].to_datetime.utc
-    @finish_time = @params[:event_finish_date].to_datetime.utc
+    if @params[:event_start_date].present?
+      @start_time = @params[:event_start_date].to_datetime.utc
+    end
+
+    if @params[:event_finish_date].present?
+      @finish_time = @params[:event_finish_date].to_datetime.utc
+    end
+
     @calendar_ids = selected_calendars
     @number_of_seats = @params[:number_of_seats].to_i
   end
