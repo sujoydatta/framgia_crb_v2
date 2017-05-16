@@ -1,8 +1,9 @@
 class ResultSearchPresenter
-  attr_accessor :room_name, :calendar_id, :start_date, :finish_date
+  attr_accessor :room_name, :calendar_id, :start_date, :finish_date, :type
 
   def initialize type, calendar, start_date, finish_date
-    @room_name = build_room_name(calendar, type)
+    @type = type
+    @room_name = calendar.name
     @calendar_id = calendar.id
     @start_date = start_date
     @finish_date = finish_date
@@ -16,13 +17,7 @@ class ResultSearchPresenter
     }.to_json)
   end
 
-  private
-
-  def build_room_name calendar, type
-    if type == :suggest
-      calendar.name + I18n.t("room_search.suggest_label")
-    end
-
-    calendar.name
+  def is_suggest_type?
+    @type == :suggest
   end
 end

@@ -82,7 +82,7 @@ en:
       edit: "edit"
       fail: "fail"
       when: "When"
-      time_label: "Time"
+      time: "Time"
       calendar: "Calendar"
     dialog:
       time: "When"
@@ -98,6 +98,7 @@ en:
         title: "Delete recurring event"
         content: "Would you like to delete only this event, all events in the series or this and all future events in the series?"
         delete: "delete"
+        rerender: 0
         only:
           rel: "delete_only"
           btn: "Only this instance"
@@ -116,6 +117,7 @@ en:
         title: "Edit recurring event"
         content: "Would you like to change this event only, all events in the series or this and all following events in the series?"
         edit: "edit"
+        rerender: 1
         only:
           rel: "edit_only"
           btn: "Only this event"

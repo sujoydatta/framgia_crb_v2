@@ -40,7 +40,7 @@
               </span>
 
               <% if user_signed_in? %>
-                <span id="clst_my_menu" class="clst-my-menu clstMenu"></span>
+                <span id="clst_my_menu" class="clst-my-menu clst-menu"></span>
               <% end %>
             </div>
           </h2>
@@ -77,10 +77,13 @@
   </div>
   <%= render "sidebar_menu" %>
 
-  <div id="dialog_overlap_confirm" class="hidden" title="<%= t 'events.overlap.content' %>"></div>
-  <%= render "events/dialog_form" if user_signed_in? %>
-  <%= confirm_popup_repeat_events t("events.repeat_dialog.delete") %>
-  <%= confirm_popup_repeat_events t("events.repeat_dialog.edit") %>
+  <% if user_signed_in? %>
+    <div id="dialog_overlap_confirm" class="hidden" title="<%= t 'events.overlap.content' %>"></div>
+    <%= render "events/dialog_form" %>
+    <%= confirm_popup_repeat_events t("events.repeat_dialog.delete") %>
+    <%= confirm_popup_repeat_events t("events.repeat_dialog.edit") %>
+  <% end %>
+
   <%= render "events/google_event_popup" %>
 </div>
 <div class="fc-right-left hidden" id="timezone-name">

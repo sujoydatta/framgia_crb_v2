@@ -1,7 +1,7 @@
 <div id="new-event-dialog" class="dialog dialog-hidden">
-  <div class="bubblemain">
-    <div id="bubble-close" class="bubble-close"></div>
-    <div id="bubbleContent" class="bubblecontent">
+  <div class="bubble-main">
+    <div class="bubble-close close-dialog-popup"></div>
+    <div class="bubble-content">
       <div class="tab-container">
         <div class="tab-labels"><a class="tab-label e active blue-text"><%= t "events.dialog.event" %></a>
         </div>
@@ -12,23 +12,23 @@
             <%= f.hidden_field :all_day, id: "all-day" %>
             <div class="state-container">
               <div class="tab-panel e active">
-                <div class="tile-content form-group">
+                <div class="title-content form-group">
                   <%= f.text_field :title, id: "event-title", class: "gcal-textinput form-control",
                     placeholder: t("events.dialog.placeholder"), required: true %>
                   <div class="error-title"></div>
                 </div>
                 <div class="tile period-tile form-group">
-                  <div class="tile-label">
+                  <div class="title-label">
                     <label><%= t "events.dialog.time" %></label>
                   </div>
-                  <div class="tile-content event-time"></div>
+                  <div class="title-content event-time"></div>
                 </div>
                 <div class="select-calendar tile form-group">
-                  <div class="tile-label">
+                  <div class="title-label">
                     <label><%= t "events.dialog.calendar" %></label>
                   </div>
-                  <p class="tile-content" style="display: none;"></p>
-                  <div class="calendar-container tile-content">
+                  <p class="title-content" style="display: none;"></p>
+                  <div class="calendar-container title-content">
                     <div>
                       <%= f.select :calendar_id,
                         options_for_select(select_my_calendar @calendar_presenter.manage_calendars), {},
@@ -57,5 +57,4 @@
       <div class="prong-lt"></div>
     </div>
   </div>
-
 </div>

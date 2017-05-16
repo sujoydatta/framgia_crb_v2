@@ -75,9 +75,9 @@ $(document).on('click', '#btn-delete-event', function(e) {
   }
 });
 
-$(document).on('click', '.btn-cancel, .bubble-close, .cancel-popup-event', function() {
+$(document).on('click', '.close-dialog-popup', function(e) {
+  if ($(e.target).attr('data-rerender-event') == 1) reRenderCurrentEvent();
   unSelectCalendar();
-  reRenderCurrentEvent();
   hiddenDialog('popup');
   hiddenDialog('new-event-dialog');
   hiddenDialog('dialog-update-popup');
@@ -89,7 +89,9 @@ $(document).on('click', '.btn-cancel, .bubble-close, .cancel-popup-event', funct
 $(document).on('click', '.title-popup', function() {
   $('.data-display').css('display', 'none');
   $('.data-none-display').css('display', 'inline-block');
-  $('.title-input-popup').focus();
+  var titleInput = $('.title-input-popup');
+  titleInput.focus();
+  titleInput.val(titleInput.attr('data-current-value'));
 });
 
 $(document).click(function() {
@@ -125,8 +127,8 @@ function saveLastestView() {
 }
 
 function updateGoogleEventPopupData(event) {
-  $('#gtitle-popup span').html(event.title);
-  $('#gevent-btn').attr('href', event.link);
+  $('.gtitle-popup span').html(event.title);
+  $('.gevent-link').attr('href', event.link);
   var time_summary;
 
   if (event.allDay) {
@@ -135,8 +137,8 @@ function updateGoogleEventPopupData(event) {
     time_summary = event.start.format('dddd') + ' ' + event.start.format('H:mm A') + ' To ' + event.end.format('H:mm A') + ' ' + event.end.format('DD-MM-YYYY');
   }
 
-  $('#gtime-event-popup').html(time_summary);
-  $('#gcalendar-event-popup').html(event.orgnaizer);
+  $('.gtime-event-popup').html(time_summary);
+  $('.gcalendar-event-popup').html(event.orgnaizer);
 }
 
 function confirm_delete_popup(){

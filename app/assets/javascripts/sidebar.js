@@ -66,21 +66,6 @@ $(document).on('ready', function() {
     }
   });
 
-  // $('#title-mini-calendar').click(function() {
-  //   $miniCalendar.removeClass('out');
-  //   $('#title-mini-calendar').removeClass('in');
-  // });
-
-  // $('.ui-datepicker-title').click(function() {
-  //   $('#title-mini-calendar').addClass('in');
-  //   $miniCalendar.addClass('out');
-  // });
-
-  // $('.ui-datepicker').on('click', '.ui-datepicker-title', function() {
-  //   $('#title-mini-calendar').addClass('in');
-  //   $miniCalendar.addClass('out');
-  // });
-
   $(document).keydown(function(e) {
     if (e.keyCode == 27) {
       $('#source-popup').removeClass('open');
@@ -93,14 +78,6 @@ $(document).on('ready', function() {
       hiddenDialog('dialog-update-popup');
     }
   });
-
-  // $('#btn-quick-add').on('click', function(event) {
-  //   event.preventDefault();
-  //   var title = $('#title-event-value').val();
-  //   var user_id = $('#current-user-id-popup').html();
-  //   var title = JSON.stringify({title: title.toString()});
-  //   window.location.href = '/events/new?fdata=' + Base64.encode(title);
-  // });
 
   $('#clst_my_menu').click(function() {
     var position = $('#clst_my_menu').offset();
@@ -123,7 +100,7 @@ $(document).on('ready', function() {
     $('#sub-menu-my-calendar').removeClass('sub-menu-visible');
     $('#sub-menu-my-calendar').addClass('sub-menu-hidden');
 
-    if (menuCalendar.length > 0 && !$(event.target).hasClass('clstMenu-child')) {
+    if (menuCalendar.length > 0 && !$(event.target).hasClass('clst-menu-child')) {
       menuCalendar.removeClass('sub-menu-visible');
       menuCalendar.addClass('sub-menu-hidden');
     }
@@ -134,7 +111,7 @@ $(document).on('ready', function() {
     }
   });
 
-  $('.clstMenu-child').click(function() {
+  $('.clst-menu-child').click(function() {
     var windowH = $(window).height();
     var position = $(this).offset();
     // if ($(this).find('.sub').length > 0)
@@ -194,7 +171,6 @@ $(document).on('ready', function() {
       $('.ui-datepicker-prev').click();
     }
   });
-
 
   $('.fc-left').append($('#timezone-name'));
   $('.fc-right-left').removeClass('hidden');
