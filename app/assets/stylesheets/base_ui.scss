@@ -24,12 +24,15 @@ p {
 }
 
 a {
-  color: #428bca;
+  color: $color-mine-shaft-approx;
   text-decoration: none;
-  &:hover, &:focus {
-    color: #2a6496;
+
+  &:hover,
+  &:focus {
+    color: $st-tropaz-color;
     text-decoration: none;
   }
+
   &:active {
     outline: 0;
   }
@@ -43,11 +46,7 @@ ul {
   color: $dusty-gray-color;
 }
 
-:-moz-placeholder { /* Firefox 18- */
-  color: $dusty-gray-color;
-}
-
-::-moz-placeholder {  /* Firefox 19+ */
+placeholder { // Firefox 18-
   color: $dusty-gray-color;
 }
 
@@ -59,10 +58,11 @@ label {
   display: block;
   padding-left: 15px;
   text-indent: -15px;
+
   input {
-    *overflow: hidden;
     height: 13px;
-    margin:0;
+    margin: 0;
+    overflow: hidden;
     padding: 0;
     position: relative;
     top: -1px;
@@ -73,28 +73,33 @@ label {
 
 .input-group {
   display: table;
+
   input {
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
     display: table-cell;
   }
+
   span {
     display: table-cell;
+
     &.input-group-btn {
-      background-color: #eee;
-      border: 1px solid #ccc;
+      background-color: $gallery-color;
+      border: 1px solid $color-celeste-approx;
       border-radius: 2px;
-      color: #555;
+      color: $emperor-color;
       font-weight: 400;
       line-height: 1;
       text-align: center;
       vertical-align: middle;
+
       &:last-child {
         border-bottom-left-radius: 0;
         border-left: 0;
         border-top-left-radius: 0;
       }
     }
+
     button {
       -webkit-appearance: button;
     }
@@ -164,24 +169,24 @@ label {
   border-radius: 2px;
   margin-bottom: 20px;
   padding: 6px 12px;
-}
 
-.alert h4 {
-  color: inherit;
-  margin-top: 0;
-}
+  h4 {
+    color: inherit;
+    margin-top: 0;
+  }
 
-.alert .alert-link {
-  font-weight: bold;
+  .alert-link {
+    font-weight: bold;
+  }
+
+  > p + p {
+    margin-top: 5px;
+  }
 }
 
 .alert > p,
 .alert > ul {
   margin-bottom: 0;
-}
-
-.alert > p + p {
-  margin-top: 5px;
 }
 
 .alert-dismissable,
@@ -198,51 +203,58 @@ label {
 }
 
 .alert-success {
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-  color: #3c763d;
+  background-color: $peppermint-color;
+  border-color: $beryl-green-color;
+  color: $killarney-color;
+
   hr {
-    border-top-color: #c9e2b3;
+    border-top-color: $beryl-green-color;
   }
+
   .alert-link {
-    color: #2b542c;
+    color: $killarney-color;
   }
 }
 
 .alert-info {
-  background-color: #d9edf7;
-  border-color: #bce8f1;
-  color: #31708f;
+  background-color: $link-water-color;
+  border-color: $mint-tulip-color;
+  color: $calypso-color;
+
   hr {
-    border-top-color: #a6e1ec;
+    border-top-color: $blizzard-blue-color;
   }
+
   .alert-link {
-    color: #245269;
+    color: $cello-color;
   }
 }
 
 .alert-warning {
-  background-color: #fcf8e3;
-  border-color: #faebcc;
-  color: #8a6d3b;
+  background-color: $pearl-lusta-color;
+  border-color: $champagne-color;
+  color: $potters-clay-color;
+
   hr {
-    border-top-color: #f7e1b5;
+    border-top-color: $givry-color;
   }
 
   .alert-link {
-    color: #66512c;
+    color: $shingle-fawn-color;
   }
 }
+
 .alert-danger {
-  background-color: #f2dede;
-  border-color: #ebccd1;
-  color: #a94442;
+  background-color: $bizarre-color;
+  border-color: $oyster-pink-color;
+  color: $apple-blossom-color;
+
   hr {
-    border-top-color: #e4b9c0;
+    border-top-color: $cavern-pink-color;
   }
 
   .alert-link {
-    color: #843534;
+    color: $sanguine-brown-color;
   }
 }
 
@@ -257,6 +269,7 @@ label {
   border-collapse: collapse;
   border-spacing: 0;
   font: normal 13px $font-0, $font-1;
+
   thead th {
     background-color: $color-swans-down-approx;
     border: solid 1px $color-swans-down-approx;
@@ -265,26 +278,30 @@ label {
     text-align: left;
     text-shadow: 1px 1px 1px $white;
   }
+
   tbody td {
     border: solid 1px $color-swans-down-approx;
-    color: $color_mine_shaft_approx;
+    color: $color-mine-shaft-approx;
     padding: 10px;
     text-shadow: 1px 1px 1px $white;
   }
 }
+
 .round-table-rounded {
-  border: none;
+  border: 0;
+
   tbody {
     td {
       background-color: $color-chalky-approx;
-      border: none;
+      border: 0;
       border-top: solid 1px $color-kumera-approx;
     }
   }
+
   thead th {
     background-color: $color-laser-approx;
-    border: none;
-    color: $color_mine_shaft_approx;
+    border: 0;
+    color: $color-mine-shaft-approx;
     text-shadow: 1px 1px 1px $color-celeste-approx;
   }
 }
