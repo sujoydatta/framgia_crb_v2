@@ -1,5 +1,5 @@
 <li class="list-group-item<%#= calendar.parent? ? 'list-group-item' : 'sub-list' %>">
-  <label class="divBox">
+  <label class="div-box">
     <div data-color-id="<%= calendar.uc_color_id %>" data-calendar-id="<%= calendar.id %>"
       class="f-inline-block ccp-rb-color color-<%= calendar.uc_color_id %> <%= "uncheck" unless calendar.is_checked? %>"
       tabindex="0" role="button" google_calendar_id="<%= calendar.google_calendar_id %>"></div>
@@ -7,7 +7,7 @@
   </label>
   <% if user_signed_in? && calendar.permission_id == 1 %>
     <span id="<%= calendar.id %>" selected_color_id="<%= calendar.uc_color_id %>"
-      class="clstMenu clstMenu-child" rel="<%= calendar.uc_color_id %>">
+      class="clst-menu clst-menu-child" rel="<%= calendar.uc_color_id %>">
       <% unless calendar.parent? %>
         <span class="sub"></span>
       <% end %>
