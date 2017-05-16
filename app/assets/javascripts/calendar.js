@@ -12,7 +12,7 @@ $(document).on('ready', function() {
   function googleCalendarsData() {
     if ($calendar.length > 0) {
       var gCalendarIds = [];
-      $('.sidebar-calendars .divBox>div').not($('.uncheck')).each(function() {
+      $('.sidebar-calendars .div-box>div').not($('.uncheck')).each(function() {
         gCalendarIds.push({
           googleCalendarId: $(this).attr('google_calendar_id'),
           resourceId: $(this).attr('data-calendar-id')
@@ -76,7 +76,7 @@ $(document).on('ready', function() {
     timezone: window.timezone,
     events: function(start, end, timezone, callback) {
       var calendar_ids = [];
-      $('.sidebar-calendars .divBox>div').not($('.uncheck')).each(function() {
+      $('.sidebar-calendars .div-box>div').not($('.uncheck')).each(function() {
         calendar_ids.push($(this).attr('data-calendar-id'));
       });
       var start_time_view = $calendar.fullCalendar('getView').start;
@@ -243,7 +243,7 @@ $(document).on('ready', function() {
     $('#start-time').val(start_time_value);
     $('#finish-time').val(finish_time_value);
 
-    var calendarName = $('.select-calendar p.tile-content');
+    var calendarName = $('.select-calendar p.title-content');
 
     if (resource === undefined) {
       $('.calendar-container').show();

@@ -1,7 +1,7 @@
 $(document).on('ready', function() {
   $(document).click(function(event) {
     if (event === undefined) return;
-    if ($(event.target).hasClass('clstMenu') || $(event.target).closest('.header-nav-item.dropdown').length > 0) return;
+    if ($(event.target).hasClass('clst-menu') || $(event.target).closest('.header-nav-item.dropdown').length > 0) return;
 
     $('.sub-menu').removeClass('sub-menu-visible');
     $('.sub-menu').addClass('sub-menu-hidden');

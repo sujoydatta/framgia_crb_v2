@@ -8,7 +8,7 @@ $(document).on('ready', function() {
     userCalendar.updateColor();
   });
 
-  $('.sidebar-calendars').on('click', '.divBox', function() {
+  $('.sidebar-calendars').on('click', '.div-box', function() {
     userCalendar.calendar_id = $('div', this).attr('data-calendar-id');
     userCalendar.updateState();
   });

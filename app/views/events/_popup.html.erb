@@ -1,14 +1,14 @@
 <div id="popup" class="dialog dialog-hidden popup">
-  <div class="bubblemain">
-    <div id="bubble-close" class="bubble-close close-popup cancel-popup-event"></div>
-    <div id="bubbleContent" class="bubblecontent">
+  <div class="bubble-main">
+    <div data-rerender-event="0" class="bubble-close close-dialog-popup"></div>
+    <div class="bubble-content">
       <%= form_for event_presenter.object, html: {class: "event-form"} do |f| %>
         <div class="tab-container">
           <div id="current-user-id-popup" ><%= context_user.id %></div>
           <div id="head-popup" class="form-group">
             <div class="title-popup-wap" >
               <div id="color-event"></div>
-              <input class="title-input-popup data-none-display" value="<%= event_presenter.title %>" name="event[title]">
+              <input class="title-input-popup data-none-display" data-current-value="<%= event_presenter.title %>" value="<%= event_presenter.title %>" name="event[title]">
               <div id="title-popup" class="title-popup data-display">
                 <%= event_presenter.title %>
               </div>
@@ -17,13 +17,13 @@
           <div id="data-popup">
             <div id="time-data" class="form-group">
               <label><%= t ".time" %></label>
-              <span id="time-event-popup" class="tile-content">
+              <span id="time-event-popup" class="title-content">
                 <%= event_presenter.range_time_title %>
               </span>
             </div>
             <div id="calendar-data" class="form-group">
               <label><%= t ".calendar" %></label>
-              <span id="calendar-event-popup" class="tile-content">
+              <span id="calendar-event-popup" class="title-content">
                 <%= event_presenter.calendar_name %>
               </span>
             </div>

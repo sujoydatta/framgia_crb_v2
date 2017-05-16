@@ -26,7 +26,14 @@
             id: "calendar-id-#{result.calendar_id}",
             class: "calendar-id" %>
         </td>
-        <td><%= result.room_name %></td>
+        <td>
+          <%= result.room_name %>
+          <% if result.is_suggest_type? %>
+            <span class="label label-primary">
+              <%= t("room_search.suggest_label") %>
+            </span>
+          <% end %>
+        </td>
         <td><%= datetime_format result.start_date, "short_date" %></td>
         <td>
           <%= datetime_format(result.start_date, "short_time") + " - " +

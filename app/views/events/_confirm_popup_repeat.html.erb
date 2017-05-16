@@ -1,7 +1,7 @@
 <div id="<%= action[:id] %>" class="modal-dialog dialog-hidden">
   <div class="modal-title">
     <%= action[:title] %>
-    <div id="bubble-close" class="bubble-close close-popup cancel-popup-event"></div>
+    <div data-rerender-event="<%= action[:rerender] || 0 %>" class="bubble-close close-dialog-popup"></div>
   </div>
   <div class="body">
     <div class="modal-content">
@@ -59,7 +59,9 @@
         </tbody>
       </table>
       <div tabindex="0">
-        <div class="btn-right btn btn-default btn-cancel"><%= action[:cancel] %></div>
+        <div data-rerender-event="<%= action[:rerender] || 0 %>" class="btn-right btn btn-default close-dialog-popup">
+          <%= action[:cancel] %>
+        </div>
       </div>
     </div>
    </div>

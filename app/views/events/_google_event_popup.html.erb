@@ -1,14 +1,14 @@
 <div id="google-event-popup" class="dialog dialog-hidden popup">
-  <div class="bubblemain">
-    <div class="bubble-close close-popup cancel-popup-event"></div>
-    <div class="bubblecontent">
+  <div class="bubble-main">
+    <div data-rerender-event="0" class="bubble-close close-dialog-popup"></div>
+    <div class="bubble-content">
       <div class="tab-container">
         <div id="ghead-popup" class="form-group">
           <div class="title-popup-wap" >
             <div id="color-event"></div>
-            <div id="gtitle-popup" class="gtitle-popup data-display">
+            <div class="gtitle-popup">
               <span></span>
-              <a href="" target="_blank" id="gevent-btn" title="<%= t("events.open_on_google_calendar") %>">
+              <a href="" target="_blank" class="gevent-link" title="<%= t("events.open_on_google_calendar") %>">
                 <i class="fa fa-external-link" aria-hidden="true"></i>
               </a>
             </div>
@@ -16,12 +16,12 @@
         </div>
         <div id="gdata-popup">
           <div id="gtime-data" class="form-group">
-            <label><%= t ".time" %></label>
-            <span id="gtime-event-popup" class="tile-content"></span>
+            <label><%= t "events.popup.time" %></label>
+            <span class="title-content gtime-event-popup"></span>
           </div>
           <div id="calendar-data" class="form-group">
-            <label><%= t ".calendar" %></label>
-            <span id="gcalendar-event-popup" class="tile-content"></span>
+            <label><%= t "events.popup.calendar" %></label>
+            <span class="title-content gcalendar-event-popup"></span>
           </div>
         </div>
       </div>

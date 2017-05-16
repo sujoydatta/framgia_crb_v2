@@ -9,7 +9,7 @@ en:
     time: "Time"
     action: "Action"
     book: "Book"
-    suggest_label: "(suggest)"
+    suggest_label: "suggest"
     empty_start_time_input: "Start time is null"
     empty_finish_time_input: "Finish time is null"
     empty_start_date_input: "Start date is null"

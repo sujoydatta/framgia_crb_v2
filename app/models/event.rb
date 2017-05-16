@@ -40,10 +40,11 @@ class Event < ApplicationRecord
   validates :start_date, presence: true
   validates :finish_date, presence: true
   validate :valid_repeat_date, if: :is_repeat?
+  validates_with OverlapTimeValidator, unless: "self.calendar.is_allow_overlap?"
 
   delegate :name, to: :owner, prefix: :owner, allow_nil: true
-  delegate :name, to: :calendar, prefix: true, allow_nil: true
-  delegate :is_auto_push_to_google_calendar, to: :calendar, prefix: true, allow_nil: true
+  delegate :name, :is_auto_push_to_google_calendar,
+    to: :calendar, prefix: true, allow_nil: true
 
   enum exception_type: [:delete_only, :delete_all_follow, :edit_only,
     :edit_all_follow, :edit_all]
