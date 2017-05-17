@@ -1,5 +1,5 @@
-<div id="calcontent">
-  <div id="mothertable">
+<div id="calcontent" class="calendar-content">
+  <div class="mothertable">
     <div id="nav">
       <div id="sidebar">
         <div class="tbl-object">
@@ -72,7 +72,7 @@
       </div>
     </div>
     <div class="mainbody">
-      <div id="full-calendar" data-reload-page="false"></div>
+      <div id="full-calendar" class="mainbody-full-calendar" data-reload-page="false"></div>
     </div>
   </div>
   <%= render "sidebar_menu" %>
@@ -86,10 +86,10 @@
 
   <%= render "events/google_event_popup" %>
 </div>
-<div class="fc-right-left hidden" id="timezone-name">
+<div class="fc-right-left hidden full-timezone-name" id="timezone-name">
   <%= @calendar_presenter.full_timezone_name %>
 </div>
-<div id="loading" style="display: none;">loading...</div>
+<div id="loading" class="loading-overlay" style="display: none;">loading...</div>
 
 <% if user_signed_in? %>
   <%= javascript_include_tag "calendar" %>

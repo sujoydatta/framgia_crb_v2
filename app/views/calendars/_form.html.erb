@@ -101,12 +101,12 @@
     <%= hidden_field_tag "current_user", current_user.id, {id: "current_user"} %>
     <div class="divider"></div>
     <p><%= t "calendar.title_share_calendar" %></p>
-    <div id="share-calendar-header" class="clearfix">
+    <div class="share-calendar-header clearfix">
       <div class="col1"><%= t "calendar.person" %></div>
       <div class="col2"><%= t "calendar.permission" %></div>
       <div class="col3"><%= t "calendar.remove" %></div>
     </div>
-    <div id="add-user-share" class="clearfix">
+    <div class="add-user-share clearfix">
       <div class="col1">
         <%= select :user, :id,
           @users.collect{|user| [user.email + " <#{user.name}>", user.id]},
@@ -115,15 +115,16 @@
             selected: @user_selected ? @user_selected.id : -1,
             placeholder: "Select Person"
           },
-          {class: "form-control person-select", id: "textbox-email-share"} %>
+          {class: "form-control add-user-share-email person-select",
+            id: "textbox-email-share"} %>
       </div>
       <div class="col2">
-        <div>
+        <div class="add-user-share-col2">
           <%= collection_select :permission, :id, @permissions,
             :id, :permission, {selected: 3},
             class: "form-control permission-select", id: "permission-select" %>
         </div>
-        <button type="button" id="add-person" class="btn btn-primary">
+        <button type="button" id="add-person" class="btn add-person-btn btn-primary">
           <%= t "calendar.add_person" %>
         </button>
       </div>
@@ -134,7 +135,7 @@
       <div class="col2"><%= t "permissions.permission_1" %></div>
       <div class="col3"></div>
     </div>
-    <div id="list-share-calendar" class="clearfix">
+    <div id="list-share-calendar" class="list-share-user-calendar clearfix">
       <% @calendar.user_calendars.each do |user_calendar| %>
         <% unless user_calendar.user.is_user? current_user %>
           <% if user_calendar.user.is_user? @calendar.owner %>

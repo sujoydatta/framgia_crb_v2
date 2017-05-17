@@ -1,17 +1,19 @@
 @import 'color';
 
-#calcontent {
+.calendar-content {
   padding: 0;
   z-index: 1000;
-  #mothertable {
+
+  .mothertable {
     position: relative;
   }
+
   .mainbody {
     margin-left: 184px;
     margin-right: 0;
     margin-top: 10px;
-    -webkit-transition: margin-left .218s;
-    -moz-transition: margin-left .218s;
+    transition: margin-left .218s;
+
     #full-calendar {
       .fc-resource-area {
         width: 15%;
@@ -21,16 +23,18 @@
         font-size: 1em;
       }
     }
-  }
+
   a.fc-time-grid-event.fc-v-event.fc-event.fc-start.fc-end.color-9.fc-draggable.fc-resizable {
     right: 5% !important;
   }
+
   h2 {
     display: block;
     font-size: 1.5em;
     font-weight: bold;
     margin: 0;
   }
+
   .fc-button {
     background-image: none;
     border-radius: 2px;
@@ -57,25 +61,32 @@
       border-radius: 2px;
     }
   }
+
+  .disable-on {
+    opacity: .4;
+    pointer-events: none;
+  }
+
   .fc-widget-header {
     th {
       font-size: 14px;
       font-weight: normal;
     }
   }
+
   .hidden-menu {
-    display: none !important;
+    display: none;
   }
 }
 
-/*pupup*/
 .popup {
   label {
-    color: #9b9b9b;
+    color: $dusty-gray-approx;
     display: block;
     font-size: 11px;
     font-weight: bold;
   }
+
   .title-popup,
   .gtitle-popup {
     color: $blue;
@@ -84,46 +95,56 @@
     overflow: hidden;
     width: 335px;
   }
+
   .title-popup:hover {
-    background-color: #f1f1f1
+    background-color: $sea-shell-solid;
   }
+
   .title-input-popup {
     font-size: 14px;
-    width: 335px;
     height: 20px;
+    width: 335px;
   }
+
   .title-content {
     font-size: 13px;
   }
+
   .btn {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
+    background-color: $wild-sand-approx;
+    border: 1px solid $color-celeste-approx;
     font-weight: bold;
     height: 28px;
     line-height: 26px;
     margin-bottom: 0;
     padding: 0 10px;
+
     &:hover {
-      background-color: #e6e6e6;
-      border-color: #adadad;
+      background-color: $mercury;
+      border-color: $silver-chalice-approx;
     }
   }
+
   .btn-right {
-    background-color: #4d90fe;
-    color: white;
+    background-color: $dodger-blue;
+    color: $white;
     float: right;
+
     &:hover {
-      background-color: #286090;
-      border-color: #204d74;
+      background-color: $st-tropaz-approx;
+      border-color: $bay-of-many-approx;
     }
   }
+
   .data-none-display {
     display: none;
   }
+
   .data-display {
     display: inline-block;
   }
-  #current-user-id-popup {
+
+  .current-user-popup {
     display: none;
   }
 }
@@ -135,11 +156,11 @@
 }
 
 .ui-datepicker th {
-  padding-left: 0 !important;
+  padding-left: 0;
 }
 
 .divider {
-  background-color: #e5e5e5;
+  background-color: $mercury-solid;
   height: 1px;
   margin: 13px 0;
   overflow: hidden;
@@ -148,15 +169,17 @@
 
 .make-public {
   input {
-    *overflow: hidden;
+    overflow: hidden;
     position: relative;
     top: -1px;
     vertical-align: middle;
   }
+
   span {
     font-size: 11px;
     margin-left: 20px;
   }
+
   div:last-child {
     margin-left: 20px;
     margin-top: 10px;
@@ -165,9 +188,11 @@
 
 .share-calendar {
   text-align: left;
+
   p {
     font-weight: bold;
   }
+
   .col1,
   .col2,
   .col3 {
@@ -175,62 +200,70 @@
     float: left;
     height: 32px;
   }
+
   .col1 {
     width: 40%;
   }
+
   .col2 {
     width: 50%;
   }
+
   .col3 {
     width: 10%;
   }
-  #share-calendar-header {
+
+  .share-calendar-header {
     .col1,
     .col2,
     .col3 {
       font-weight: bold;
     }
   }
-  #add-user-share {
+
+  .add-user-share {
     .col1,
     .col2,
     .col3 {
-      background-color: #EFEDED;
+      background-color: $gallery-color;
     }
-    .col1 {
-      input {
-        width: 200px;
-      }
+
+    .add-user-share-email {
+      width: 200px;
     }
-    .col2 {
-      button {
-        cursor: pointer;
-        margin-left: 10px;
-        margin-top: 0;
-        vertical-align: middle;
-      }
-      div {
-        display: inline;
-        float: left;
-      }
+
+    .add-person-btn {
+      cursor: pointer;
+      margin-left: 10px;
+      margin-top: 0;
+      vertical-align: middle;
+    }
+
+    .add-user-share-col2 {
+      display: inline;
+      float: left;
     }
   }
+
   .permission-select {
     cursor: pointer;
     padding: 2px;
   }
+
   .image-remove {
     zoom: reset;
+
     &:hover {
       cursor: pointer;
     }
-    ;
   }
-  #list-share-calendar {
+
+  .list-share-user-calendar {
     .permission-select {
       width: 57%;
     }
   }
+
   .share-calendar-user {
     margin-top: 10px;
   }
@@ -242,9 +275,9 @@
 }
 
 .cal-dialog {
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px 0 $black-20, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: $white;
+  border: 1px solid $color-celeste-approx;
+  box-shadow: 0 4px 8px 0 $black-20, 0 6px 20px 0 $black-19;
   display: none;
   left: 150px;
   position: absolute;
@@ -254,8 +287,8 @@
 }
 
 .cal-dialog-title {
-  background-color: #fff;
-  color: #222;
+  background-color: $white;
+  color: $nero-black;
   cursor: default;
   font-size: 16px;
   font-weight: bold;
@@ -265,7 +298,7 @@
 }
 
 .cal-dialog-title-close {
-  background: url(image_path('combined_v46_vr.png')) -215px -51px;
+  background: url(image-path('combined_v46_vr.png')) -215px -51px;
   cursor: pointer;
   height: 10px;
   position: absolute;
@@ -275,18 +308,18 @@
 }
 
 .cal-dialog-content {
-  background-color: #fff;
-  color: #222;
+  background-color: $white;
+  color: $nero-black;
   padding: 15px;
 }
 
 .cal-dialog-buttons {
-  background-color: #fff;
+  background-color: $white;
   padding: 0 15px 15px;
 }
 
-#particular-calendar {
-  margin: 5px 5px;
+.particular-calendar {
+  margin: 5px;
 }
 
 .inline-block {
@@ -294,11 +327,11 @@
   position: relative;
 }
 
-#timezone-name {
+.full-timezone-name {
   margin-top: 6px;
 }
 
-#loading {
+.loading-overlay {
   display: none;
   position: absolute;
   right: 10px;
@@ -314,7 +347,7 @@
 
 .calendars {
   .copied {
-    color: black;
+    color: $black;
   }
 
   textarea {
