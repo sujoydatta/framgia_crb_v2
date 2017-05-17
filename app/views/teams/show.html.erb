@@ -13,7 +13,7 @@
     <div class="modal-header">
       <h2><%= t ".edit" %><span class="close">×</span></h2>
     </div>
-    <div id="signin_error_message"></div>
+    <div id="signin_error_message" class="signin-error-message"></div>
     <div id="sign-in">
       <%= form_for @team, url: organization_team_path(@team.organization, @team),
         html: {class: "organization-form"} do |f| %>
