@@ -2,8 +2,8 @@
 
 .dialog {
   background-color: $white;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px 0 $black-20, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: 1px solid $color-celeste-approx;
+  box-shadow: 0 4px 8px 0 $black-20, 0 6px 20px 0 $black-19;
   position: absolute;
   width: 400px;
   z-index: 1001;
@@ -30,13 +30,13 @@
 
 .period-tile {
   clear: both;
-  color: #1b1b1b;
+  color: $cod-gray-color;
   font-family: Arial;
   font-size: 13px;
 }
 
 .title-label {
-  color: #9b9b9b;
+  color: $dusty-gray-color;
   font-size: 11px;
   font-weight: bold;
   height: 18px;
@@ -44,7 +44,7 @@
 }
 
 .error-title {
-  color: red;
+  color: $red-color;
   display: none;
   height: 18px;
   line-height: 18px;
@@ -57,20 +57,20 @@
 .gcal-textinput,
 UNUSED.gcal-contenteditable-textinput.textarea {
   box-sizing: border-box;
-  color: #1b1b1b;
+  color: $cod-gray-color;
   padding: 6px;
   width: 100%;
 }
 
 .action {
   clear: both;
-  color: #1b1b1b;
+  color: $cod-gray-color;
   font-family: Arial;
   font-size: 13px;
   height: 30px;
   line-height: 30px;
-  line-height: 30px;
   position: relative;
+
   .right-actions {
     display: inline-block;
     float: right;
@@ -79,13 +79,14 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
 .select-calendar {
   .title-label {
-    color: #9b9b9b;
+    color: $dusty-gray-color;
     font-family: Arial;
     font-size: 11px;
     font-weight: bold;
     height: 18px;
     line-height: 18px;
   }
+
   .calendar-container {
     height: 36px;
     line-height: 36px;
@@ -94,11 +95,8 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .tab-container .tab-label {
-  cursor: pointer;
-}
-
-.tab-container .tab-label {
   border-right: 1px solid $dusty-gray-color;
+  cursor: pointer;
   margin-left: 1ex;
   padding-right: 1ex;
 }
@@ -129,25 +127,25 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .button-action {
-  background-color: #4d90fe;
-  background-image: -moz-linear-gradient(center top, #4d90fe, #4787ed);
-  border: 1px solid #3079ed;
+  background-color: $dodger-blue;
+  background-image: linear-gradient(center top, $dodger-blue, $cornflower-blue-color);
+  border: 1px solid $royal-blue-color;
   box-shadow: none;
-  color: #fff;
+  color: $white;
 }
 
 .button-action:focus {
   border: 1px solid transparent;
-  box-shadow: 0 0 0 1px #fff inset;
+  box-shadow: 0 0 0 1px $white inset;
   outline: 0 none transparent;
 }
 
 .button-edit {
-  background-color: #4CAF50;
-  background-image: -moz-linear-gradient(center top, #4d90fe, #4787ed);
-  border: 1px solid #4CAF50;
+  background-color: $fruit-salad-color;
+  background-image: linear-gradient(center top, $dodger-blue, $cornflower-blue-color);
+  border: 1px solid $fruit-salad-color;
   box-shadow: none;
-  color: #fff;
+  color: $white;
 }
 
 .bubble-close {
@@ -162,7 +160,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
 .prong-dk {
   border: 9px solid;
-  border-color: #ccc transparent;
+  border-color: $color-celeste-approx transparent;
 }
 
 .prong-dk,
@@ -174,7 +172,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
 .prong-lt {
   border: 8px solid;
-  border-color: #fff transparent;
+  border-color: $white transparent;
   left: 1px;
 }
 
@@ -188,7 +186,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .overlay-bg {
-  background: rgba(0, 0, 0, 0.4);
+  background: $black-40;
   display: none;
   height: 100%;
   left: 0;
@@ -198,63 +196,76 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   z-index: 1000;
 }
 
-/* Create event new page */
+// Create event new page
 #event {
   .main-event-form {
     display: inline-block;
     padding-left: 0;
     width: 600px;
   }
+
   .form-attendee {
     bottom: 0;
     position: absolute;
     right: -350px;
     top: 0;
+
     .add-attendee {
       margin-bottom: 0;
     }
+
     .form-control {
       display: inline-block;
       margin: 0;
       width: 200px;
     }
   }
+
   .form-group {
     .select2 .selection .select2-selection {
       width: 100% !important;
     }
+
     input.select2-search__field {
       -webkit-appearance: textfield;
       outline: none;
       padding: 0 6px;
     }
   }
+
   .notify {
     padding-left: 15px;
   }
+
   .fix-width-date {
     display: inline-block;
     width: 120px;
   }
+
   .fix-width-time {
     display: inline-block;
     width: 90px;
   }
+
   .dialog-repeat-event:hover {
     text-decoration: underline;
   }
+
   .checkox-new-event {
-    border: 1px solid black;
+    border: 1px solid $black;
     overflow: hidden;
     width: 300px;
   }
+
   .all-day {
     float: left;
     width: 100px;
   }
+
   .cb-repeat {
     overflow: hidden;
   }
+
   form {
     textarea {
       height: 100px;
@@ -262,15 +273,17 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   }
 }
 
-/* Show event detail */
+// Show event detail
 #maincell {
   .contain {
     .btn {
       padding: 6px 25px;
     }
+
     .ev-title {
       margin: 20px 0 10px;
       padding-left: 30px;
+
       .title {
         font-size: 22px;
         font-weight: bold;
@@ -278,30 +291,36 @@ UNUSED.gcal-contenteditable-textinput.textarea {
         margin-top: 10px;
       }
     }
+
     .ev-dt {
       font-size: 15px;
       font-style: italic;
       margin-bottom: 10px;
       padding-left: 30px;
+
       .lb-dt {
         border: 0;
         margin: 0;
         padding: 0;
       }
     }
+
     .ev-cal {
       padding-left: 20px;
       padding-right: 20px;
+
       .ev-contain {
         .lb-contain {
           display: inline-block;
           float: left;
           width: 49.95%;
+
           .lbcal {
             padding: 0;
             vertical-align: top;
+
             ul {
-              border-bottom: 1px solid #CCCCCC;
+              border-bottom: 1px solid $color-celeste-approx;
               border-spacing: 10px;
               display: table;
               font-size: 16px;
@@ -311,11 +330,13 @@ UNUSED.gcal-contenteditable-textinput.textarea {
               max-width: 500px;
               padding: 0;
               table-layout: fixed;
+
               li:first-child {
                 font-weight: bold;
                 text-align: left;
                 width: 90px;
               }
+
               li {
                 float: left;
                 padding-right: 15px;
@@ -323,33 +344,36 @@ UNUSED.gcal-contenteditable-textinput.textarea {
                 word-wrap: break-word;
               }
             }
+
             ul.end-list {
               border-bottom: 0;
             }
           }
         }
+
         .ev-att {
           display: inline-block;
           float: left;
           font-size: 16px;
           padding: 0;
           width: 49.55%;
+
           .contain {
             list-style: none;
             width: 250px;
+
             .lb-attendees,
             .lb-notification {
               font-weight: bold;
               padding-left: 10px;
             }
+
             .form-field {
               .btn {
-                background: #f5f5f5;
-                border: 1px solid #dcdcdc;
-                -webkit-border-radius: 2px;
-                -moz-border-radius: 2px;
-                border-radius: 0;
-                color: #444;
+                background: $wild-sand-color;
+                border: 1px solid $alto-color;
+                border-radius: 2px;
+                color: $tundora-color;
                 cursor: pointer;
                 font-size: 11px;
                 font-weight: bold;
@@ -359,38 +383,32 @@ UNUSED.gcal-contenteditable-textinput.textarea {
                 outline: none;
                 padding: 0 8px;
                 text-align: center;
-                -webkit-transition: all .218s;
-                -moz-transition: all .218s;
-                -o-transition: all .218s;
                 transition: all .218s;
-                -webkit-user-select: none;
-                -moz-user-select: none;
+                user-select: none;
+
                 &:hover {
-                  background: #f8f8f8;
-                  border: 1px solid #c6c6c6;
-                  -webkit-box-shadow: 0 1px 1px $black-10;
-                  -moz-box-shadow: 0 1px 1px $black-10;
+                  background: $alabaster-color;
+                  border: 1px solid $silver-color;
                   box-shadow: 1px 1px $black-10;
-                  color: #222;
-                  -webkit-transition: all 0s;
-                  -moz-transition: all 0s;
-                  -o-transition: all 0s;
+                  color: $mine-shaft-color;
                   transition: all 0s;
-                  z-index: 80
+                  z-index: 80;
                 }
+
                 &:active {
-                  background: #f6f6f6;
-                  -webkit-box-shadow: inset 0 1px 2px $black-10;
-                  -moz-box-shadow: inset 0 1px 2px $black-10;
+                  background: $wild-sand-color;
                   box-shadow: inset 0 1px 2px $black-10;
                 }
               }
             }
+
             ul {
               list-style: none;
               padding-left: 10px;
+
               li {
                 padding-bottom: 10px;
+
                 .btn-del {
                   background: url(image_path('combined_v46_vr.png')) -228px -48px;
                   cursor: pointer;
@@ -405,6 +423,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
             }
           }
         }
+
         .ev-att::after {
           clear: both;
         }
@@ -415,11 +434,13 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
 .fc-event {
   border-radius: 0 !important;
-  color: #000 !important;
+  color: $black !important;
+
   .fc-content {
     .fc-time {
       font: bold 10px Arial,sans-serif;
     }
+
     .fc-title {
       font: 12px Arial,sans-serif;
     }
@@ -427,52 +448,56 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .before-current {
-  background-color: #A9A9A9 !important;
+  background-color: $silver-chalice-color !important;
 }
 
-#dialog-update-popup, #dialog-delete-popup {
+#dialog-update-popup,
+#dialog-delete-popup {
   margin: 0 auto;
+
   &.modal-dialog {
-    background-color: #fff;
-    border: 1px solid #acacac;
-    -webkit-box-shadow: 0 4px 16px $black-20;
-    -moz-box-shadow: 0 4px 16px $black-20;
-    -ms-box-shadow: 0 4px 16px $black-20;
+    background-color: $white;
+    border: 1px solid $silver-chalice-color;
     box-shadow: 0 4px 16px $black-20;
-    color: #222;
+    color: $mine-shaft-color;
     outline: 0;
     padding: 15px;
     position: absolute;
     z-index: 1011;
+
     .btn {
       font-size: 11px;
       font-weight: bold;
       height: auto;
     }
+
     .btn-confirm {
       margin-right: 10px;
       width: 160px;
     }
+
     .btn-right {
       float: right;
     }
+
     .modal-content {
-      background-color: #fff;
-      color: #222;
-      border: none;
-      -webkit-box-shadow: none;
+      background-color: $white;
+      border: 0;
       box-shadow: none;
+      color: $mine-shaft-color;
     }
+
     .modal-title {
-      background-color: #fff;
-      color: #222;
+      background-color: $white;
+      color: $mine-shaft-color;
       cursor: default;
       font-size: 16px;
       font-weight: bold;
-      padding: 15px 0 15px;
+      padding: 15px 0;
       position: relative;
       vertical-align: middle;
     }
+
     .explanation-cell {
       font-size: 12px;
     }
@@ -485,8 +510,8 @@ UNUSED.gcal-contenteditable-textinput.textarea {
   }
 
   .ep-recl-dialog-title {
-    background-color: #fff;
-    color: #222;
+    background-color: $white;
+    color: $mine-shaft-color;
     cursor: default;
     font-size: 16px;
     font-weight: bold;
@@ -494,6 +519,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
     position: relative;
     vertical-align: middle;
   }
+
   .ep-recl-dialog-title-close {
     background: url(image_path('combined_v46_vr.png')) -215px -51px;
     cursor: pointer;
@@ -503,53 +529,67 @@ UNUSED.gcal-contenteditable-textinput.textarea {
     top: 10px;
     width: 10px;
   }
+
   .ep-recl-dialog-content {
-    background-color: #fff;
-    color: #222;
+    background-color: $white;
+    color: $mine-shaft-color;
     padding: 15px;
   }
+
   table {
     border-collapse: separate;
-    border-color: grey;
+    border-color: $gray;
     border-spacing: 2px;
   }
-  tbody, tr {
+
+  tbody,
+  tr {
     border-color: inherit;
     vertical-align: middle;
   }
+
   .ep-rec th {
-    color: #222;
+    color: $mine-shaft-color;
     font-weight: bold;
     padding: 5px 10px 5px 0;
     text-align: right;
     white-space: nowrap;
   }
+
   .ep-rec td {
     font-size: 13px;
     padding: 5px 0;
   }
+
   td,
   th {
     vertical-align: inherit;
   }
+
   #select-repeat-every {
     width: 60px;
   }
+
   .ep-rec-ends-th {
     vertical-align: top;
   }
+
   .ep-rec-ends-opt {
     display: block;
   }
+
   .ep-rec-summary {
     font-weight: bold;
   }
+
   .ep-rec-buttons-padding {
     padding-top: 15px;
   }
+
   .ep-recl-dialog .goog-imageless-button {
     margin: 1px 5px 1px 1px;
   }
+
   .goog-inline-block {
     display: inline-block;
     display: -moz-inline-box;
@@ -588,24 +628,24 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .bubble-sprite {
+  background-image: url(image_path('bubble_combined_v2.png'));
   height: 96px;
   position: absolute;
   width: 148px;
-  background-image: url(image_path('bubble_combined_v2.png'));
 }
 
 .bubble-cell-main {
-  background-color: #fff;
+  background-color: $white;
   width: 100%;
 }
 
 .bubble-top {
-  border-top: 1px solid #ababab;
+  border-top: 1px solid $silver-chalice-color;
 }
 
 .bubble-top,
 .bubble-bottom {
-  background: #fff;
+  background: $white;
   height: 24px;
 }
 
@@ -614,9 +654,9 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .bubble-mid {
-  background: #fff;
-  border-left: 1px solid #ababab;
-  border-right: 1px solid #ababab;
+  background: $white;
+  border-left: 1px solid $silver-chalice-color;
+  border-right: 1px solid $silver-chalice-color;
   padding: 0 20px;
 }
 
@@ -644,7 +684,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 }
 
 .bubble-bottom {
-  border-bottom: 1px solid #ababab;
+  border-bottom: 1px solid $silver-chalice-color;
 }
 
 .bubble-br {
@@ -654,7 +694,7 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 
 .event-details-label {
   clear: left;
-  color: #4e4e4e;
+  color: $tundora-color;
   display: block;
   float: left;
   font-size: 100%;
@@ -702,13 +742,16 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 .group_attendee {
   display: block;
   margin-bottom: 5px;
+
   li {
     display: inline-block;
   }
+
   .remove_attendee {
     float: right;
+
     &:hover {
-      cursor: pointer
+      cursor: pointer;
     }
   }
 }
@@ -728,13 +771,13 @@ UNUSED.gcal-contenteditable-textinput.textarea {
 // Overide select2
 
 .select2-selection--single {
-  border: 1px solid #ccc;
+  border: 1px solid $color-celeste-approx;
   border-radius: 2px;
   height: 32px;
 }
 
 .select2-container--default .select2-selection--single {
-  border: 1px solid #ccc;
+  border: 1px solid $color-celeste-approx;
   border-radius: 2px;
   height: 32px;
 }
