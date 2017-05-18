@@ -54,4 +54,5 @@ Rails.application.routes.draw do
     get "search" => "searches#index"
     resources :sessions, only: [:create, :destroy]
   end
+  resource :check_names, only: :show
 end

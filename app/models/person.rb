@@ -8,6 +8,10 @@ class Person
     @name = name
   end
 
+  def new_record?
+    false
+  end
+
   class << self
     def names
       connection = ActiveRecord::Base.connection

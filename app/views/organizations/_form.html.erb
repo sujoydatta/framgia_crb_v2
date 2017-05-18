@@ -15,8 +15,9 @@
     <div class="col-md-6">
       <% if @organization.new_record? %>
         <%= f.label :name, t(".organization_name") %>
-        <%= f.text_field :name, class: "form-control", required: true,
-          placeholder: t(".name") %>
+        <%= f.text_field :name, class: "form-control auto-validate-name",
+          required: true, placeholder: t(".name"), autocomplete: :off %>
+        <div class="error_validate_mes"></div>
       <% else %>
         <%= f.label :display_name, t(".organization_display_name") %>
         <%= f.text_field :display_name, class: "form-control",
