@@ -177,6 +177,11 @@ GEM
     execjs (2.7.0)
     extlib (0.9.16)
     fabrication (2.16.1)
+    factory_girl (4.8.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.8.0)
+      factory_girl (~> 4.8.0)
+      railties (>= 3.0.0)
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
     ffaker (2.5.0)
@@ -565,6 +570,7 @@ DEPENDENCIES
   devise
   eslint-rails
   fabrication
+  factory_girl_rails
   ffaker
   figaro
   friendly_id
