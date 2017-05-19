@@ -38,13 +38,18 @@ module NotifyDesktop
     notify_data = {title: event_title, start: event_start,
       finish: event_finish, desc: event_desc,
       attendees: notify_to_attendees.join(", "),
-      from_user: from_user, remind_message: remind_message}
+      from_user: from_user, remind_message: remind_message,
+      icon: Settings.notification.icon,
+    }
+
+    ActionCable.server.broadcast "notification_channel_#{event.owner.id}", notify_data: notify_data
 
     event.attendees.each do |attendee|
       notify_data[:to_user] = attendee.user_name
-      if event.owner.id != attendee.user_id
-        # send notification
-      end
+      ActionCable.server.broadcast "notification_channel_#{attendee.user_id}", notify_data: notify_data
+      #if event.owner.id != attendee.user_id
+        #notification here
+      #end
     end
   end
 end

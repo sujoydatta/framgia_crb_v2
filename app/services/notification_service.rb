@@ -15,7 +15,7 @@ class NotificationService
   def perform_notification
     perform_chatwork_notification if @notification_types.include?(:chatwork)
     perform_email_notification if @notification_types.include?(:email)
-    perform_desktop_notification if @notification_types.include?(:desktop)
+    perform_desktop_notification
   end
 
   def delay_time
@@ -37,8 +37,7 @@ class NotificationService
   end
 
   def perform_desktop_notification
-    NotificationDesktopJob.new(@event, Settings.start_event).perform
     Notifier::DesktopService.new(@event, Settings.create_event).perform
-    Delayed::Job.enqueue NotificationDesktopJob.new(@event), 0, @delay_time
+    Delayed::Job.enqueue NotificationDesktopJob.new(@event, Settings.start_event), 0, @delay_time
   end
 end
