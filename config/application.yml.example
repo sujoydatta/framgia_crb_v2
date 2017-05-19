@@ -4,6 +4,8 @@ WEB_CONCURRENCY: 2
 PORT: 3000
 FACEBOOK_KEY: ""
 FACEBOOK_SECRET: ""
+GOOGLE_KEY: ""
+GOOGLE_SECRET: ""
 
 development:
   RAILS_ENV: development
