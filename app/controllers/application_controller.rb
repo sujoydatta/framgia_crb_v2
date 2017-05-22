@@ -72,8 +72,9 @@ class ApplicationController < ActionController::Base
     session["user_return_to"] = request.fullpath
   end
 
-  def after_sign_in_path_for resouce
-     sign_in_url = new_user_session_url
+
+  def after_sign_in_path_for resource
+    sign_in_url = new_user_session_url
 
     if request.referer == sign_in_url
       super

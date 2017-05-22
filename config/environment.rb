@@ -1,6 +1,5 @@
 # Load the Rails application.
 require_relative 'application'
-require "extensions/string_utils"
 
 # Initialize the Rails application.
 Rails.application.initialize!

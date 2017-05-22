@@ -1,5 +1,5 @@
 class StringUtils < String
-  attr_accessor :user_name
+  attr_accessor :name
 
   def initialize name
     @name = name
@@ -11,7 +11,7 @@ class StringUtils < String
     value.gsub!(/["]+/, "")
     value.gsub!(/\W+/, " ")
     value.strip!
-    value.gsub!(" ", "")
+    value.delete! " "
     value
   end
 end
