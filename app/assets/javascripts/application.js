@@ -16,11 +16,13 @@
 //= require moment.min
 //= require moment-timezone-with-data-2010-2020.min
 //= require fullcalendar
+//= require js.cookie
 //= require gcal
 //= require i18n
 //= require i18n.js
 //= require i18n/translations
 //= require select2
+//= require btn_back
 //= require user
 //= require jquery.timepicker
 //= require datepair

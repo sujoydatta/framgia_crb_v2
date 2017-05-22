@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_action :store_location
+  before_action :create_back_cookie
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:alert] = exception.message
@@ -69,9 +70,17 @@ class ApplicationController < ActionController::Base
                 "/users/sign_out"
               ].include?(request.path)
     return if request.xhr?
+
     session["user_return_to"] = request.fullpath
   end
 
+  def create_back_cookie
+    cookies[:back] ||= ""
+    cookies[:return] ||= ""
+    cookies[:back] += request.referer + ";" if
+      request.referer && cookies[:return] != request.referer
+    cookies[:return] = request.referer
+  end
 
   def after_sign_in_path_for resource
     sign_in_url = new_user_session_url

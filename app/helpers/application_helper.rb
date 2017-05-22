@@ -58,6 +58,12 @@ module ApplicationHelper
   end
 
   def go_back_link
-    request.referer.present? ? request.referer : root_path
+    if cookies[:back].blank?
+      root_path
+    else
+      cookie = cookies[:back]
+      cookie = cookie[0, cookie.length - 1]
+      cookie.split("\;").last
+    end
   end
 end
