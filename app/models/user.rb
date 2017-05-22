@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   extend FriendlyId
+
   friendly_id :name, use: [:slugged, :finders]
 
   devise :database_authenticatable, :rememberable, :trackable, :validatable,
@@ -72,25 +73,39 @@ class User < ApplicationRecord
   end
 
   def is_user? user
-    self ==  user
+    self == user
   end
 
   class << self
+
     def existed_email? email
       User.pluck(:email).include? email
     end
 
     def from_omniauth auth
-      user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user = find_or_initialize auth
+      if user.setting.nil?
+        user.build_setting timezone_name: ActiveSupport::TimeZone.all.sample.name
+      end
+      user.save
+      user
+    end
+
+    def find_or_initialize auth
+      require "extensions/string_utils"
+      find_or_initialize_by(email: auth.info.email).tap do |user|
         user.provider = auth.provider
         user.uid = auth.uid
         user.email = auth.info.email
-        user.password = Devise.friendly_token[0,20]
+        user.password = Devise.friendly_token[0, 20]
+        user.display_name = auth.info.name
+        user.name ||= make_name(auth)
       end
-      if user.setting.nil?
-        user.create_setting timezone_name: ActiveSupport::TimeZone.all.sample.name
-      end
-      user
+    end
+
+    def make_name auth
+      name = StringUtils.new auth.info.name
+      name.to_slug
     end
   end
 

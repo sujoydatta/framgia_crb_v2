@@ -61,20 +61,25 @@ class ApplicationController < ActionController::Base
   end
 
   def store_location
-    return unless ["/users/sign_in",
-                    "/users/sign_up",
-                    "/users/password/new",
-                    "/users/password/edit",
-                    "/users/confirmation",
-                    "/users/sign_out"
-                  ].include?(request.path)
+    return if ["/users/sign_in",
+                "/users/sign_up",
+                "/users/password/new",
+                "/users/password/edit",
+                "/users/confirmation",
+                "/users/sign_out"
+              ].include?(request.path)
     return if request.xhr?
-
-    session[:previous_url] = request.fullpath
+    session["user_return_to"] = request.fullpath
   end
 
-  def after_sign_in_path_for _
-    session[:previous_url] || root_path
+  def after_sign_in_path_for resouce
+     sign_in_url = new_user_session_url
+
+    if request.referer == sign_in_url
+      super
+    else
+      stored_location_for(resource) || request.referer || root_path
+    end
   end
 
   # rubocop:disable LineLength

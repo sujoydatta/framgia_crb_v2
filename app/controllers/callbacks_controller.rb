@@ -1,4 +1,6 @@
 class CallbacksController < Devise::OmniauthCallbacksController
+  skip_before_action :authenticate_user!
+
   def generic
     user = User.from_omniauth env["omniauth.auth"]
     if user.persisted?
