@@ -8,7 +8,7 @@ App.notification = App.cable.subscriptions.create('NotificationChannel', {
     });
 
     notification.onclick = function () {
-      // window.open('http://localhost:3000');
+      window.open(data.notify_data.path);
     };
     // var current_counter = parseInt($('#noti-counter').text(), 10);
     // $('.notifications-view').prepend(data.notification);

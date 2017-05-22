@@ -30,6 +30,8 @@ module NotifyDesktop
     event_finish = event.finish_date.strftime Settings.event.format_datetime
     event_desc = event.description
     from_user = event.owner.name
+    event_path = Rails.application.routes.url_helpers.event_path event
+    notification_icon = ActionController::Base.helpers.asset_path Settings.notification.icon
     notify_to_attendees = Array.new
     event.attendees.each do |attendee|
       notify_to_attendees << attendee.user_name
@@ -39,7 +41,7 @@ module NotifyDesktop
       finish: event_finish, desc: event_desc,
       attendees: notify_to_attendees.join(", "),
       from_user: from_user, remind_message: remind_message,
-      icon: Settings.notification.icon,
+      icon: notification_icon, path: event_path
     }
 
     ActionCable.server.broadcast "notification_channel_#{event.owner.id}", notify_data: notify_data
@@ -47,9 +49,6 @@ module NotifyDesktop
     event.attendees.each do |attendee|
       notify_data[:to_user] = attendee.user_name
       ActionCable.server.broadcast "notification_channel_#{attendee.user_id}", notify_data: notify_data
-      #if event.owner.id != attendee.user_id
-        #notification here
-      #end
     end
   end
 end
