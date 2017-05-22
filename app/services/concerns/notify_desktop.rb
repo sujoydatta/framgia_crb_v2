@@ -44,11 +44,11 @@ module NotifyDesktop
       icon: notification_icon, path: event_path
     }
 
-    ActionCable.server.broadcast "notification_channel_#{event.owner.id}", notify_data: notify_data
+    ActionCable.server.broadcast "notification_channel_#{event.owner.cable_token}", notify_data: notify_data
 
     event.attendees.each do |attendee|
       notify_data[:to_user] = attendee.user_name
-      ActionCable.server.broadcast "notification_channel_#{attendee.user_id}", notify_data: notify_data
+      ActionCable.server.broadcast "notification_channel_#{attendee.user.cable_token}", notify_data: notify_data
     end
   end
 end

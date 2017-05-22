@@ -114,6 +114,14 @@ class User < ApplicationRecord
       self.class.exists? auth_token: auth_token
   end
 
+  def make_cable_token!
+    self.update_attributes cable_token: Devise.friendly_token
+  end
+
+  def remove_cable_token!
+    self.update_attributes cable_token: nil
+  end
+
   private
   def build_calendar
     self.calendars.new name: self.name, is_default: true,
