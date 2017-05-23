@@ -5,7 +5,8 @@
       <div class="form-group">
         <%= label_tag t(".calendar") %>
         <label class="div-box">
-          <input type="checkbox" class="select-all-calendar" <%= "checked" if @room_search.is_selected_all_calendars? %>/> Select All
+          <input type="checkbox" class="select-all-calendar" <%= "checked" if @room_search.is_selected_all_calendars? %>/>
+            <%= t ".select_all" %>
         </label>
 
         <%= select :calendar, :ids, @room_search.manage_calendars,

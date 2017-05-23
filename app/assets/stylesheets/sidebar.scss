@@ -431,6 +431,7 @@
         position: relative;
 
         select {
+          -webkit-appearance: none;
           appearance: none;
           background: $alabaster-color;
           border: 1px solid $silver-color;

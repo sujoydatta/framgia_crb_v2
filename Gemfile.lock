@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/dieunb/omniauth-hrsystem.git
+  revision: 9d8fccc77edaf2f038cbd1a86d63dfac2f208a8c
+  specs:
+    omniauth-hrsystem (1.0.0)
+      omniauth-oauth2 (~> 1.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -588,6 +595,7 @@ DEPENDENCIES
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
+  omniauth-hrsystem!
   paranoia (~> 2.2)
   parser (~> 2.2.3)
   passenger (>= 5.0.25)

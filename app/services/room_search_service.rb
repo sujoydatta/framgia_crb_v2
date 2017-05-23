@@ -2,7 +2,7 @@ class RoomSearchService
   include ActiveModel::Validations
 
   validates_presence_of :start_time, :finish_time
-  validate :start_time_is_after_finish_time
+  validate :start_time_is_after_finish_time, if: "start_time.present? && finish_time.present?"
 
   attr_accessor :start_time, :finish_time, :manage_calendars, :calendar_ids,
     :number_of_seats
@@ -113,7 +113,7 @@ class RoomSearchService
   end
 
   def start_time_is_after_finish_time
-    if @start_time.nil? || @finish_time.nil? || @start_time >= @finish_time
+    if @start_time >= @finish_time
       errors.add(:time_errors, I18n.t("room_search.input_time_error"))
     end
   end

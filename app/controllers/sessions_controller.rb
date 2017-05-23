@@ -22,7 +22,10 @@ class SessionsController < Devise::SessionsController
       format.json do
         render json: {success: false, data: {message: message, cause: "invalid"}}
       end
-      format.html{redirect_to root_path}
+      format.html do
+        flash[:notice] = message
+        redirect_to root_path
+      end
     end
   end
 end

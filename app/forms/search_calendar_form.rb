@@ -1,0 +1,3 @@
+class SearchCalendarForm
+
+end
