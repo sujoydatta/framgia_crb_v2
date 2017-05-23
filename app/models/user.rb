@@ -84,7 +84,8 @@ class User < ApplicationRecord
 
     def from_omniauth auth
       user = find_or_initialize auth
-      if user.setting.nil?
+
+      if user.new_record?
         user.build_setting timezone_name: ActiveSupport::TimeZone.all.sample.name
       end
       user.save

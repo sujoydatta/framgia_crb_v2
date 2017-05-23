@@ -17,3 +17,4 @@ en:
     confirm_create_event: "Are you sure about book event"
     dont_have_empty_room: "No room empty with these time!"
     input_time_error: "Start time is after finish time!"
+    select_all: "Select All"
