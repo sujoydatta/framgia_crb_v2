@@ -417,3 +417,64 @@ input[type=checkbox] {
 .modal {
   top: 44px;
 }
+
+/*Validate name*/
+.auto-validate-name.error {
+  background-image: url(image-path('error-validate.png'));
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.auto-validate-name.success {
+  background-image: url(image-path('success-validate.png'));
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.auto-validate-name.loading {
+  background-image: url(image-path('loading-validate.gif'));
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.error_validate_mes::before, .error_validate_mes::after{
+  bottom: 100%;
+  border: solid transparent;
+  content: '';
+  height: 0;
+  pointer-events: none;
+  position: absolute;
+  left: 10px;
+  width: 0;
+}
+
+.error_validate_mes::before{
+  border-bottom-color: $eunry;
+  border-width: 6px;
+  margin-left: -1px;
+}
+
+.error_validate_mes::after{
+  border-bottom-color: $osmos;
+  border-width: 5px;
+}
+
+.error_validate_mes {
+  background-color: $osmos;
+  border-style: solid;
+  border-color: $eunry;
+  border-width: 1px;
+  border-radius: 2px 2px 2px 2px;
+  box-shadow: 0 4px 8px 0 $black-20, 0 6px 20px 0 $black-19;
+  color: $falu-red;
+  display: none;
+  font-size: 13px;
+  line-height: 21px;
+  margin-top: 4px;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 5px;
+  padding-left: 8px;
+  position: absolute;
+  z-index: 10;
+}

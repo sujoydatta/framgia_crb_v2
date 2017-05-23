@@ -39,6 +39,7 @@
 //= require dialog
 //= require range_time_select
 //= require room_search
+//= require auto_validate_name
 
 $(document).on('ready', function() {
   $('.copied').hide();
