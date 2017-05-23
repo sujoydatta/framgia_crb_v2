@@ -1,5 +1,5 @@
 Fabricator :user do
   name :name
-  email :email
+  email {FFaker::Internet.email}
   password "12345678"
 end
