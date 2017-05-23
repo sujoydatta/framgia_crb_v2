@@ -1,4 +1,6 @@
 Fabricator :attendee do
-  user_id
-  event_id
+  email {FFaker::Internet.email}
+  user
+  event
+  status 0
 end
