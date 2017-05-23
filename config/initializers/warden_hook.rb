@@ -4,7 +4,12 @@ Warden::Manager.after_set_user do |user, auth, opts|
   auth.cookies.signed["#{scope}.expires_at"] = 30.minutes.from_now
 end
 
+Warden::Manager.after_authentication do |user,auth,opts|
+  user.make_cable_token!
+end
+
 Warden::Manager.before_logout do |user, auth, opts|
+  user.remove_cable_token!
   scope = opts[:scope]
   auth.cookies.signed["#{scope}.id"] = nil
   auth.cookies.signed["#{scope}.expires_at"] = nil
