@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe User, type: :model do
+RSpec.describe Organization, type: :model do
   subject {FactoryGirl.create :organization}
 
   describe "associations" do
@@ -24,7 +24,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  it "should accept_nested_attributes_for contract" do
+  it "should accept_nested_attributes_for setting and workspaces" do
     expect accept_nested_attributes_for subject.setting
     expect accept_nested_attributes_for subject.workspaces
   end
