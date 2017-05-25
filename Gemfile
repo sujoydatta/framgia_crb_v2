@@ -47,7 +47,6 @@ gem "mini_magick"
 gem "carrierwave"
 gem "tzinfo-data"
 gem "omniauth-hrsystem", git: "https://github.com/dieunb/omniauth-hrsystem.git"
-# gem "omniauth-hrsystem", path: "../omniauth-hrsystem", branch: "master"
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
