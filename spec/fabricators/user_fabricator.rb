@@ -1,5 +1,5 @@
 Fabricator :user do
-  name :name
+  name {FFaker::Name.name.gsub(/\s+/, "-").to_sym}
   email {FFaker::Internet.email}
   password "12345678"
 end
