@@ -1,5 +1,6 @@
 $(document).on('ready', function(){
   var timeout;
+  var validate_name_request;
   var pattern = /^(?![0-9]+$)[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/i;
   $('.auto-validate-name').on('input',function(){
     remove_status_validate();
@@ -15,6 +16,10 @@ $(document).on('ready', function(){
     var name = $('.auto-validate-name').val();
 
     function validate_faild(text){
+
+      if (validate_name_request) {
+        validate_name_request.abort();
+      }
       add_status_validate('error');
       $('.error_validate_mes').text(
         $('.auto-validate-name').attr('placeholder') + ' ' + text);
@@ -27,7 +32,7 @@ $(document).on('ready', function(){
     } else if (name.length > 39){
       validate_faild(I18n.t('validator.name.too_length'));
     } else {
-      $.ajax({
+      validate_name_request = $.ajax({
         url: '/check_names',
         type: 'get',
         data: {name: name},
