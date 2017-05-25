@@ -58,7 +58,7 @@ namespace :db do
           timezone_name: ActiveSupport::TimeZone.all.sample.name
       end
 
-      org = Fabricate :organization, name: "Framgia", creator: User.first
+      org = Fabricate :organization, name: "Framgia", creator_id: User.first.id
       org.create_setting country: "VN",
         timezone_name: ActiveSupport::TimeZone.all.sample.name
       org.users << User.all
@@ -90,7 +90,7 @@ namespace :db do
 
         ws_item[:rooms].each do |room_name|
           Fabricate :calendar, owner: workspace,
-            creator: User.first, name: room_name, color: Color.all.sample
+            creator_id: User.first.id, name: room_name, color: Color.all.sample
         end
       end
 
