@@ -1,4 +1,4 @@
 Fabricator :repeat_on do
-  event_id
-  days_of_week_id
+  event
+  days_of_week
 end

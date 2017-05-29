@@ -1,3 +1,3 @@
 Fabricator :notification do
-  notification_type
+  notification_type "Urgent"
 end
