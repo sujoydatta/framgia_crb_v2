@@ -2,6 +2,9 @@ class NotificationEmailJob < Struct.new(:event_id, :attendee_ids, :current_user_
   def perform
     attendees = Attendee.joins(:user).where id: attendee_ids
 
+    UserMailer.send_email_notify_delay(event_id, current_user_id,
+      current_user_id).deliver
+
     attendees.each do |attendee|
       UserMailer.send_email_notify_delay(event_id, attendee.user_id,
         current_user_id).deliver

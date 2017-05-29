@@ -27,7 +27,5 @@ module BaseApp
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_job.queue_adapter = :delayed_job
     config.action_view.embed_authenticity_token_in_remote_forms = true
-
-    ChatWork.api_key = ENV["CHATWORK_KEY"]
   end
 end

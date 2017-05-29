@@ -32,7 +32,6 @@ class EventsController < ApplicationController
 
   def show
     @event_presenter = EventPresenter.new(@event, params)
-
     respond_to do |format|
       format.html
       format.json do
