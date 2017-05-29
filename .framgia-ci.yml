@@ -4,7 +4,6 @@ test:
     command: /bin/bash -l -c bundle-audit check --update > .framgia-ci-reports/bundle-audit.txt
   rspec:
     command: /bin/bash -l -c rspec --format html --out .framgia-ci-reports/rspec.html spec/
-    ignore: true
   brakeman:
     command: /bin/bash -l -c brakeman -o .framgia-ci-reports/brakeman.html -o .framgia-ci-reports/brakeman.json
   reek:

@@ -8,6 +8,7 @@ build:
     - cp config/drone.database.yml config/database.yml
     - /bin/bash -l -c bundle install --without production
     - framgia-ci test-connect 127.0.0.1 3306
+    - framgia-ci test-connect 127.0.0.1 6379
     - /bin/bash -l -c rake db:create db:migrate RAILS_ENV=test
     - framgia-ci run
 compose:
@@ -18,6 +19,8 @@ compose:
       MYSQL_USER: test
       MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: root
+  cache:
+    image: redis
 
 # build:
 #   image: chikim/rails5_skeleton
