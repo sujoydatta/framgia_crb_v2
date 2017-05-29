@@ -1,6 +1,11 @@
 $(document).on('ready', function() {
   var $miniCalendar = $('#mini-calendar');
   var menuCalendar = $('#menu-of-calendar');
+  var dates = [];
+  var today = new Date();
+  var from = firstDateShow(today.getMonth(), today.getFullYear());
+  var to = lastDateShow(today.getMonth(), today.getFullYear());
+  load_event(from, to);
 
   $('.fc-prev-button, .fc-next-button, .fc-today-button').click(function() {
     var moment = $calendar.fullCalendar('getDate');
@@ -8,17 +13,80 @@ $(document).on('ready', function() {
     $miniCalendar.datepicker('setDate', new Date(moment.format('MM/DD/YYYY')));
   });
 
+  function load_event (from, to) {
+    var calendar_ids = [];
+    $('.sidebar-calendars .div-box>div').not($('.uncheck')).each(function() {
+      calendar_ids.push($(this).attr('data-calendar-id'));
+    });
+    var start_time_view = new Date(from);
+    var end_time_view = new Date(to);
+    timezone: window.timezone,
+    $.ajax({
+      url: '/events',
+      data: {
+        calendar_ids: calendar_ids,
+        organization_id: org_id,
+        start_time_view: moment.tz(formatDate(start_time_view), timezone).format(),
+        end_time_view: moment.tz(formatDate(end_time_view), timezone).format()
+      },
+      dataType: 'json',
+      success: function(response) {
+        response.events.forEach(function(event) {
+          var date = new Date(event.start_date);
+          date = formatDate(date);
+          dates.push(date);
+        });
+        $miniCalendar.datepicker('refresh');
+      }
+    });
+  }
+
   $miniCalendar.datepicker({
     dateFormat: 'DD, d MM, yy',
     showOtherMonths: true,
     selectOtherMonths: true,
     changeMonth: true,
     changeYear: true,
+    beforeShowDay: highlightDays,
     onSelect: function(dateText) {
       $calendar.fullCalendar('gotoDate', new Date(Date.parse(dateText)));
       $(this).datepicker('setDate', new Date(Date.parse(dateText)));
+    },
+    onChangeMonthYear:function(y, m) {
+      var selectedDate = $(this).datepicker('getDate');
+      selectedDate.setDate(1);
+      selectedDate.setMonth(m-1);
+      selectedDate.setFullYear(y);
+      load_event(m,y);
+      $miniCalendar.datepicker('refresh');
+      $(this).datepicker('setDate', selectedDate);
     }
   });
+
+  function firstDateShow(month, year) {
+    var firstDay = new Date(year, month, 1);
+    var i = firstDay.getDate() - firstDay.getDay() - 1;
+    return firstDay.setDate(firstDay.getDate() + i);
+  }
+
+  function lastDateShow(month, year) {
+    var lastDay = new Date(year, month + 1, 0);
+    var i = 6 - lastDay.getDay();
+    return lastDay.setDate(lastDay.getDate() + i);
+  }
+
+  function highlightDays(date) {
+    for (var i = 0; i < dates.length; i++) {
+      if (dates[i].toString() == formatDate(date)) {
+        return [true, 'highlight'];
+      }
+    }
+    return [true, ''];
+  }
+
+  function formatDate(value) {
+    return value.getMonth() + 1 + '/' + value.getDate() + '/' + value.getFullYear();
+  }
 
   $('.create').click(function() {
     if ($(this).parent().hasClass('open')) {
