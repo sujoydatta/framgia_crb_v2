@@ -167,11 +167,16 @@ class EventsController < ApplicationController
   end
 
   def build_event_params
+    if params[:fdata].blank?
+      params[:event] = {title: ""}
+      return
+    end
+
     begin
       response = JSON.parse(Base64.decode64 params[:fdata])
       params[:event] = response
     rescue JSON::ParserError => e
-      params[:event] = {}
+      params[:event] = {title: ""}
     end
   end
 end

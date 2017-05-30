@@ -54,24 +54,25 @@ class Event < ApplicationRecord
   accepts_nested_attributes_for :notification_events, allow_destroy: true
   accepts_nested_attributes_for :repeat_ons, allow_destroy: true
 
-  scope :in_calendars, ->calendar_ids do
+  scope :in_calendars, ->(calendar_ids) do
     where("events.calendar_id IN (?)", calendar_ids)
   end
-  scope :shared_with_user, ->user do
+  scope :shared_with_user, ->(user) do
     if user.persisted?
       selected_columns = (Event.attribute_names - ["calendar_id"]).map! do |column|
         "events.#{column}"
       end.join(", ")
 
-      select("#{selected_columns}, at.user_id as attendee_user_id, at.event_id as attendee_event_id, calendars.id as calendar_id")
-      .joins("INNER JOIN attendees as at ON events.id = at.event_id")
-      .joins("INNER JOIN calendars ON at.email = calendars.address")
-      .where("at.user_id = ?", user.id)
+      select("#{selected_columns}, at.user_id as attendee_user_id, \n
+        at.event_id as attendee_event_id, calendars.id as calendar_id")
+        .joins("INNER JOIN attendees as at ON events.id = at.event_id")
+        .joins("INNER JOIN calendars ON at.email = calendars.address")
+        .where("at.user_id = ?", user.id)
     else
       Event.none
     end
   end
-  scope :reject_with_id, ->event_id do
+  scope :reject_with_id, ->(event_id) do
     where("id != ? OR parent_id != ?", event_id, event_id) if event_id.present?
   end
   scope :no_repeats, ->{where repeat_type: nil}
