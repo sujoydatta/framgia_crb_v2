@@ -22,7 +22,11 @@
     "eventData": true,
     "initDialogEventClick": true,
     "showDialog": true,
-    "App": true
+    "App": true,
+    "load_event": true,
+    "lastDateShow": true,
+    "firstDateShow": true,
+    "Events": true
   },
 
   "extends": "eslint:recommended",
