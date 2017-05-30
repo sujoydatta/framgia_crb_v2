@@ -4,13 +4,13 @@ class SearchUserService
   end
 
   def search
-    if @params[:email].blank?
+    if @params[:user_attribute].blank?
       @users = nil
     else
       @organization = Organization.find @params[:org_slug]
       @user_org = UserOrganization.where(organization_id: @organization.id).where(status: 0)
         .pluck :id
-      @users = User.search_name_or_email(@params[:email]).where.not id: @user_org
+      @users = User.search_name_or_email(@params[:user_attribute]).where.not id: @user_org
     end
     @users
   end

@@ -21,7 +21,7 @@ class OrganizationsController < ApplicationController
     @organization.creator = current_user
 
     if @organization.save
-      flash[:success] = t ".created"
+      flash[:success] = t "events.flashs.created"
       redirect_to @organization
     else
       render :new

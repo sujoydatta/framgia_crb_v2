@@ -35,7 +35,7 @@
 //= require bootstrap/tab
 //= require bootstrap/modal
 //= require organization
-//= require load_user_ajax
+//= require invite_user
 //= require notification
 //= require cable
 //= require dialog

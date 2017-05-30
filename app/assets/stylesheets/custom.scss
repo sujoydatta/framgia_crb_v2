@@ -484,3 +484,37 @@ input[type=checkbox] {
   position: absolute;
   z-index: 10;
 }
+
+/*Invite user to organization*/
+.search-user.loading {
+  background-image: url(image-path('loading-validate.gif'));
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+}
+
+.search-user {
+  padding-left: 30px;
+}
+
+.user-icon {
+  color: $abbey-color;
+  float: left;
+  left: 10px;
+  top: 10px;
+  position: absolute;
+  z-index: 10;
+}
+
+.name-list:focus {
+  color: white;
+  background: $chambray-color;
+}
+
+.name-list:hover {
+  color:white;
+}
+
+.ul-list-user {
+  padding: 0px;
+  margin: 0px;
+}
