@@ -216,16 +216,8 @@ $(document).on('ready', function() {
     }
   });
 
-  // $('#create-sub-calendar').click(function() {
-  //   var id_calendar = $('#id-of-calendar').html();
-  //   var user_id = $('#current-user-id-popup').html();
-  //   var create_sub_link = '/calendars/' + 'new?parent_id=' + id_calendar.toString();
-  //   $('#create-sub-calendar').attr('href', create_sub_link);
-  // });
-
   $('#edit-calendar').click(function() {
     var id_calendar = $('#id-of-calendar').html();
-    // var user_id = $('#current-user-id-popup').html();
     var edit_link = '/calendars/' + id_calendar.toString() + '/edit';
     $('#edit-calendar').attr('href', edit_link);
   });

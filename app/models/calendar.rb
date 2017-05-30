@@ -53,10 +53,10 @@ class Calendar < ApplicationRecord
     if org
       select("calendars.*, uc.user_id, uc.calendar_id, uc.permission_id, \n
       uc.is_checked, uc.color_id as uc_color_id")
-      .joins("INNER JOIN user_calendars as uc ON uc.calendar_id = calendars.id")
-      .where("(calendars.owner_type = ? AND calendars.owner_id = ?) \n
-        OR (calendars.owner_type = ? AND calendars.owner_id IN (?))",
-        Organization.name, org.id, Workspace.name, org.workspace_ids)
+        .joins("INNER JOIN user_calendars as uc ON uc.calendar_id = calendars.id")
+        .where("(calendars.owner_type = ? AND calendars.owner_id = ?) \n
+          OR (calendars.owner_type = ? AND calendars.owner_id IN (?))",
+          Organization.name, org.id, Workspace.name, org.workspace_ids)
     else
       Calendar.none
     end
@@ -78,8 +78,8 @@ class Calendar < ApplicationRecord
 
   private
   def make_user_calendar
-    self.user_calendars.new user_id: self.creator_id, permission_id: 1,
-      color_id: self.color_id
+    user_calendars.new user_id: creator_id, permission_id: 1,
+      color_id: color_id
   end
 
   def make_address_uniq
