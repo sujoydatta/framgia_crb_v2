@@ -18,3 +18,7 @@ en:
     dont_have_empty_room: "No room empty with these time!"
     input_time_error: "Start time is after finish time!"
     select_all: "Select All"
+    start_date: "Start date can not empty"
+    start_time: "Start time can not empty"
+    finish_date: "Finish date can not empty"
+    finish_time: "Finish time can not empty"

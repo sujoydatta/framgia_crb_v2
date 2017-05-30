@@ -380,6 +380,12 @@ input[type=checkbox] {
   font-size: 14px;
 }
 
+.search-error-message {
+  color: $red;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+
 .dropdown-divider {
   background-color: $athens-gray-color;
   height: 1px;

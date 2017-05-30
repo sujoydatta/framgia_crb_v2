@@ -1,3 +1,4 @@
+# The application do
 module ApplicationHelper
   def title page_title
     content_for :title, page_title.to_s
@@ -13,7 +14,7 @@ module ApplicationHelper
   end
 
   def datetime_format object, format
-    return nil if object.nil?
+    return nil if object.blank?
     l(object.in_time_zone(current_user.setting_timezone_name),
       format: t("events.time.formats.#{format}"))
   end
@@ -43,11 +44,11 @@ module ApplicationHelper
     controller_name.split("_").join("-")
   end
 
-  def link_to_add_fields f, association
-    new_object = f.object.class.reflect_on_association(association).klass.new
-    fields = f.fields_for(association, new_object,
+  def link_to_add_fields field, association
+    new_object = field.object.class.reflect_on_association(association).klass.new
+    fields = field.fields_for(association, new_object,
       child_index: t(".new") + "#{association}") do |builder|
-      render(association.to_s.singularize + "_fields", f: builder)
+      render(association.to_s.singularize + "_fields", field: builder)
     end
     link_to t(".add_workspace"), "javascript:void(0)", class: "btn btn-primary",
       onclick: "add_fields(this,\"#{association}\", \"#{escape_javascript(fields)}\")"

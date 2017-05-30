@@ -1,4 +1,7 @@
 en:
+  layouts:
+    header:
+      room_search: "Search"
   layout:
     sign_up: "Sign up"
     log_in: "Sign in"
