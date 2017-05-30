@@ -266,8 +266,10 @@ $('form.event-form').submit(function(event) {
           hiddenDialog('new-event-dialog');
           addEventToCalendar(data);
         } else {
-          window.history.back();
-          location.reload();
+          // window.history.back();
+          // location.reload();
+          var go_back_link = $('.btn-go-back')[0].href
+          document.location.href = go_back_link ? go_back_link : '/';
         }
       }
     },
