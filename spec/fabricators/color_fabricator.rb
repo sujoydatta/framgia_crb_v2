@@ -1,3 +1,4 @@
 Fabricator :color do
-  color_hex
+  title {FFaker::Lorem.word}
+  color_hex "#222"
 end
