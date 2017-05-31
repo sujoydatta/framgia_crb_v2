@@ -37,6 +37,8 @@ class User < ApplicationRecord
   scope :can_invite_to_organization, ->organization_id do
     where NOT_YET_INVITE, organization_id
   end
+  scope :accepted_invite, -> q{ joins(:user_organizations).where("
+    user_organizations.status = 1 AND user_organizations.organization_id = ?", "#{q}") }
 
   accepts_nested_attributes_for :setting
 
