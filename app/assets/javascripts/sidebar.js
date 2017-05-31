@@ -141,9 +141,9 @@ $(document).on('ready', function() {
       $('#sub-menu-my-calendar, #menu-of-calendar, #sub-menu-setting').addClass('sub-menu-hidden');
       $('.list-group-item').removeClass('background-hover');
       $('.sub-list').removeClass('background-hover');
-      hiddenDialog('new-event-dialog');
-      hiddenDialog('popup');
-      hiddenDialog('dialog-update-popup');
+      // hiddenDialog('new-event-dialog');
+      // hiddenDialog('popup');
+      // hiddenDialog('dialog-update-popup');
     }
   });
 

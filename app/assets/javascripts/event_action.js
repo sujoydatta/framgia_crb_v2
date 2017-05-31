@@ -288,6 +288,7 @@ function overlapConfirmation(form) {
   dialogOverlapConfirm.dialog({
     autoOpen: false,
     modal: true,
+    closeOnEscape: false,
     resizable: false,
     height: 'auto',
     width: 400
@@ -393,6 +394,7 @@ function updateServerEvent(event, allDay, exception_type, is_drop) {
         dialogOverlap.dialog({
           autoOpen: false,
           modal: true,
+          closeOnEscape: false,
           resizable: false,
           height: 'auto',
           width: 400
