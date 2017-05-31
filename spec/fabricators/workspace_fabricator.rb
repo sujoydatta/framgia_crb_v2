@@ -1,4 +1,5 @@
 Fabricator(:workspace) do
-  name            "MyString"
-  organization_id 1
+  name {FFaker::Lorem.word}
+  address {FFaker::Lorem.sentence}
+  organization
 end
