@@ -90,6 +90,7 @@ group :test do
   gem "simplecov-rcov", require: false
   gem "simplecov-json"
   gem "shoulda-matchers"
+  gem "rails-controller-testing"
 end
 
 group :staging, :production do
