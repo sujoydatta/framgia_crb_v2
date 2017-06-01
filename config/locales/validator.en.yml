@@ -4,5 +4,5 @@ en:
       too_length: "is too long (maximum is 39 characters)"
       not_valid_format: "may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen"
       is_taken: "is already taken"
-    time: "Event time is overlapped!!!"
-
+    time:
+      overlap: "Event time is overlapped!!!"
