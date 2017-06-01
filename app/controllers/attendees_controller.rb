@@ -2,9 +2,8 @@ class AttendeesController < ApplicationController
   load_and_authorize_resource
 
   def create
-    @attendee = Attendee.new attendee_params
     respond_to do |format|
-      if @attendee.save!
+      if @attendee.save
         format.js{flash[:success] = t "events.attendee.success"}
       else
         format.js
