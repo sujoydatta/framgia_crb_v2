@@ -152,12 +152,13 @@ RSpec.describe Event, type: :model do
   describe "methods" do
     start_time = 5.days.ago
     end_time = 2.days.ago
+    end_time2 = 1.days.ago
     let!(:events_exception_at_the_time) {FactoryGirl.create(:event,
       exception_type: Event.exception_types[:edit_all_follow],
       calendar_id: calendar.id, exception_time: end_time)}
     let!(:events_exception) {FactoryGirl.create(:event,
       exception_type: Event.exception_types[:delete_only],
-      calendar_id: calendar.id, exception_time: end_time, parent_id: subject.id)}
+      calendar_id: calendar.id, exception_time: end_time2, parent_id: subject.id)}
     let!(:pre_nearest_events) {FactoryGirl.create(:event, start_date: 2.days.ago,
       exception_type: Event.exception_types[:edit_all_follow], calendar_id: calendar.id,
       old_exception_type: Event.exception_types[:edit_all_follow])}
@@ -176,7 +177,7 @@ RSpec.describe Event, type: :model do
 
     context ".find_with_exception" do
       it "should return event with exception" do
-        expect(Event.find_with_exception(end_time))
+        expect(Event.find_with_exception(end_time2))
           .to eq nil
       end
     end
