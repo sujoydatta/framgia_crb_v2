@@ -184,16 +184,18 @@ class Event < ApplicationRecord
       end
     elsif self.delete_only? || self.delete_all_follow?
       parent = Event.find_by id: parent_id
-      parent.attendees.each do |attendee|
-        argv = {
-          user_id: attendee.user_id,
-          event_title: title,
-          event_start_date: start_date,
-          event_finish_date: finish_date,
-          event_exception_type: exception_type,
-          action_type: :delete_event
-        }
-        EmailWorker.perform_async argv
+      unless parent.nil?
+        parent.attendees.each do |attendee|
+          argv = {
+            user_id: attendee.user_id,
+            event_title: title,
+            event_start_date: start_date,
+            event_finish_date: finish_date,
+            event_exception_type: exception_type,
+            action_type: :delete_event
+          }
+          EmailWorker.perform_async argv
+        end
       end
     end
   end
