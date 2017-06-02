@@ -21,7 +21,7 @@ class OrganizationsController < ApplicationController
     @organization.creator = current_user
 
     if @organization.save
-      flash[:success] = t "flashs.created"
+      flash[:success] = t ".created"
       redirect_to @organization
     else
       render :new
@@ -38,9 +38,9 @@ class OrganizationsController < ApplicationController
 
   def destroy
     if @organization.destroy
-      flash[:success] = "Success destroy"
+      flash[:success] = t ".deleted"
     else
-      flash[:notice] = "Fail destroy"
+      flash[:notice] = t ".failed"
     end
     redirect_to root_path
   end
