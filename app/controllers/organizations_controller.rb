@@ -19,6 +19,7 @@ class OrganizationsController < ApplicationController
     @organization = current_user.organizations.build organization_params
     @organization.user_organizations.build user: current_user
     @organization.creator = current_user
+    @organization.user_organizations[0].status = 1
 
     if @organization.save
       flash[:success] = t "events.flashs.created"
