@@ -97,3 +97,6 @@ en:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
       signin_fails: "Invalid email or password, try again please!!!"
+  session:
+    link:
+      sign_out: "Sign out"

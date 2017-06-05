@@ -67,6 +67,9 @@ en:
       enter_workspace_name: "Enter workspace name"
       enter_workspace_address: "Enter workspace address"
       workspace: "New workspace"
+    modal_search_user:
+      placeholder:
+        search_email_name: "Search by username, full name or email address"
   invites:
     show:
       invite_placeholder: "Name or email"
@@ -90,11 +93,12 @@ en:
       invitation: "You has invited you to join the an organization."
       dear: "Dear"
       invited: "You has invited you to join an organization named: "
-      visit: "Please visit "
+      click: "Please click "
       cancel: "Cancel"
       to_accept: "to accept this invitation."
+      not_accept: "If you don't want to accept, you can click "
       thanks: "Thanks & best regards"
       team: "CRB Team."
-      here: "HERE"
+      here: "here"
       url: "http://localhost:3000/orgs/%{org_id}/invitation/%{id}/update"
       url_cancel: "http://localhost:3000/orgs/%{org_id}/invitation/%{id}/delete"

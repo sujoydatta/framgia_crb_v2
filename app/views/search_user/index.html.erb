@@ -1,10 +1,12 @@
 <% if @users.present? %>
   <div class="list-user left-user">
-    <ul>
+    <ul class="col-md-12 ul-list-user">
       <% @users.each do |user| %>
-        <li class="name-list"><%= image_tag user.avatar_url ,class: "img-user" %>
-          <%= link_to user.name, invite_member_organization_invitation_path(
-            organization_id: "#{params[:org_slug]}", id: "#{user.slug}" )  %>
+        <li class="li-name-list">
+          <%= link_to image_tag(user.avatar_url, class: "img-user") + user.name,
+            invite_member_organization_invitation_path( organization_id:
+            "#{params[:org_slug]}", id: "#{user.slug}"),
+            class: "name-list col-md-12" %>
         </li>
       <% end  %>
     </ul>

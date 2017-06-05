@@ -4,12 +4,12 @@
     <%= t ".invited" %> <%= @organization.name %>.
   </p>
   <p>
-    <%= t ".visit" %>
+    <%= t ".click" %>
     <%= link_to t(".here"), t(".url", org_id: @organization.slug, id: @user.slug) %>
-    <%= t ".cancel" %>
+    <%= t ".to_accept" %><br/>
+    <%= t ".not_accept" %>
     <%= link_to t(".here"), t(".url_cancel", org_id: @organization.slug, id: @user.slug),
       method: :delete %>
-    <%= t ".to_accept" %>
   <p>
   <p>
     <%= t ".thanks" %>,
