@@ -4,12 +4,12 @@ class Person
 
   attr_accessor :name
 
-  def initialize name
+  def initialize name = nil
     @name = name
   end
 
   def new_record?
-    false
+    true
   end
 
   class << self
