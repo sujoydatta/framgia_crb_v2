@@ -28,7 +28,7 @@ class EventPresenter
     stime_name = @start_date.strftime("%I:%M%p")
     ftime_name = @finish_date.strftime("%I:%M%p")
     dsname = @start_date.strftime("%A")
-    dstime_name = @start_date.strftime("%m-%d-%Y")
+    dstime_name = @start_date.strftime("%d-%m-%Y")
 
     if is_same_day?
       @range_time_title = dsname + " " + stime_name + " To " + ftime_name + " " + dstime_name

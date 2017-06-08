@@ -240,7 +240,7 @@ $(document).on('ready', function() {
     } else {
       start_time_value = moment.tz(start.format(), 'YYYY-MM-DDTHH:mm:ss', timezone).format();
       finish_time_value = moment.tz(end.format(), 'YYYY-MM-DDTHH:mm:ss', timezone).format();
-      time_summary = start.format('dddd') + ' ' + start.format('H:mm A') + ' To ' + end.format('H:mm A') + ' ' + end.format('DD-MM-YYYY');
+      time_summary = start.format('dddd') + ' ' + start.format('h:mm A') + ' To ' + end.format('h:mm A') + ' ' + end.format('DD-MM-YYYY');
     }
 
     // set field value
