@@ -16,7 +16,7 @@ en:
       activities: "Activities"
       invite: "Invite"
       to: "To"
-      content: "Give them an appropriate role in the 
+      content: "Give them an appropriate role in the
         organization and add them to some teams to give access to repositories."
-      submit_text: "Send Invite"
-      submit_again: "Send again"
+      send_invite: "Send Invite"
+      send_invite_again: "Send again"

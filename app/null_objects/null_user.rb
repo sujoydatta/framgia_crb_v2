@@ -30,19 +30,19 @@ class NullUser
     @org.try :setting_timezone_name
   end
 
-  def permission_make_change? calendar
+  def permission_make_change? _
     false
   end
 
-  def permission_manage? calendar
+  def permission_manage? _
     false
   end
 
-  def has_permission? calendar
+  def has_permission? _
     false
   end
 
-  def permission_hide_details? calendar
+  def permission_hide_details? _
     false
   end
 end

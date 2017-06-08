@@ -15,7 +15,7 @@ class NullCalendar
     end
   end
 
-  def get_color user_id
-    @color ||= Color.all.sample
+  def get_color _
+    Color.all.sample
   end
 end

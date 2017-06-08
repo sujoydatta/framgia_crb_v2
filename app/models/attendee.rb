@@ -9,6 +9,6 @@ class Attendee < ApplicationRecord
   delegate :chatwork_id, to: :user, allow_nil: :true
 
   def attendee_email
-    self.user.present? ? self.user_email : self.email
+    user.present? ? user_email : email
   end
 end

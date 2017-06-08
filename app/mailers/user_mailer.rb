@@ -39,7 +39,7 @@ class UserMailer < ApplicationMailer
     mail to: @user.email, subject: t("calendars.mailer.delete_event.subject")
   end
 
-  def send_email_invite_to_join_organization user_id, organization_id
+  def invite_to_join_organization user_id, organization_id
     @user = User.find_by id: user_id
     @organization = Organization.find_by id: organization_id
     mail to: @user.email, subject: t(".invitation")

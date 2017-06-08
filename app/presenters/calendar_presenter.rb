@@ -47,7 +47,7 @@ class CalendarPresenter
   end
 
   def full_timezone_name
-    ["GMT#{timezone.now.strftime("%:z")}", tzinfo_name].join(" ")
+    ["GMT#{timezone.now.strftime('%:z')}", tzinfo_name].join(" ")
   end
 
   def tzinfo_name

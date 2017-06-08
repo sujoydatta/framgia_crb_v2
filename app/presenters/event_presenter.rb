@@ -30,13 +30,15 @@ class EventPresenter
     dsname = @start_date.strftime("%A")
     dstime_name = @start_date.strftime("%d-%m-%Y")
 
-    if is_same_day?
-      @range_time_title = dsname + " " + stime_name + " To " + ftime_name + " " + dstime_name
-    else
-      dfname = @finish_date.strftime("%A")
-      dftime_name = @start_date.strftime("%m-%d-%Y")
-      @range_time_title = dsname + " " + stime_name + " " + dstime_name + " To " + dfname + " " + ftime_name + " " + dftime_name
+    if is_one_day?
+      @range_time_title = dsname + " " + stime_name + " To " +
+                          ftime_name + " " + dstime_name
+      return
     end
+    dfname = @finish_date.strftime("%A")
+    dftime_name = @start_date.strftime("%m-%d-%Y")
+    @range_time_title = [dsname, stime_name, dstime_name].join(" ") + " To " +
+                        [dfname, ftime_name, dftime_name].join(" ")
   end
 
   def make_local_data
@@ -49,7 +51,7 @@ class EventPresenter
     }.to_json
   end
 
-  def is_same_day?
+  def is_one_day?
     @start_date.strftime("%A") == @finish_date.strftime("%A")
   end
 
