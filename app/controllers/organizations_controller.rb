@@ -22,7 +22,7 @@ class OrganizationsController < ApplicationController
     @organization.user_organizations[0].status = 1
 
     if @organization.save
-      flash[:success] = t "events.flashs.created"
+      flash[:success] = t "organizations.create.created"
       redirect_to @organization
     else
       render :new
