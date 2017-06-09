@@ -15,17 +15,17 @@ RSpec.describe Person, type: :model do
 
     it "should not vaild with messages not match regex" do
       expect(person1).not_to be_valid
-      expect(person1.errors.full_messages).to include("Name may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen")
+      expect(person1.errors.full_messages[0]).to include(I18n.t("validator.name.not_valid_format"))
     end
 
     it "should not vaild with messages name too long" do
       expect(person2).not_to be_valid
-      expect(person2.errors.full_messages).to include("Name is too long (maximum is 39 characters)")
+      expect(person2.errors.full_messages[0]).to include(I18n.t("validator.name.too_length"))
     end
 
     it "should not vaild with messages name is already taken" do
       expect(person3).not_to be_valid
-      expect(person3.errors.full_messages).to include("Name is already taken")
+      expect(person3.errors.full_messages[0]).to include(I18n.t("validator.name.is_taken"))
     end
   end
 end
