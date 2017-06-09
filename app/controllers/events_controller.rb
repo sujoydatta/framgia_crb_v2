@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  include Responsable::Event
   load_resource except: [:index, :new, :create]
   authorize_resource
   skip_before_action :authenticate_user!, only: [:index, :show]
@@ -56,29 +57,12 @@ class EventsController < ApplicationController
   end
 
   def create
-    create_service = Events::CreateService.new current_user, params
+    service = Events::CreateService.new current_user, params
     respond_to do |format|
       if create_service.perform
-        format.html do
-          flash[:success] = t "events.flashs.created"
-          redirect_to root_path
-        end
-        format.json do
-          render json: create_service.event.json_data(current_user.id)
-        end
+        response_create_success(service, format)
       else
-        if @is_overlap = create_service.is_overlap
-          flash[:error] = t "events.flashs.overlap"
-          format.html{redirect_to :back}
-        else
-          format.html{render :new}
-        end
-        format.json do
-          render json: {
-            is_overlap: @is_overlap,
-            is_errors: create_service.event.errors.any?
-          }
-        end
+        response_create_fail(service, format)
       end
     end
   end
@@ -92,49 +76,20 @@ class EventsController < ApplicationController
   end
 
   def update
-    update_service = Events::UpdateService.new current_user, @event, params
+    service = Events::UpdateService.new current_user, @event, params
     respond_to do |format|
       if update_service.perform
-        format.html do
-          flash[:success] = t("events.flashs.updated")
-          redirect_to root_path
-        end
-        format.json do
-          render json: update_service.event, serializer: EventSerializer,
-            meta: t("events.flashs.updated"), meta_key: :message, status: :ok
-        end
-      elsif @is_overlap = update_service.is_overlap
-        format.html do
-          flash[:danger].now = t("events.flashs.overlap")
-          render :edit
-        end
-        format.json{render json: {is_overlap: @is_overlap}, status: 422}
+        response_update_success service, format
       else
-        format.html do
-          flash[:danger] = t("events.flashs.not_updated")
-          redirect_to :back
-        end
-        format.json{render json: {error: "Error"}, status: 422}
+        response_update_fail service, format
       end
     end
   end
 
   def destroy
-    delete_service = Events::DeleteService.new current_user, @event, params
+    service = Events::DeleteService.new current_user, @event, params
     respond_to do |format|
-      if delete_service.perform
-        format.html do
-          flash[:success] = t "events.flashs.deleted"
-          redirect_to root_path
-        end
-        format.json{render json: {message: t("events.flashs.deleted")}, status: :ok}
-      else
-        format.html do
-          flash[:danger] = t "events.flashs.not_deleted"
-          redirect_to root_path
-        end
-        format.json{render json: {message: t("events.flashs.not_deleted")}}
-      end
+      response_destroy service, format
     end
   end
 
@@ -175,7 +130,7 @@ class EventsController < ApplicationController
     begin
       response = JSON.parse(Base64.decode64 params[:fdata])
       params[:event] = response
-    rescue JSON::ParserError => e
+    rescue JSON::ParserError
       params[:event] = {title: ""}
     end
   end

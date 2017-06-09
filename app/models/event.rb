@@ -36,6 +36,7 @@ class Event < ApplicationRecord
 
   alias_attribute :parent, :event_parent
 
+  validates :title, presence: true
   validates :calendar, presence: true
   validates :start_date, presence: true
   validates :finish_date, presence: true
@@ -83,7 +84,7 @@ class Event < ApplicationRecord
   scope :after_date, ->date{where "start_date > ?", date}
   scope :follow_pre_nearest, ->start_date do
     where "start_date < ? AND
-      (exception_type = ? OR old_exception_type = ?)",start_date,
+      (exception_type = ? OR old_exception_type = ?)", start_date,
       Event.exception_types[:edit_all_follow],
       Event.exception_types[:edit_all_follow]
   end
@@ -92,7 +93,7 @@ class Event < ApplicationRecord
   end
   scope :old_exception_type_not_null, ->{where.not old_exception_type: nil}
   scope :in_range, ->start_date, end_date do
-    where "start_date >= ? AND finish_date <= ?",start_date, end_date
+    where "start_date >= ? AND finish_date <= ?", start_date, end_date
   end
   scope :old_exception_edit_all_follow, -> do
     where "old_exception_type = ?", Event.exception_types[:edit_all_follow]
@@ -116,33 +117,12 @@ class Event < ApplicationRecord
 
   Event.repeat_types.keys.each do |repeat_type|
     define_method "repeat_#{repeat_type}?" do
-      self.send "#{repeat_type}?"
+      send "#{repeat_type}?"
     end
   end
 
   def parent?
     parent_id.blank?
-  end
-
-  def json_data user_id
-    {
-      id: Base64.encode64(id.to_s + "-" + start_date.to_s),
-      calendar_id: calendar_id,
-      title: title,
-      start_date: start_date,
-      finish_date: finish_date,
-      start_repeat: start_date,
-      end_repeat: end_repeat,
-      color_id: calendar.get_color(user_id),
-      calendar: calendar.name,
-      all_day: all_day,
-      repeat_type: repeat_type,
-      repeat: load_repeat_data,
-      exception_type: exception_type,
-      parent_id: parent_id,
-      exception_time: exception_time,
-      event_id: id
-    }
   end
 
   def exist_repeat?
@@ -154,7 +134,7 @@ class Event < ApplicationRecord
   end
 
   def old_exception_edit_all_follow?
-    self.old_exception_type == Event.exception_types[:edit_all_follow]
+    old_exception_type == Event.exception_types[:edit_all_follow]
   end
 
   def not_delete_only?
@@ -162,41 +142,27 @@ class Event < ApplicationRecord
   end
 
   private
-  def default_title
-    self.title = I18n.t "events.notification.title_default"
-  end
-
-  def load_repeat_data
-    if repeat_type == 1
-      repeat = Settings.event.repeat_daily
-    elsif repeat_type == 2
-      repeat = (repeat_ons.pluck :repeat_on).compact
-    else
-      nil
-    end
-  end
-
   def send_notify
     if exception_type.nil?
       attendees.each do |attendee|
         argv = {event_id: id, user_id: attendee.user_id, current_user_id: user_id}
         EmailWorker.perform_async argv
       end
-    elsif self.delete_only? || self.delete_all_follow?
-      parent = Event.find_by id: parent_id
-      unless parent.nil?
-        parent.attendees.each do |attendee|
-          argv = {
-            user_id: attendee.user_id,
-            event_title: title,
-            event_start_date: start_date,
-            event_finish_date: finish_date,
-            event_exception_type: exception_type,
-            action_type: :delete_event
-          }
-          EmailWorker.perform_async argv
-        end
-      end
+      return
+    end
+
+    return if !self.delete_only? || !self.delete_all_follow?
+    return unless (parent = Event.find_by id: parent_id)
+    parent.attendees.each do |attendee|
+      argv = {
+        user_id: attendee.user_id,
+        event_title: title,
+        event_start_date: start_date,
+        event_finish_date: finish_date,
+        event_exception_type: exception_type,
+        action_type: :delete_event
+      }
+      EmailWorker.perform_async argv
     end
   end
 
@@ -216,22 +182,25 @@ class Event < ApplicationRecord
 
   def valid_repeat_date
     return if start_repeat.nil? || end_repeat.nil?
-    if start_repeat > end_repeat
-      errors.add(:start_repeat, I18n.t("events.warning.start_date_less_than_end_date"))
-    end
+    return if start_repeat <= end_repeat
+    errors.add(:start_repeat, I18n.t("events.warning.start_date_less_than_end_date"))
   end
 
   def push_event_to_google_calendar
-    EventWorker.perform_async self.id, "insert" if self.calendar_is_auto_push_to_google_calendar
+    return if google_calendar_id.blank?
+    return unless calendar_is_auto_push_to_google_calendar
+    EventWorker.perform_async id, "insert"
   end
 
   def update_event_on_google_calendar
-    EventWorker.perform_async self.id, "update" if
-      self.google_calendar_id.present? and self.calendar_is_auto_push_to_google_calendar
+    return if google_calendar_id.blank?
+    return unless calendar_is_auto_push_to_google_calendar
+    EventWorker.perform_async id, "update"
   end
 
   def delete_event_on_google_calendar
-    EventWorker.perform_async self.id, "delete" if
-      self.google_calendar_id.present? and self.calendar_is_auto_push_to_google_calendar
+    return if google_calendar_id.blank?
+    return unless calendar_is_auto_push_to_google_calendar
+    EventWorker.perform_async id, "delete"
   end
 end

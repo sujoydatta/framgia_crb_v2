@@ -7,7 +7,7 @@ class Team < ApplicationRecord
 
   delegate :name, to: :organization, prefix: true
 
-  validates :name, presence: true, length:{maximum: 50},
+  validates :name, presence: true, length: {maximum: 50},
     uniqueness: {case_sensitive: false}
 
   ATTR_PARAMS = [:name, :description, :organization_id].freeze

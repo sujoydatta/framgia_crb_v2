@@ -13,8 +13,7 @@ class InvitesController < ApplicationController
     @user_organization = UserOrganization.find_by user: current_user,
       organization: @organization
 
-    if @user_organization.nil? || @user_organization.waiting?
-      redirect_to organizations_path, notice: t(".no_permission")
-    end
+    return if @user_organization && !@user_organization.waiting?
+    redirect_to organizations_path, notice: t(".no_permission")
   end
 end

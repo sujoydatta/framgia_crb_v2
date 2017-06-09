@@ -34,12 +34,13 @@ class User < ApplicationRecord
   scope :search, ->q{where "email LIKE ?", "%#{q}%"}
   scope :search_name_or_email, ->q{where "name LIKE ? OR email LIKE ?", "%#{q}%", "%#{q}%"}
   scope :order_by_email, ->{order email: :asc}
-  scope :can_invite_to_organization, ->organization_id do
+  scope :can_invite_to_organization, (lambda do |organization_id|
     where NOT_YET_INVITE, organization_id
-  end
-  scope :accepted_invite, -> q{ joins(:user_organizations).where("
-    user_organizations.status = 1 AND user_organizations.organization_id = ?", "#{q}") }
-
+  end)
+  scope :accepted_invite, (lambda do |q|
+    joins(:user_organizations)
+    .where("user_organizations.status = 1 AND user_organizations.organization_id = ?", "#{q}")
+  end)
   accepts_nested_attributes_for :setting
 
   ATTR_PARAMS = [:name, :email, :chatwork_id, :password, :password_confirmation,
@@ -79,7 +80,6 @@ class User < ApplicationRecord
   end
 
   class << self
-
     def existed_email? email
       User.pluck(:email).include? email
     end
@@ -113,21 +113,22 @@ class User < ApplicationRecord
   end
 
   def generate_authentication_token!
-    self.auth_token = Devise.friendly_token while
+    auth_token = Devise.friendly_token while
       self.class.exists? auth_token: auth_token
   end
 
   def make_cable_token!
-    self.update_attributes cable_token: Devise.friendly_token
+    update_attributes cable_token: Devise.friendly_token
   end
 
   def remove_cable_token!
-    self.update_attributes cable_token: nil
+    update_attributes cable_token: nil
   end
 
   private
+
   def build_calendar
-    self.calendars.new name: self.name, is_default: true,
+    calendars.new name: name, is_default: true,
       creator: self, color: Color.all.sample, address: email
   end
 end

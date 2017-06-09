@@ -2,6 +2,7 @@ class RegistrationsController < Devise::RegistrationsController
   skip_before_action :authenticate_user!, only: [:create]
   respond_to :json
 
+  # rubocop:disable AbcSize, PerceivedComplexity
   def create
     build_resource(sign_up_params)
     resource.save
@@ -42,4 +43,5 @@ class RegistrationsController < Devise::RegistrationsController
   def after_update_path_for resource
     user_path resource
   end
+  # rubocop:enable AbcSize, PerceivedComplexity
 end

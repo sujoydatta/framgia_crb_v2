@@ -1,27 +1,23 @@
-<% if @invited.present? %>
 <div class="note-invite">
-  <h2><%= t "invitations.edit.invite" %> <%= @user.name %> <%= t ".to" %> <%= @organization.name %> </h2>
-  <hr>
-  <p><%= t "invitations.edit.content" %></p>
-  <hr>
-  <%= form_for :invitation, url: organization_invitation_path(@organization.slug) do |f| %>
-    <%= f.text_field "user_id", value: @user.slug, class: "hidden" %>
-    <%= f.submit t("invitations.edit.submit_again"),  class: "btn btn-success" %>
-    <%= link_to "Cancel", delete_invite_member_organization_invitation_path(
-      organization_id: "#{@organization.slug}", id: "#{@user.slug}"), method: :delete, 
+  <% if @user_org.present? %>
+    <h2><%= t "invitations.edit.invite" %> <%= @user.name %> <%= t ".to" %> <%= @org.name %> </h2>
+    <hr />
+    <p><%= t "invitations.edit.content" %></p>
+    <%= form_for @user_org, url: organization_invitation_path(@org.slug) do |f| %>
+      <%= f.hidden_field :user_id, value: @user.slug %>
+      <%= f.submit t("invitations.edit.send_invite_again"),  class: "btn btn-success" %>
+      <%= link_to "Cancel",
+        member_organization_invitation_path(organization_id: @organization.slug, id: @user.slug),
+        method: :delete,
         data: {confirm: "Are you sure"}, class: "bt-cancel" %>
+    <% end %>
+  <% else %>
+    <h2><%= t "invitations.edit.invite" %> <%= @user.name %> <%= t ".to" %> <%= @org.name %> </h2>
+    <hr />
+    <p><%= t "invitations.edit.content" %></p>2
+    <%= form_for @user_org, url: organization_invitation_path(@org.slug) do |f| %>
+      <%= f.hidden_field :user_id, value: @user.id %>
+      <%= f.submit t("invitations.edit.send_invite"),  class: "btn btn-success" %>
+    <% end %>
   <% end %>
 </div>
-<% else %>
-<div class="note-invite">
-  <h2><%= t "invitations.edit.invite" %> <%= @user.name %> <%= t ".to" %> <%= @organization.name %> </h2>
-  <hr>
-  <p><%= t "invitations.edit.content" %></p>
-  <hr>
-  <%= form_for :invitation, url: organization_invitation_path(@organization.slug) do |f| %>
-    <%= f.text_field "user_id", value: @user.slug, class: "hidden" %>
-    <%= f.submit t("invitations.edit.submit_text"),  class: "btn btn-success" %>
-  <% end %>
-</div>
-
-<% end %>

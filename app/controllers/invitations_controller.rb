@@ -1,32 +1,32 @@
 class InvitationsController < ApplicationController
-  before_action :check_accept_permission, only: :show
-  before_action :load_data, only: [:edit, :update, :destroy, :create]
+  before_action :load_organization
+  before_action :load_user_org, only: [:show, :edit]
+  before_action :verify_permission!, only: :show
+  before_action :load_invited_user, only: :edit
 
   def show
   end
 
   def edit
-    @invited = UserOrganization.where(organization_id: @organization.id, user_id: @user.id);
   end
 
   def create
-    @user_org = UserJoinOrgService.new(params).check_create
-    if @user_org
+    @user_org = @organization.user_organizations.new user_organization_params
+
+    if @user_org.save
       flash[:success] = t ".success"
-      redirect_to @organization
     else
       flash[:danger] = t ".danger"
     end
+    redirect_to @organization
   end
 
   def update
-    @user_org = UserOrganization.search_user_and_org(@user.id, @organization.id).first
-    @user_org.update_attributes(status: 1)
-    redirect_root
+    @user_org.update_attributes status: :accept
+    redirect_to root_path
   end
 
   def destroy
-    @user_org = UserOrganization.where(organization_id: @organization.id, user_id: @user.id).first
     if @user_org.destroy
       flash[:success] = t ".cancel_success"
       redirect_to @organization
@@ -37,20 +37,29 @@ class InvitationsController < ApplicationController
 
   private
 
-  def check_accept_permission
-    @user_organization = UserOrganization.find_by user_id: current_user.id,
-      organization_id: params[:organization_id]
-
-    return if @user_organization.present? || !@user_organization.accept?
-    redirect_to organizations_path, notice: t(".no_permission")
+  def user_organization_params
+    params.require(:user_organization).permit :user_id
   end
 
-  def redirect_root
-    redirect_to root_url
+  def verify_permission!
+    return if @user_org.waiting?
+    redirect_to root_path, notice: t(".no_permission")
   end
 
-  def load_data
-    @organization = Organization.find_by slug: params[:organization_id]
+  def load_user_org
+    @user_org = UserOrganization.find_by user: current_user, organization: @org
+
+    return if @user_org
+
+    flash[:notice] = "Not found"
+    redirect_to root_path
+  end
+
+  def load_invited_user
     @user = User.find_by slug: params[:id]
+  end
+
+  def load_organization
+    @org = Organization.find_by slug: params[:organization_id]
   end
 end

@@ -12,7 +12,7 @@ class MultiEventsController < ApplicationController
             finish_date: finish_date
         end
       end
-    rescue Exception => e
+    rescue
       @object = e.record
     end
 

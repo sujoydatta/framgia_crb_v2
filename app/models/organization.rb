@@ -21,19 +21,19 @@ class Organization < ApplicationRecord
     to: :setting, prefix: true, allow_nil: true
 
   accepts_nested_attributes_for :workspaces,
-    reject_if: proc {|attributes| attributes["name"].blank?}
+    reject_if: proc{|attributes| attributes["name"].blank?}
   accepts_nested_attributes_for :setting
 
-  scope :accepted_by_user, ->(user) do
+  scope :accepted_by_user, (lambda do |user|
     select("organizations.*")
       .joins("INNER JOIN user_organizations
       ON organizations.id = user_organizations.organization_id
       WHERE user_organizations.status = 1
       AND user_organizations.user_id = #{user.id}")
-  end
+  end)
 
-  scope :order_by_creation_time, -> {order created_at: :desc}
-  scope :order_by_updated_time, -> {order updated_at: :desc}
+  scope :order_by_creation_time, ->{order created_at: :desc}
+  scope :order_by_updated_time, ->{order updated_at: :desc}
 
   ATTRIBUTE_PARAMS = [:name, :logo,
     workspaces_attributes: [:id, :name, :address],

@@ -37,9 +37,9 @@ Rails.application.routes.draw do
     resources :calendars, only: [:index]
     resource :invite, only: :show
     resource :invitation do
-      get ":id/edit", action: :edit, as: "invite_member"
-      delete ":id/delete", action: :destroy, as: "delete_invite_member"
-      get ":id/update", action: :update
+      get ":id/edit", action: :edit, as: :member
+      patch ":id", action: :update
+      delete ":id", action: :destroy
     end
     resources :teams
   end

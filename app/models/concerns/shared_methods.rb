@@ -5,14 +5,6 @@ module SharedMethods
     :finish_date, :start_repeat, :end_repeat, :exception_time, :exception_type,
     :event_id, :persisted, :calendar_name, :editable].freeze
 
-  # def format_date datetime
-  #   datetime.try :strftime, Settings.event.format_date
-  # end
-
-  # def format_datetime datetime
-  #   datetime.try :strftime, Settings.event.format_datetime
-  # end
-
   def user_context
     current_user || NullUser.new
   end
