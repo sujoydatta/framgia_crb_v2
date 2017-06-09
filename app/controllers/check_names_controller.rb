@@ -1,4 +1,5 @@
 class CheckNamesController < ApplicationController
+  skip_before_action :authenticate_user!
 
   def show
     @person = Person.new params[:name]
