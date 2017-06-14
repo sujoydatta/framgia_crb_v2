@@ -59,7 +59,7 @@ class EventsController < ApplicationController
   def create
     service = Events::CreateService.new current_user, params
     respond_to do |format|
-      if create_service.perform
+      if service.perform
         response_create_success(service, format)
       else
         response_create_fail(service, format)
@@ -78,7 +78,7 @@ class EventsController < ApplicationController
   def update
     service = Events::UpdateService.new current_user, @event, params
     respond_to do |format|
-      if update_service.perform
+      if service.perform
         response_update_success service, format
       else
         response_update_fail service, format
