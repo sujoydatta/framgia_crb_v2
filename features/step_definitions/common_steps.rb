@@ -6,7 +6,7 @@ Given(/^I am on (.+)$/) do |page_name|
 end
 
 Given(/^I am signed in into the system as "([^"]*)"$/) do |email|
-  @user = Fabricate :user, email: email, password: "12345678"
+  @user = Fabricate :user, name: "test", email: email, password: "12345678"
   Fabricate :setting, owner_id: @user.id, owner_type: User.name
   login_as @user, scope: :user
 end
