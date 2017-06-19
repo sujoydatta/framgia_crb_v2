@@ -56,7 +56,10 @@ RSpec.describe User, type: :model do
     let!(:second_user) {FactoryGirl.create(:user, email: "testy@gmail.com")}
     let!(:third_user) {FactoryGirl.create(:user,
       name: "rails", email: "railstutorial@gmail.com")}
-    let!(:organization_user) {FactoryGirl.create(:user_organization)}
+
+    let!(:org) {FactoryGirl.create :organization}
+    let!(:organization_user) {FactoryGirl.create :user_organization,
+      user_id: first_user.id, organization_id: org.id}
 
     it "should return users matched with the keyword to their email" do
       expect(User.search("test")).to eq([first_user, second_user])
