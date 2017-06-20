@@ -142,6 +142,7 @@ class Event < ApplicationRecord
   end
 
   private
+
   def send_notify
     if exception_type.nil?
       attendees.each do |attendee|
