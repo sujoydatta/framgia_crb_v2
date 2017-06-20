@@ -5,4 +5,4 @@ en:
       not_valid_format: "may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen"
       is_taken: "is already taken"
     time:
-      overlap: "Event time is overlapped!!!"
+      overlap: "is overlapped!!!"
