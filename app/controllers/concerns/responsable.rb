@@ -38,7 +38,7 @@ module Responsable
     def response_update_fail service, format
       if @is_overlap = service.is_overlap
         format.html do
-          flash[:danger].now = t("events.flashs.overlap")
+          flash.now[:danger] = t("events.flashs.overlap")
           render :edit
         end
         format.json{render json: {is_overlap: @is_overlap}, status: 422}
