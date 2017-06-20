@@ -6,11 +6,8 @@ module CalendarsHelper
     # btn = render "events/buttons/btn_copy", url: "/events/new?fdata=#{fdata}"
     # btn = "" if event.calendar.is_default? || user_calendar.permission_id == 4
     if Settings.permissions_can_make_change.include? user_calendar.permission_id
-      btn = render "events/buttons/btn_cancel"
-      btn += render "events/buttons/btn_edit",
-        url: "/events/#{event.id}/edit?fdata=#{fdata}"
-      btn += render "events/buttons/btn_save"
-      btn += render "events/buttons/btn_delete", event_id: event.id
+      btn = render "events/buttons/btn_can_make_change",
+        event: event, fdata: fdata
     elsif user_calendar.permission_id == 3
       btn = render "events/buttons/btn_detail",
         url: "/events/#{event.id}"

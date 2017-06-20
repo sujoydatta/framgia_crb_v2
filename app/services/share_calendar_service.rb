@@ -1,4 +1,5 @@
 class ShareCalendarService
+
   def initialize calendar
     @calendar = calendar
   end
@@ -8,6 +9,7 @@ class ShareCalendarService
   end
 
   private
+
   def when_share_parent_calendar
     parent_shared = UserCalendar.where calendar_id: @calendar.id
     parent_shared.each do |share|

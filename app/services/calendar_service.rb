@@ -116,7 +116,7 @@ class CalendarService
   def show_repeat_event event, step, start, function = nil
     ex_destroy_events = Array.new
     ex_update_events = Array.new
-    ex_edit_follow =  Array.new
+    ex_edit_follow = Array.new
     ex_update_follow = Array.new
 
     if @start_time_view.present?
@@ -258,9 +258,7 @@ class CalendarService
         @events << event_temp
       end
 
-      if function.present?
-        NotificationService.new(event, event_temp).perform
-      end
+      NotificationService.new(event, event_temp).perform if function.present?
     end
   end
 end

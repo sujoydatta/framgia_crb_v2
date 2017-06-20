@@ -25,9 +25,10 @@ class UserMailer < ApplicationMailer
     @event_before_update = Event.find_by id: event_before_update_id
     @event_after_update = Event.find_by id: event_after_update_id
 
-    if (@event_after_update.start_date != start_date_before || @event_after_update.finish_date != finish_date_before)
-      send_email_after_event_update_to_attendees start_date_before, finish_date_before
-    end
+    return if @event_after_update.start_date == start_date_before
+    return if @event_after_update.finish_date == finish_date_before
+
+    send_email_after_event_update_to_attendees start_date_before, finish_date_before
   end
 
   def send_email_after_delete_event user_id, event_title, event_start_date, event_finish_date, event_exception_type
