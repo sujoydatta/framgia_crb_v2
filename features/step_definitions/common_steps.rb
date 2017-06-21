@@ -31,6 +31,40 @@ When(/^I choose "([^"]*)" from "([^"]*)" selector$/) do |option, selector2|
   end
 end
 
+# To test javascript datepicker; date = "current" for Date.today
+When(/^I select "([^"]*)" date in "([^"]*)"$/) do |date, datepicker|
+  find(datepicker).click
+  expect(page).to have_css("div#ui-datepicker-div")
+  date = DateTime.now.strftime("%e/%m/%Y") if date == "current"
+  day, month, year = date.split("/")
+  within "#ui-datepicker-div" do
+    month_span = find "span.ui-datepicker-month"
+    expect(month_span).not_to be_nil
+    year_span = find "span.ui-datepicker-year"
+    expect(year_span).not_to be_nil
+    next_month = find "a.ui-datepicker-next.ui-corner-all"
+    expect(next_month).not_to be_nil
+    prev_month = find "a.ui-datepicker-prev.ui-corner-all"
+    expect(next_month).not_to be_nil
+    select_desired_month_of_year year, year_span, month, month_span, next_month,
+      prev_month
+    cell = find "td", text: day
+    expect(cell).not_to be_nil
+    cell.click
+  end
+end
+
+# To test javascript timekeeper
+When(/^I select "([^"]*)" time in "([^"]*)"$/) do |time, timepicker|
+  find(timepicker).click
+  expect(page).to have_css "div.ui-timepicker-wrapper"
+  within ".ui-timepicker-wrapper" do
+    cell = first "li", text: time
+    expect(cell).not_to be_nil
+    cell.click
+  end
+end
+
 When(/^I press "([^"]*)"$/) do |button|
   click_button button
 end

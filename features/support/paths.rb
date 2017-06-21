@@ -7,6 +7,8 @@ def path_to(page_name)
     new_organization_path
   when /new calendar creation page/
     new_calendar_path
+  when /new event creation path/
+    new_event_path
   else
     raise "Can't find mapping from \"#{page_name}\" to a path."
   end
